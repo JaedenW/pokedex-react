@@ -4,7 +4,6 @@ import {
 	Navbar,
 	Container,
 	Form,
-	Button,
 	FormControl,
 } from 'react-bootstrap';
 
@@ -27,6 +26,7 @@ function Navigation(props) {
 				<Form className="d-flex">
 					<FormControl
 						onChange={handleSearch}
+						value={search}
 						size="md"
 						type="search"
 						placeholder="Search"
