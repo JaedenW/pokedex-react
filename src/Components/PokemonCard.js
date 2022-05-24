@@ -27,7 +27,7 @@ const PokemonCard = (props) => {
 		pokemonData.id < 10000 && (
 			<div className=" bg-gray-50 overflow-hidden items-center rounded-lg shadow-md m-3 w-[15rem]">
 				<img
-					className="block m-auto h-auto w-[50%]"
+					className="block m-auto h-auto w-[60%]"
 					src={sprites.front_default}
 					alt={name}
 				/>
