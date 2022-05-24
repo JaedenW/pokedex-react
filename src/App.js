@@ -31,6 +31,10 @@ function App() {
 		getAllPokemon();
 	}, [loadSize]);
 
+	React.useEffect(() => {
+		setLimit(20);
+	}, [search]);
+
 	function renderPokemonCards(offset, limit) {
 		function renderCard(pokemon) {
 			return <PokemonCard pokemon={pokemon} key={pokemon.name} />;
@@ -41,7 +45,7 @@ function App() {
 					.filter((pokemon) =>
 						pokemon.name.includes(search.toLowerCase())
 					)
-					.slice(0, 20) // Limit results displayed
+					.slice(offset, limit) // Limit results displayed
 					.map((pokemon) => renderCard(pokemon))
 			: allPokemonData // Else paginate allPokemonData array
 					.slice(offset, limit)
@@ -50,10 +54,13 @@ function App() {
 
 	window.onscroll = function () {
 		if (
-			window.innerHeight + document.documentElement.scrollTop ===
-			document.documentElement.offsetHeight
+			window.innerHeight + window.pageYOffset >
+			document.body.offsetHeight
 		) {
-			setLimit((prevLimit) => prevLimit + 20);
+			setLimit(
+				(prevLimit) =>
+					prevLimit < allPokemonData.length && prevLimit + 3 // stop infinitely increasing render limit
+			);
 		}
 	};
 
