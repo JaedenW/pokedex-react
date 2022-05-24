@@ -55,7 +55,9 @@ function App() {
 		return search
 			? allPokemonData // If search exists then filter allPokemonData array
 					.filter((pokemon) =>
-						pokemon.name.includes(search.toLowerCase())
+						pokemon.name
+							.toLowerCase()
+							.includes(search.toLowerCase())
 					)
 					.slice(offset, limit) // Limit results displayed
 					.map((pokemon) => renderCard(pokemon))
