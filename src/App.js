@@ -51,8 +51,7 @@ function App() {
 				/>
 			);
 		}
-
-		return search
+		const results = search
 			? allPokemonData // If search exists then filter allPokemonData array
 					.filter((pokemon) =>
 						pokemon.name
@@ -61,6 +60,14 @@ function App() {
 					)
 					.slice(offset, limit) // Limit results displayed
 					.map((pokemon) => renderCard(pokemon))
+			: [];
+
+		return search
+			? (results.length && results) || ( // if not empty, return the search results array, else render <p></p>
+					<p className="text-xl text-gray-500 text-center p-10 italic">
+						Nothing Here...
+					</p>
+			  )
 			: allPokemonData // Else paginate allPokemonData array
 					.slice(offset, limit)
 					.map((pokemon) => renderCard(pokemon));
@@ -75,7 +82,7 @@ function App() {
 
 	window.onscroll = function () {
 		if (
-			window.innerHeight + window.pageYOffset >
+			window.innerHeight + window.pageYOffset >=
 			document.body.offsetHeight
 		) {
 			setLimit(
