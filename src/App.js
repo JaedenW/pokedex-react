@@ -1,6 +1,4 @@
 import React from 'react';
-import './App.css';
-import { Container, Row } from 'react-bootstrap';
 import Navigation from './Components/Navigation';
 import PokemonCard from './Components/PokemonCard';
 
@@ -60,11 +58,15 @@ function App() {
 	};
 
 	return (
-		<div className="App">
-			<Navigation search={search} setSearch={setSearch} />
-			<Container fluid="md">
-				<Row>{renderPokemonCards(offset, limit)}</Row>
-			</Container>
+		<div className="bg-[#ECF0F3]">
+			<div className="sticky top-0 z-50">
+				<Navigation search={search} setSearch={setSearch} />
+			</div>
+			<div className="container content-center my-12 mx-auto">
+				<div className="flex flex-wrap -mx-1 lg:-mx-4  place-content-center">
+					{renderPokemonCards(offset, limit)}
+				</div>
+			</div>
 		</div>
 	);
 }

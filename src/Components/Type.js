@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
 
 const Type = (props) => {
 	const { name, url } = props.type;
@@ -66,12 +65,12 @@ const Type = (props) => {
 	}
 
 	return (
-		<Button
-			className="m-2"
+		<button
+			className="rounded-md text-white text-center inline-block px-6 py-2.5 m-2 mb-3 shadow-sm hover:shadow-lg"
 			style={{ backgroundColor: colour, border: 'none' }}
 		>
 			{props.capitaliseFirst(name)}
-		</Button>
+		</button>
 	);
 };
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
 import Type from './Type';
 
 const PokemonCard = (props) => {
@@ -26,14 +25,16 @@ const PokemonCard = (props) => {
 
 	return (
 		pokemonData.id < 10000 && (
-			<Card className="text-center m-2" style={{ width: '16rem' }}>
-				<Card.Img
-					variant="top"
+			<div className=" bg-gray-50 overflow-hidden items-center rounded-lg shadow-md m-3 w-[15rem]">
+				<img
+					className="block m-auto h-auto w-[50%]"
 					src={sprites.front_default}
 					alt={name}
 				/>
-				<Card.Body>
-					<Card.Title>{capitaliseFirst(name)}</Card.Title>
+				<div className="text-center">
+					<h1 className="text-medium text-xl m-2">
+						{capitaliseFirst(name)}
+					</h1>
 					{types.map((type) => (
 						<Type
 							type={type.type}
@@ -41,11 +42,11 @@ const PokemonCard = (props) => {
 							key={type.slot}
 						/>
 					))}
-				</Card.Body>
-				<Card.Footer className="text-muted" as="h6">
+				</div>
+				<footer className="text-center text-gray-600 border 2 bg-gray-200 p-1.5">
 					ID: {id}
-				</Card.Footer>
-			</Card>
+				</footer>
+			</div>
 		)
 	);
 };

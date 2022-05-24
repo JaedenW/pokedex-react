@@ -1,11 +1,4 @@
 import React from 'react';
-import {
-	Nav,
-	Navbar,
-	Container,
-	Form,
-	FormControl,
-} from 'react-bootstrap';
 
 function Navigation(props) {
 	const { search, setSearch } = props;
@@ -15,27 +8,25 @@ function Navigation(props) {
 	}
 
 	return (
-		<Navbar bg="light" expand="lg">
-			<Container fluid>
-				<Navbar.Brand href="#">Pokedex</Navbar.Brand>
-				<Nav
-					className="me-auto my-2 my-lg-0"
-					style={{ maxHeight: '120px' }}
-					navbarScroll
-				></Nav>
-				<Form className="d-flex">
-					<FormControl
-						onChange={handleSearch}
-						value={search}
-						size="md"
-						type="search"
-						placeholder="Search"
-						className="me-2"
-						aria-label="Search"
-					/>
-				</Form>
-			</Container>
-		</Navbar>
+		<nav className="relative w-full flex flex-wrap items-center justify-between py-3.5 bg-gray-100 text-gray-500 hover:text-gray-700 focus:text-gray-700 shadow-md">
+			<div className="container-fluid w-full flex flex-wrap items-center justify-between px-3">
+				<div className="container-fluid">
+					<div className="flex items-center text-gray-900 hover:text-gray-900 focus:text-gray-900 mr-1">
+						<span className="font-medium text-lg mr-10">
+							Pokédex
+						</span>
+						<input
+							type="text"
+							id="search-navbar"
+							className="flex p-2 pl-10 w-full max-w-lg placeholder-gray-500 bg-gray-200 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+							placeholder="Search..."
+							onChange={handleSearch}
+							value={search}
+						/>
+					</div>
+				</div>
+			</div>
+		</nav>
 	);
 }
 
