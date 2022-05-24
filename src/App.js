@@ -8,27 +8,33 @@ function App() {
 		'https://pokeapi.co/api/v2/pokemon?limit=1'
 	);
 	const [search, setSearch] = React.useState('');
-	const [offset, setOffset] = React.useState(0);
 	const [limit, setLimit] = React.useState(20);
 
-	async function getRequestSize() {
-		const res = await fetch(loadSize);
-		const data = await res.json();
-		const size = data.count;
-		loadSize !== size &&
-			setLoadSize(`https://pokeapi.co/api/v2/pokemon?limit=${size}`);
-	}
-
-	async function getAllPokemon() {
-		getRequestSize();
-		const res = await fetch(loadSize, { cache: 'force-cache' });
-		const data = await res.json();
-
-		setAllPokemonData(data.results);
-	}
-
 	React.useEffect(() => {
-		getAllPokemon();
+		async function getRequestSize() {
+			const res = await fetch(loadSize);
+			const data = await res.json();
+			const size = data.count;
+			loadSize !== size &&
+				setLoadSize(`https://pokeapi.co/api/v2/pokemon?limit=${size}`);
+		}
+		async function getAllPokemonData() {
+			getRequestSize();
+			const res = await fetch(loadSize, { cache: 'force-cache' });
+			const data = await res.json();
+			// Fix name strings
+			const nameFixed = data.results.map((pokemon) => ({
+				...pokemon,
+				name:
+					pokemon.name !== 'ho-oh' // Special case Ho-Oh
+						? capitaliseFirstNoHyphen(pokemon.name)
+						: 'Ho-Oh',
+			}));
+
+			setAllPokemonData(nameFixed);
+		}
+
+		getAllPokemonData();
 	}, [loadSize]);
 
 	React.useEffect(() => {
@@ -37,7 +43,13 @@ function App() {
 
 	function renderPokemonCards(offset, limit) {
 		function renderCard(pokemon) {
-			return <PokemonCard pokemon={pokemon} key={pokemon.name} />;
+			return (
+				<PokemonCard
+					pokemon={pokemon}
+					capitaliseFirstNoHyphen={capitaliseFirstNoHyphen}
+					key={pokemon.name}
+				/>
+			);
 		}
 
 		return search
@@ -50,6 +62,13 @@ function App() {
 			: allPokemonData // Else paginate allPokemonData array
 					.slice(offset, limit)
 					.map((pokemon) => renderCard(pokemon));
+	}
+
+	function capitaliseFirstNoHyphen(input) {
+		return input
+			.split('-')
+			.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+			.join(' ');
 	}
 
 	window.onscroll = function () {
@@ -70,8 +89,8 @@ function App() {
 				<Navigation search={search} setSearch={setSearch} />
 			</div>
 			<div className="container content-center my-12 mx-auto">
-				<div className="flex flex-wrap -mx-1 lg:-mx-4  place-content-center">
-					{renderPokemonCards(offset, limit)}
+				<div className="flex flex-wrap -mx-1 lg:-mx-4 sm:mx-0 place-content-center">
+					{renderPokemonCards(0, limit)}
 				</div>
 			</div>
 		</div>

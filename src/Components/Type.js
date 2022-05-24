@@ -66,10 +66,10 @@ const Type = (props) => {
 
 	return (
 		<button
-			className="rounded-md text-white text-center px-6 py-2.5 m-2 mb-3 shadow-sm hover:shadow-md hover:shadow-gray-600"
+			className="inline-flex rounded-md text-white text-center px-4 py-2 mx-2 mb-3 shadow-sm hover:shadow-md hover:shadow-gray-600"
 			style={{ backgroundColor: colour }}
 		>
-			{props.capitaliseFirst(name)}
+			{props.capitaliseFirstNoHyphen(name)}
 		</button>
 	);
 };

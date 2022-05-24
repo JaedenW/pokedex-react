@@ -8,10 +8,6 @@ const PokemonCard = (props) => {
 		types: [],
 	});
 
-	function capitaliseFirst(input) {
-		return input.charAt(0).toUpperCase() + input.slice(1);
-	}
-
 	React.useEffect(() => {
 		async function getPokemonData() {
 			const res = await fetch(url);
@@ -25,26 +21,26 @@ const PokemonCard = (props) => {
 
 	return (
 		pokemonData.id < 10000 && (
-			<div className=" bg-gray-50 overflow-hidden items-center rounded-lg shadow-md m-3 w-[16rem]">
+			<div className=" bg-gray-50 overflow-hidden items-center rounded-lg shadow-md m-4 w-[16rem]">
 				<img
 					className="block m-auto h-auto w-[60%]"
 					src={sprites.front_default}
 					alt={name}
 				/>
 				<div className="text-center">
-					<h1 className="text-medium text-xl m-2">
-						{capitaliseFirst(name)}
-					</h1>
+					<h1 className="text-medium text-2xl m-3">{name}</h1>
 					{types.map((type) => (
 						<Type
 							type={type.type}
-							capitaliseFirst={capitaliseFirst}
+							capitaliseFirstNoHyphen={
+								props.capitaliseFirstNoHyphen
+							}
 							key={type.slot}
 						/>
 					))}
 				</div>
-				<footer className="text-center text-gray-600 border 2 bg-gray-200 p-1.5">
-					ID: {id}
+				<footer className="text-center text-lg text-gray-600 border 2 bg-gray-200 p-1.5">
+					# {('000' + id).slice(-3)} {/* Zerofilled ID */}
 				</footer>
 			</div>
 		)
