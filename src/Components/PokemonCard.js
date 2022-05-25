@@ -2,7 +2,7 @@ import React from "react";
 import Type from "./Type";
 
 const PokemonCard = (props) => {
-  const { name, url } = props.pokemon;
+  const { displayName, url } = props.pokemon;
   const [pokemonData, setPokemonData] = React.useState({
     sprites: {},
     types: [],
@@ -25,10 +25,10 @@ const PokemonCard = (props) => {
         <img
           className="block m-auto h-auto w-[60%]"
           src={sprites.front_default}
-          alt={name}
+          alt={displayName}
         />
         <div className="text-center">
-          <h1 className="text-medium text-2xl m-3">{name}</h1>
+          <h1 className="text-medium text-2xl m-3">{displayName}</h1>
           {types.map((type) => (
             <Type
               type={type.type}

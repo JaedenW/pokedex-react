@@ -1,8 +1,8 @@
 import React from "react";
-import Navigation from "./Components/Navigation";
-import PokemonCard from "./Components/PokemonCard";
+import PokemonCard from "../Components/PokemonCard";
+import { Link } from "react-router-dom";
 
-function App(props) {
+function Home(props) {
   const search = props.search;
   const [allPokemonData, setAllPokemonData] = React.useState([]);
   const [loadSize, setLoadSize] = React.useState(
@@ -26,7 +26,7 @@ function App(props) {
       // Fix name strings
       const nameFixed = data.results.map((pokemon) => ({
         ...pokemon,
-        name:
+        displayName:
           pokemon.name !== "ho-oh" // Special case Ho-Oh
             ? capitaliseFirstNoHyphen(pokemon.name)
             : "Ho-Oh",
@@ -45,11 +45,13 @@ function App(props) {
   function renderPokemonCards(offset, limit) {
     function renderCard(pokemon) {
       return (
-        <PokemonCard
-          pokemon={pokemon}
-          capitaliseFirstNoHyphen={capitaliseFirstNoHyphen}
-          key={pokemon.name}
-        />
+        <Link to={`/pokemon/${pokemon.name}`}>
+          <PokemonCard
+            pokemon={pokemon}
+            capitaliseFirstNoHyphen={capitaliseFirstNoHyphen}
+            key={pokemon.name}
+          />
+        </Link>
       );
     }
     const results = search
@@ -89,9 +91,6 @@ function App(props) {
 
   return (
     <div>
-      {/* <div >
-        <Navigation search={search} setSearch={setSearch} />
-      </div> */}
       <div className="container content-center my-12 mx-auto">
         <div className="flex flex-wrap -mx-1 lg:-mx-4 sm:mx-0 place-content-center">
           {renderPokemonCards(0, limit)}
@@ -101,4 +100,4 @@ function App(props) {
   );
 }
 
-export default App;
+export default Home;

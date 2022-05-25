@@ -13,7 +13,7 @@ function Navigation(props) {
     <div className="sticky top-0 z-50">
       <nav className="relative w-full flex flex-wrap items-center justify-between py-3.5 bg-gray-100 text-gray-500 hover:text-gray-700 focus:text-gray-700 shadow-md">
         <div className="container-fluid w-full flex flex-wrap items-center px-3">
-          <Link to="/test">
+          <Link to="/">
             <div className="flex items-center text-gray-900 hover:text-gray-900 focus:text-gray-900 mr-1">
               <img
                 className="inline-flex w-9 mx-2"
@@ -22,6 +22,11 @@ function Navigation(props) {
               />
               <h1 className="inline-flex font-medium text-xl mr-2">Pokédex</h1>
             </div>
+          </Link>
+          <Link to="/test">
+            <h1 className="inline-flex text-gray-900 font-medium text-xl mr-2">
+              Test
+            </h1>
           </Link>
           <input
             type="text"

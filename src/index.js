@@ -1,32 +1,34 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./index.css";
-import App from "./App";
+import Home from "./Pages/Home";
 import Test from "./Pages/Test";
 import Navigation from "./Components/Navigation";
+import Pokemon from "./Pages/Pokemon";
 
-export default function Router() {
+export default function App() {
   const [search, setSearch] = React.useState("");
 
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
         <Route
           path="/"
           element={<Navigation search={search} setSearch={setSearch} />}
         >
-          <Route index element={<App search={search} />} />
+          <Route index element={<Home search={search} />} />
+          <Route path="pokemon/:id" element={<Pokemon />} />
           <Route path="test" element={<Test />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Router />
+    <App />
   </React.StrictMode>
 );
