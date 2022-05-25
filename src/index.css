@@ -3,5 +3,8 @@
 @tailwind utilities;
 
 * {
-	font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
+}
+body {
+  background-color: #ecf0f3;
 }
