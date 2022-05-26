@@ -18,7 +18,7 @@ export default function App() {
           element={<Navigation search={search} setSearch={setSearch} />}
         >
           <Route index element={<Home search={search} />} />
-          <Route path="pokemon/:id" element={<Pokemon />} />
+          <Route path="pokemon/:name" element={<Pokemon />} />
           <Route path="test" element={<Test />} />
         </Route>
       </Routes>

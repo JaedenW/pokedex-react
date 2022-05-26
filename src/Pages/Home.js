@@ -1,6 +1,6 @@
 import React from "react";
-import PokemonCard from "../Components/PokemonCard";
 import { Link } from "react-router-dom";
+import PokemonCard from "../Components/PokemonCard";
 
 function Home(props) {
 	const search = props.search;
