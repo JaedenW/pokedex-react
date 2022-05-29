@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	Redirect,
+} from 'react-router-dom';
 import './index.css';
 import Home from './Pages/Home';
 import Navbar from './Components/Navbar';
@@ -18,6 +23,9 @@ function App() {
 					<Route path="/" element={<Home search={search} />} />
 					<Route index element={<Home search={search} />} />
 					<Route path="pokemon/:name" element={<Pokemon />} />
+					<Route exact path="/pokedex-react">
+						<Redirect to="/" />
+					</Route>
 				</Routes>
 			</Router>
 		</QueryClientProvider>
