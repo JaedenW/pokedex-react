@@ -13,11 +13,7 @@ function App() {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<Router>
-				<Navbar
-					className="m-[20%]"
-					search={search}
-					setSearch={setSearch}
-				/>
+				<Navbar className="m-[20%]" search={search} setSearch={setSearch} />
 				<Routes>
 					<Route path="/" element={<Home search={search} />} />
 					<Route index element={<Home search={search} />} />

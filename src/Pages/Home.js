@@ -61,10 +61,7 @@ function Home({ search }) {
 	}
 
 	window.onscroll = function () {
-		if (
-			window.innerHeight + window.pageYOffset >=
-			document.body.offsetHeight
-		) {
+		if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight) {
 			hasNextPage && throttle(fetchNextPage, 1000);
 		}
 	};

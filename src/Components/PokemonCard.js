@@ -26,9 +26,7 @@ const PokemonCard = ({ pokemon, getDisplayName }) => {
 						alt={displayName}
 					/>
 					<div className="text-center">
-						<h1 className="text-medium m-3 text-2xl">
-							{displayName}
-						</h1>
+						<h1 className="text-medium m-3 text-2xl">{displayName}</h1>
 						{types.map((type) => (
 							<Type type={type.type} key={type.slot} />
 						))}

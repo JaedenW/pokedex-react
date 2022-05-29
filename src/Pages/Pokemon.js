@@ -13,8 +13,6 @@ function Pokemon() {
 		height,
 	} = currentPokemon;
 
-	console.log(sprites)
-
 	return (
 		<div className="block text-center">
 			<img
