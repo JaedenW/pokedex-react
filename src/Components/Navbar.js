@@ -13,16 +13,14 @@ function Navbar(props) {
 		<div className="fixed top-0 z-50 w-full">
 			<nav className="relative flex w-full flex-wrap items-center justify-between bg-gray-100 py-3.5 text-gray-500 shadow-md hover:text-gray-700 focus:text-gray-700">
 				<div className="container-fluid flex w-full flex-wrap items-center px-3">
-					<Link to="/">
+					<Link to="/" onClick={() => setSearch('')}>
 						<div className="mr-1 flex items-center text-gray-900 hover:text-gray-900 focus:text-gray-900">
 							<img
 								className="mx-2 inline-flex w-9"
 								src={Pokeball}
 								alt="Pokeball"
 							/>
-							<h1 className="mr-2 inline-flex text-xl font-medium">
-								Pokédex
-							</h1>
+							<h1 className="mr-2 inline-flex text-xl font-medium">Pokédex</h1>
 						</div>
 					</Link>
 					<input

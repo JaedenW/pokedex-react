@@ -12,11 +12,19 @@ function Pokemon() {
 		base_experience: baseXP,
 		height,
 	} = currentPokemon;
+
+	console.log(sprites)
+
 	return (
 		<div className="block text-center">
 			<img
-				className="m-auto block h-auto w-[30%]"
+				className="m-auto inline-block h-auto w-[20%]"
 				src={sprites.front_default}
+				alt={displayName}
+			/>
+			<img
+				className="m-auto inline-block h-auto w-[20%]"
+				src={sprites.back_default}
 				alt={displayName}
 			/>
 			<h1 className="text-xl font-medium">{displayName}</h1>
