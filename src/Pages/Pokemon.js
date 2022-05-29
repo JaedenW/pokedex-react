@@ -1,27 +1,30 @@
-import React from "react";
-import { useParams, Outlet } from "react-router-dom";
+import React from 'react';
+import { useLocation, Outlet } from 'react-router-dom';
+import Type from '../Components/Type';
 
-function Pokemon(props) {
-	const params = useParams();
-	const name = params.name;
-	const [thisPokemon, setThisPokemon] = React.useState({});
-
-	React.useEffect(() => {
-		async function getThisPokemon() {
-			const res = await fetch(
-				`https://pokeapi.co/api/v2/pokemon/${name}`
-			);
-			const data = await res.json();
-			setThisPokemon(data);
-		}
-		getThisPokemon();
-	}, [name]);
-
-	console.log(thisPokemon);
-
+function Pokemon() {
+	const location = useLocation();
+	const currentPokemon = location.state.pokemonData;
+	const {
+		displayName,
+		sprites,
+		types,
+		base_experience: baseXP,
+		height,
+	} = currentPokemon;
 	return (
-		<div>
-			<h1>{name}</h1>
+		<div className="block text-center">
+			<img
+				className="m-auto block h-auto w-[30%]"
+				src={sprites.front_default}
+				alt={displayName}
+			/>
+			<h1 className="text-xl font-medium">{displayName}</h1>
+			{types.map((type) => (
+				<Type type={type.type} key={type.slot} />
+			))}
+			<h1 className="text-xl font-medium">Base XP: {baseXP}</h1>
+			<h1 className="text-xl font-medium">Height: {height}</h1>
 			<Outlet />
 		</div>
 	);

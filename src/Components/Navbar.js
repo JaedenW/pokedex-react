@@ -1,8 +1,8 @@
-import React from "react";
-import Pokeball from "../Images/pokeball.png";
-import { Outlet, Link } from "react-router-dom";
+import React from 'react';
+import Pokeball from '../Images/pokeball.png';
+import { Outlet, Link } from 'react-router-dom';
 
-function Navigation(props) {
+function Navbar(props) {
 	const { search, setSearch } = props;
 
 	function handleSearch(event) {
@@ -10,7 +10,7 @@ function Navigation(props) {
 	}
 
 	return (
-		<div className="sticky top-0 z-50">
+		<div className="fixed top-0 z-50 w-full">
 			<nav className="relative flex w-full flex-wrap items-center justify-between bg-gray-100 py-3.5 text-gray-500 shadow-md hover:text-gray-700 focus:text-gray-700">
 				<div className="container-fluid flex w-full flex-wrap items-center px-3">
 					<Link to="/">
@@ -24,11 +24,6 @@ function Navigation(props) {
 								Pokédex
 							</h1>
 						</div>
-					</Link>
-					<Link to="/test">
-						<h1 className="mr-2 inline-flex text-xl font-medium text-gray-900">
-							Test
-						</h1>
 					</Link>
 					<input
 						type="text"
@@ -45,4 +40,4 @@ function Navigation(props) {
 	);
 }
 
-export default Navigation;
+export default Navbar;

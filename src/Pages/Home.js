@@ -1,86 +1,63 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import PokemonCard from "../Components/PokemonCard";
+import React from 'react';
+import PokemonCard from '../Components/PokemonCard';
+import usePokemonData from '../Hooks/usePokemonData';
 
-function Home(props) {
-	const search = props.search;
-	const [allPokemonData, setAllPokemonData] = React.useState([]);
-	const [loadSize, setLoadSize] = React.useState(
-		"https://pokeapi.co/api/v2/pokemon?limit=1"
-	);
-
-	const [limit, setLimit] = React.useState(20);
+function Home({ search }) {
+	const [isSearching, setIsSearching] = React.useState(false);
+	const { data, status, fetchNextPage, hasNextPage, allData } =
+		usePokemonData(isSearching);
 
 	React.useEffect(() => {
-		async function getRequestSize() {
-			const res = await fetch(loadSize);
-			const data = await res.json();
-			const size = data.count;
-			loadSize !== size &&
-				setLoadSize(`https://pokeapi.co/api/v2/pokemon?limit=${size}`);
-		}
-		async function getAllPokemonData() {
-			getRequestSize();
-			const res = await fetch(loadSize, { cache: "force-cache" });
-			const data = await res.json();
-			// Fix name strings
-			const nameFixed = data.results.map((pokemon) => ({
-				...pokemon,
-				displayName:
-					pokemon.name !== "ho-oh" // Special case Ho-Oh
-						? capitaliseFirstNoHyphen(pokemon.name)
-						: "Ho-Oh",
-			}));
-
-			setAllPokemonData(nameFixed);
-		}
-
-		getAllPokemonData();
-	}, [loadSize]);
-
-	React.useEffect(() => {
-		setLimit(20);
+		setIsSearching(search.length > 0);
 	}, [search]);
 
-	function renderPokemonCards(offset, limit) {
-		function renderCard(pokemon) {
-			return (
-				<Link to={`/pokemon/${pokemon.name}`}>
+	function renderPokemonCards() {
+		return allData ? (
+			allData?.results
+				.filter((pokemon) =>
+					pokemon.name.toLowerCase().includes(search.toLowerCase())
+				)
+				.slice(0, 40)
+				.map((pokemon) => (
 					<PokemonCard
 						pokemon={pokemon}
-						capitaliseFirstNoHyphen={capitaliseFirstNoHyphen}
+						getDisplayName={getDisplayName}
 						key={pokemon.name}
 					/>
-				</Link>
-			);
-		}
-		const results = search
-			? allPokemonData // If search exists then filter allPokemonData array
-					.filter((pokemon) =>
-						pokemon.name
-							.toLowerCase()
-							.includes(search.toLowerCase())
-					)
-					.slice(offset, limit) // Limit results displayed
-					.map((pokemon) => renderCard(pokemon))
-			: [];
-
-		return search
-			? (results.length && results) || ( // if not empty, return the search results array, else render <p></p>
-					<p className="p-10 text-center text-xl italic text-gray-500">
-						Nothing Here...
-					</p>
-			  )
-			: allPokemonData // Else paginate allPokemonData array
-					.slice(offset, limit)
-					.map((pokemon) => renderCard(pokemon));
+				))
+		) : (
+			<>
+				{data.pages.map((group, i) => (
+					<React.Fragment key={i}>
+						{group.results.map((pokemon) => (
+							<PokemonCard
+								pokemon={pokemon}
+								getDisplayName={getDisplayName}
+								key={pokemon.name}
+							/>
+						))}
+					</React.Fragment>
+				))}
+			</>
+		);
 	}
 
-	function capitaliseFirstNoHyphen(input) {
-		return input
-			.split("-")
+	function getDisplayName(name) {
+		return name
+			.split('-')
 			.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-			.join(" ");
+			.join(' ');
+	}
+
+	function throttle(callbackFn, limit) {
+		let wait = false;
+		if (!wait) {
+			callbackFn();
+			wait = true;
+			setTimeout(() => {
+				wait = false;
+			}, limit);
+		}
 	}
 
 	window.onscroll = function () {
@@ -88,10 +65,7 @@ function Home(props) {
 			window.innerHeight + window.pageYOffset >=
 			document.body.offsetHeight
 		) {
-			setLimit(
-				(prevLimit) =>
-					prevLimit < allPokemonData.length && prevLimit + 3 // stop infinitely increasing render limit
-			);
+			hasNextPage && throttle(fetchNextPage, 1000);
 		}
 	};
 
@@ -99,7 +73,7 @@ function Home(props) {
 		<div>
 			<div className="container my-12 mx-auto content-center">
 				<div className="-mx-1 flex flex-wrap place-content-center sm:mx-0 lg:-mx-4">
-					{renderPokemonCards(0, limit)}
+					{status === 'success' && renderPokemonCards()}
 				</div>
 			</div>
 		</div>
