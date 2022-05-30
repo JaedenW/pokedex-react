@@ -69,7 +69,7 @@ function Home({ search }) {
   return (
     <div>
       <div className="container my-12 mx-auto content-center">
-        <div className="-mx-1 flex flex-wrap place-content-center sm:mx-0 lg:-mx-4">
+        <div className="-mx-1 flex flex-wrap place-content-center sm:mx-0 lg:-mx-7">
           {status === 'success' && renderPokemonCards()}
         </div>
       </div>

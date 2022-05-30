@@ -3,6 +3,7 @@ import { useLocation, Outlet } from 'react-router-dom';
 import Type from '../Components/Type';
 
 function Pokemon() {
+  const [pageVisibility, setPageVisibility] = React.useState('hidden');
   const location = useLocation();
   const currentPokemon = location.state.pokemonData;
   const {
@@ -14,7 +15,7 @@ function Pokemon() {
   } = currentPokemon;
 
   return (
-    <div className="block text-center">
+    <div className="block text-center" style={{ visibility: pageVisibility }}>
       <img
         className="m-auto inline-block h-auto w-[20%]"
         src={sprites.front_default}
@@ -24,8 +25,9 @@ function Pokemon() {
         className="m-auto inline-block h-auto w-[20%]"
         src={sprites.back_default}
         alt={displayName}
+        onLoad={() => setPageVisibility('visible')}
       />
-      <h1 className="text-xl font-medium">{displayName}</h1>
+      <h1 className="pokefont text-4xl font-medium">{displayName}</h1>
       {types.map((type) => (
         <Type type={type.type} key={type.slot} />
       ))}
