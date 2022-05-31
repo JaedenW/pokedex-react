@@ -73,7 +73,7 @@ const Type = (props) => {
 
   return (
     <button
-      className="pokefont text-md hover:shadow-xs mx-2 my-3 inline-flex rounded-md px-5 py-2 text-center font-bold text-white shadow-sm hover:shadow-gray-600 sm:px-3"
+      className="pokefont text-md hover:shadow-xs inline-flex rounded-md px-5 py-2 text-center font-bold text-white shadow-sm hover:shadow-gray-600 sm:px-3"
       style={{ backgroundColor: colour }}
     >
       {getDisplayName(name)}

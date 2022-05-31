@@ -2,7 +2,7 @@ import React from 'react';
 import PokemonCard from '../Components/PokemonCard';
 import usePokemonData from '../Hooks/usePokemonData';
 
-function Home({ search }) {
+function Home({ search, getDisplayName }) {
   const [isSearching, setIsSearching] = React.useState(false);
   const { data, status, fetchNextPage, hasNextPage, allData } =
     usePokemonData(isSearching);
@@ -22,7 +22,7 @@ function Home({ search }) {
           <PokemonCard
             pokemon={pokemon}
             getDisplayName={getDisplayName}
-            key={pokemon.name}
+            key={`${pokemon.name}Searched`}
           />
         ))
     ) : (
@@ -33,20 +33,13 @@ function Home({ search }) {
               <PokemonCard
                 pokemon={pokemon}
                 getDisplayName={getDisplayName}
-                key={pokemon.name}
+                key={`${pokemon.name}Paginated`}
               />
             ))}
           </React.Fragment>
         ))}
       </>
     );
-  }
-
-  function getDisplayName(name) {
-    return name
-      .split('-')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
   }
 
   function throttle(callbackFn, limit) {

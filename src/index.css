@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 * {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'VT323', monospace;
 }
 
 body {
-  background-color: #ecf0f3;
-  padding-top: 3rem;
+  background-color: #e9e7db;
+  margin-top: 6rem;
 }
 
 .pokefont {

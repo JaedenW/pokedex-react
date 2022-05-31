@@ -8,7 +8,6 @@ async function fetchPokemon({
 }
 
 async function fetchAllPokemon(count) {
-  console.log(count);
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${count}`);
   return res.json();
 }
