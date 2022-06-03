@@ -24,10 +24,10 @@ function Navbar({ search, setSearch }) {
           <input
             type="text"
             id="search-navbar"
-            className="absolute right-2 ml-[30rem] w-[60%] rounded-lg border border-black bg-[#DFDFDF] pt-2.5 pb-2 pl-4 font-sans placeholder-gray-500 shadow-sm hover:border-[#FB1B1B] lg:left-0 lg:right-0 lg:mx-auto lg:w-[40%] xl:w-[30%]"
+            className="absolute right-2 ml-[30rem] w-[60%] max-w-[55%] rounded-lg border border-black bg-[#DFDFDF] pt-2.5 pb-2 pl-4 font-sans placeholder-gray-500 shadow-sm hover:border-[#FB1B1B] sm:max-w-full lg:left-0 lg:right-0 lg:mx-auto lg:w-[40%] xl:w-[30%]"
             placeholder="Search..."
             onChange={(event) => setSearch(event.target?.value)}
-            onClick={() => navigate('/')}
+            onKeyUp={(event) => event.code === 'Enter' && navigate('/')}
             value={search}
           />
         </div>

@@ -15,9 +15,9 @@ function App() {
   const [search, setSearch] = React.useState('');
   const queryClient = new QueryClient();
 
-  function getDisplayName(name) {
+  function getDisplayName(name, sep = '-') {
     return name
-      .split('-')
+      .split(sep)
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
   }
