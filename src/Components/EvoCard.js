@@ -15,7 +15,7 @@ const EvoCard = ({ pokemon, evoDetails, evoStage, getDisplayName }) => {
     return evoDetails.map((evo) => {
       return evo?.detailsArray.map((evoDetails) => {
         return (
-          <div className="mt-2 rounded-lg bg-gray-100 p-2 text-[#292929] shadow-inner">
+          <div className="m-2 rounded-lg bg-gray-100 p-2 text-[#292929] shadow-inner md:m-1">
             <ul className="font text-sm">
               {Object.entries(evoDetails).map((evoMethod) => {
                 const [condition, value] = evoMethod;
@@ -47,10 +47,10 @@ const EvoCard = ({ pokemon, evoDetails, evoStage, getDisplayName }) => {
             wasClicked ? 'max-h-[50rem]' : 'max-h-[11rem]'
           }`}
         >
-          <div className="w-[10rem]">
+          <div className="w-[13rem] md:w-[10rem]">
             <Link to={`/pokemon/${name}`} state={{ pokemonData }}>
               <img
-                className="mx-auto -mb-1 block w-[6rem] duration-150 hover:scale-110"
+                className="hover:scale-110np mx-auto -mb-1 block w-[6rem] duration-150"
                 src={sprites.front_default}
                 alt={displayName}
               />
@@ -87,13 +87,13 @@ const EvoCard = ({ pokemon, evoDetails, evoStage, getDisplayName }) => {
             </div>
           </div>
           {wasClicked && (
-            <div className={`w-[10rem]`}>
+            <div className={`w-full`}>
               {types.map((type) => (
-                <div className="-mx-1.5 inline-flex scale-[80%] justify-between">
+                <div className="-mx-1.5 my-1 inline-flex scale-[80%] justify-between">
                   <Type type={type.type} key={`${type.slot}Stats`} />
                 </div>
               ))}
-              {evoStage > 1 && <h4 className="font-bold">Details</h4>}
+              {evoStage > 1 && <h4 className="mt-1 font-bold">Details</h4>}
               {evoStage > 1 && renderEvoDetails()}
             </div>
           )}
