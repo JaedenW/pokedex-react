@@ -1,5 +1,4 @@
 import React from 'react';
-import Type from './Type';
 import { Link } from 'react-router-dom';
 import useThisPokemon from '../Hooks/useThisPokemon';
 
@@ -8,16 +7,17 @@ const EvoCard = ({ pokemon, evoDetails, evoStage, getDisplayName }) => {
   const { data, isSuccess } = useThisPokemon(url);
   const displayName = getDisplayName(name);
   const pokemonData = { name, url, displayName, ...data };
-  const { sprites } = pokemonData;
+  const { sprites, id } = pokemonData;
   const [wasClicked, setWasClicked] = React.useState(false);
 
   function renderEvoDetails() {
     return evoDetails.map((evo) => {
-      return evo?.detailsArray.map((evoDetails) => {
-        return (
-          <div className="mt-2 rounded-lg bg-gray-100 p-2 text-[#292929] shadow-inner md:mx-0">
-            <ul className="font divide-y-8 divide-gray-100 text-sm">
-              {Object.entries(evoDetails).map((evoMethod) => {
+      return evo?.detailsArray.map((evoDetails) => (
+        <div className="mt-2 rounded-lg bg-gray-100 p-2 text-[#292929] shadow-inner md:mx-0">
+          <ul className="font divide-y-8 divide-gray-100 text-sm">
+            {Object.entries(evoDetails)
+              .reverse()
+              .map((evoMethod) => {
                 const [condition, value] = evoMethod;
                 return (
                   value && (
@@ -32,15 +32,15 @@ const EvoCard = ({ pokemon, evoDetails, evoStage, getDisplayName }) => {
                   )
                 );
               })}
-            </ul>
-          </div>
-        );
-      });
+          </ul>
+        </div>
+      ));
     });
   }
 
   return (
-    isSuccess && (
+    isSuccess &&
+    id < 10000 && (
       <div>
         <div
           className={`m-1 flex h-fit max-w-[13rem] rounded-lg bg-[#DFDFDF] p-3 shadow-inner transition-[max-height] duration-200 ease-linear ${
@@ -49,12 +49,12 @@ const EvoCard = ({ pokemon, evoDetails, evoStage, getDisplayName }) => {
         >
           <div className="w-[13rem]">
             <Link to={`/pokemon/${name}`} state={{ pokemonData }}>
-              <img
-                className="mx-auto -my-3 w-[60%]"
-                src={sprites.front_default}
-                alt={displayName}
-              />
               <div className="text-center">
+                <img
+                  className="mx-auto -my-3 w-[70%]"
+                  src={sprites.front_default}
+                  alt={displayName}
+                />
                 <h1 className="mx-auto mb-1 text-xl font-bold text-black">
                   {displayName}
                 </h1>
@@ -62,7 +62,7 @@ const EvoCard = ({ pokemon, evoDetails, evoStage, getDisplayName }) => {
             </Link>
             <div>
               {evoStage > 1 && (
-                <div className="mx-auto flex w-full rotate-90 justify-center">
+                <div className="mx-auto flex w-fit rotate-90 justify-center">
                   <button
                     type="button"
                     className="justify-right group z-30 inline-flex h-full cursor-pointer items-center"

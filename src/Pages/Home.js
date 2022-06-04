@@ -61,7 +61,7 @@ function Home({ search, getDisplayName }) {
 
   return (
     <div>
-      <div className="container my-12 mx-auto content-center">
+      <div className="container my-12 mx-auto w-full content-center">
         <div className="-mx-1 flex flex-wrap place-content-center sm:mx-0 lg:-mx-7">
           {status === 'success' && renderPokemonCards()}
         </div>

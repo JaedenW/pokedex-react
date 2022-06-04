@@ -19,19 +19,19 @@ const PokemonCard = ({ pokemon, getDisplayName }) => {
         state={{ pokemonData }}
         style={{ visibility: cardVisibility }}
       >
-        <div className="m-4 w-[17rem] items-center overflow-hidden rounded-lg border-0 bg-gray-50 shadow-sm transition duration-100 hover:scale-105 hover:shadow-lg sm:w-[15rem]">
+        <div className="m-4 w-[14rem] items-center overflow-hidden rounded-lg border-0 bg-gray-50 shadow-sm transition duration-100 hover:scale-105 hover:shadow-lg">
           <img
             onLoad={() => setCardVisibility('visible')}
-            className="mx-auto my-1 block h-auto w-[80%] sm:w-[65%]"
+            className="mx-auto my-5 block h-auto w-[60%]"
             src={sprites.front_default}
             alt={displayName}
           />
           <div className="text-center">
-            <h1 className="text m-3 my-1 text-xl font-bold text-black">
+            <h1 className="text mb-1 text-xl font-bold text-black">
               {displayName}
             </h1>
             {types.map((type) => (
-              <div className="inline-flex px-2 pb-4 pt-1">
+              <div className="inline-flex px-1 pb-3 pt-1">
                 <Type type={type.type} key={type.slot} />
               </div>
             ))}

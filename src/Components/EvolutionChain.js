@@ -2,10 +2,12 @@ import React from 'react';
 import useEvolutionChain from '../Hooks/useEvolutionChain';
 import usePokemonData from '../Hooks/usePokemonData';
 import EvoCard from './EvoCard';
+import useSpeciesData from '../Hooks/useSpeciesData';
 
 function EvolutionChain({ url, getDisplayName }) {
   const { data, isSuccess } = useEvolutionChain(url);
   const { allData } = usePokemonData(true);
+  const evoChain = flattenEvoChain();
 
   function romanise(number) {
     if (typeof number !== 'number') return -1;
@@ -49,13 +51,15 @@ function EvolutionChain({ url, getDisplayName }) {
   }
 
   function renderEvolutionChain() {
-    return flattenEvoChain().map((evoStage, i) => (
+    return evoChain?.map((evoStage, i) => (
       <div className="inline-grid w-fit px-4">
         <h3 className="m-2 text-lg font-bold">STAGE {romanise(i + 1)}</h3>
         <div className="-mx-1 flex flex-wrap place-content-center sm:mx-0">
           {evoStage.map((evoDetails) =>
             allData?.results
-              .filter((pokemon) => pokemon.name === evoDetails.species_name)
+              .filter((pokemon) =>
+                pokemon.name.includes(evoDetails.species.name)
+              )
               .map((pokemon) => (
                 <EvoCard
                   pokemon={pokemon}
@@ -72,16 +76,16 @@ function EvolutionChain({ url, getDisplayName }) {
   }
 
   function flattenEvoChain() {
-    let evoChain = [];
+    const evoChain = [];
     let evoData = data?.chain;
 
     while (evoData !== undefined && evoData.hasOwnProperty('evolves_to')) {
-      let numberOfEvolutions = evoData.evolves_to.length;
-      let evoDetails = evoData.evolution_details[0];
+      const numberOfEvolutions = evoData.evolves_to.length;
+      const evoDetails = evoData.evolution_details[0];
       let evoStage = [];
 
       evoStage.push({
-        species_name: evoData.species.name,
+        species: evoData.species,
         detailsArray: !evoDetails ? null : [evoDetails],
       });
 
@@ -89,10 +93,9 @@ function EvolutionChain({ url, getDisplayName }) {
         evoChain.push(evoStage);
         evoStage = [];
         for (let i = 1; i < numberOfEvolutions; i++) {
-          const speciesName = evoData.evolves_to[i].species.name;
           const evolution = evoData.evolves_to[i].evolution_details;
           const thisEvo = {
-            species_name: speciesName,
+            species: evoData.evolves_to[i].species,
             detailsArray: !evolution ? null : evolution,
           };
           evoStage.push(thisEvo);
@@ -102,7 +105,6 @@ function EvolutionChain({ url, getDisplayName }) {
       evoChain.push(evoStage);
       evoData = evoData['evolves_to'][0];
     }
-
     return evoChain;
   }
 
