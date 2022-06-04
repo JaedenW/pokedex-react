@@ -55,46 +55,43 @@ const EvoCard = ({ pokemon, evoDetails, evoStage, getDisplayName }) => {
                 alt={displayName}
               />
               <div className="text-center">
-                <h1 className="mx-auto text-xl font-bold text-black">
+                <h1 className="mx-auto mb-1 text-xl font-bold text-black">
                   {displayName}
                 </h1>
               </div>
             </Link>
-            <div className="mx-auto flex w-fit rotate-90 justify-center">
-              <button
-                type="button"
-                className="justify-right group z-30 inline-flex h-full cursor-pointer items-center"
-                onClick={() => setWasClicked((prevState) => !prevState)}
-              >
-                <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-none focus:bg-slate-600 group-hover:bg-white sm:h-10 sm:w-10 ">
-                  <svg
-                    className="h-5 w-5 text-black sm:h-6 sm:w-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d={!wasClicked ? 'M9 5l7 7-7 7' : 'M15 19l-7-7 7-7'}
-                    ></path>
-                  </svg>
-                  <span className="hidden">Next</span>
-                </span>
-              </button>
-            </div>
+            {evoStage > 1 && (
+              <div className="mx-auto flex w-fit rotate-90 justify-center">
+                <button
+                  type="button"
+                  className="justify-right group z-30 inline-flex h-full cursor-pointer items-center"
+                  onClick={() => setWasClicked((prevState) => !prevState)}
+                >
+                  <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-none focus:bg-slate-600 group-hover:bg-white ">
+                    <svg
+                      className="h-5 w-5 text-black sm:h-6 sm:w-6"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d={!wasClicked ? 'M9 5l7 7-7 7' : 'M15 19l-7-7 7-7'}
+                      ></path>
+                    </svg>
+                    <span className="hidden">Next</span>
+                  </span>
+                </button>
+              </div>
+            )}
           </div>
-          {wasClicked && (
+          {wasClicked && evoStage > 1 && (
             <div className={`w-full`}>
-              {types.map((type) => (
-                <div className="-mx-1.5 my-1 inline-flex scale-[80%] justify-between">
-                  <Type type={type.type} key={`${type.slot}Stats`} />
-                </div>
-              ))}
-              {evoStage > 1 && <h4 className="mt-1 font-bold">Details</h4>}
-              {evoStage > 1 && renderEvoDetails()}
+              {<h4 className="mt-1 font-bold">Details</h4>}
+              {renderEvoDetails()}
             </div>
           )}
         </div>
