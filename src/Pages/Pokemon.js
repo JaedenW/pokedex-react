@@ -14,17 +14,26 @@ function Pokemon({ search, getDisplayName }) {
       <div className="mx-auto block w-[90%] rounded-2xl bg-white text-center shadow-md md:w-[80%] md:pt-5 lg:pt-10 2xl:w-[50%]">
         <div>
           <img
-            className="m-auto inline-block h-auto w-[25%] min-w-[10rem] max-w-[15rem]"
-            src={sprites.front_default}
-            alt={displayName}
-          />
-          <img
-            className="m-auto inline-block h-auto w-[25%] min-w-[10rem] max-w-[15rem]"
-            src={sprites.back_default}
+            className="m-5 inline-block h-auto w-[40%] min-w-[10rem] max-w-[20rem]"
+            src={sprites?.other['official-artwork']?.front_default}
             alt={displayName}
             onLoad={() => setPageVisibility('visible')}
           />
         </div>
+        {/* <div>
+          {Object.entries(sprites).map((sprite) => {
+            return (
+              typeof sprite[1] === 'string' && (
+                <img
+                  className="inline-flex h-auto w-[15%] max-w-[20rem]"
+                  src={sprite[1]}
+                  alt={displayName}
+                  onLoad={() => setPageVisibility('visible')}
+                />
+              )
+            );
+          })}
+        </div> */}
         <h1 className=" text-4xl font-bold text-black md:text-6xl">
           {displayName}
         </h1>
