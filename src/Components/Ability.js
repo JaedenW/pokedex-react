@@ -14,7 +14,7 @@ function Ability({ ability: { ability, is_hidden }, getDisplayName }) {
   );
   return (
     <div className="text-md mt-3 flex-col justify-between rounded-md bg-gray-100 p-3 font-bold shadow-inner">
-      <p>{name && getDisplayName(name)}</p>
+      <p>{`${getDisplayName(name)} ${is_hidden ? ' (Hidden)' : ''}`}</p>
       {isSuccess &&
         data?.effect_entries.map((entry) => {
           return (
