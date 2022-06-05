@@ -30,7 +30,7 @@ function Home({ search, getDisplayName }) {
             />
           ));
       } else {
-        return <h1 className="text-xl text-gray-700">Nothing here...</h1>;
+        return <h1 className="mt-20 text-xl text-gray-700">Nothing here...</h1>;
       }
     } else {
       return (
