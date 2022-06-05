@@ -14,12 +14,16 @@ function Ability({ ability: { ability, is_hidden }, getDisplayName }) {
   );
   return (
     <div className="text-md mt-3 flex-col justify-between rounded-md bg-gray-100 p-3 font-bold shadow-inner">
-      <p>{`${getDisplayName(name)} ${is_hidden ? ' (Hidden)' : ''}`}</p>
+      <p className="mb-2">{`${getDisplayName(name)} ${
+        is_hidden ? ' (Hidden)' : ''
+      }`}</p>
       {isSuccess &&
         data?.effect_entries.map((entry) => {
           return (
             entry.language.name === 'en' && (
-              <p className="text-sm font-normal">{entry.effect}</p>
+              <p className="text-sm font-normal">
+                {entry.short_effect || entry.effect}
+              </p>
             )
           );
         })}
