@@ -43,11 +43,11 @@ const EvoCard = ({ pokemon, evoDetails, evoStage, getDisplayName }) => {
     id < 10000 && (
       <div>
         <div
-          className={`m-1 flex h-fit max-w-[13rem] rounded-lg bg-[#DFDFDF] p-3 shadow-inner transition-[max-height] duration-200 ease-linear ${
+          className={`m-1 flex h-fit max-w-[13rem] rounded-lg bg-[#DFDFDF] p-2 shadow-inner transition-[max-height] duration-200 ease-linear ${
             wasClicked ? 'max-h-[50rem]' : 'max-h-[12rem]'
           }`}
         >
-          <div className="w-[13rem]">
+          <div className="w-[12rem] md:w-[10rem]">
             <Link to={`/pokemon/${name}`} state={{ pokemonData }}>
               <div className="text-center">
                 <img
@@ -55,7 +55,7 @@ const EvoCard = ({ pokemon, evoDetails, evoStage, getDisplayName }) => {
                   src={sprites.front_default}
                   alt={displayName}
                 />
-                <h1 className="mx-auto mb-1 text-xl font-bold text-black">
+                <h1 className="mx-auto text-xl font-bold text-black">
                   {displayName}
                 </h1>
               </div>
@@ -70,7 +70,7 @@ const EvoCard = ({ pokemon, evoDetails, evoStage, getDisplayName }) => {
                   >
                     <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-none focus:bg-slate-600 group-hover:bg-white ">
                       <svg
-                        className="h-5 w-5 text-black sm:h-6 sm:w-6"
+                        className="h-7 text-black"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -89,8 +89,8 @@ const EvoCard = ({ pokemon, evoDetails, evoStage, getDisplayName }) => {
               )}
             </div>
             {wasClicked && evoStage > 1 && (
-              <div className={`span w-full`}>
-                {<h4 className="mt-1 font-bold">Conditions</h4>}
+              <div className={`w-full`}>
+                {<h4 className="font-bold">Conditions</h4>}
                 {renderEvoDetails()}
               </div>
             )}

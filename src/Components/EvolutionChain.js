@@ -2,7 +2,6 @@ import React from 'react';
 import useEvolutionChain from '../Hooks/useEvolutionChain';
 import usePokemonData from '../Hooks/usePokemonData';
 import EvoCard from './EvoCard';
-import useSpeciesData from '../Hooks/useSpeciesData';
 
 function EvolutionChain({ url, getDisplayName }) {
   const { data, isSuccess } = useEvolutionChain(url);
@@ -57,9 +56,7 @@ function EvolutionChain({ url, getDisplayName }) {
         <div className="-mx-1 flex flex-wrap place-content-center sm:mx-0">
           {evoStage.map((evoDetails) =>
             allData?.results
-              .filter((pokemon) =>
-                pokemon.name.includes(evoDetails.species.name)
-              )
+              .filter((pokemon) => pokemon.name === evoDetails.species.name)
               .map((pokemon) => (
                 <EvoCard
                   pokemon={pokemon}

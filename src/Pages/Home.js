@@ -12,34 +12,43 @@ function Home({ search, getDisplayName }) {
   }, [search]);
 
   function renderPokemonCards() {
-    return allData ? (
-      allData?.results
-        .filter((pokemon) =>
-          pokemon.name.toLowerCase().includes(search.toLowerCase())
-        )
-        .slice(0, 40)
-        .map((pokemon) => (
-          <PokemonCard
-            pokemon={pokemon}
-            getDisplayName={getDisplayName}
-            key={`${pokemon.name}Searched`}
-          />
-        ))
-    ) : (
-      <>
-        {data.pages.map((group, i) => (
-          <React.Fragment key={i}>
-            {group.results.map((pokemon) => (
-              <PokemonCard
-                pokemon={pokemon}
-                getDisplayName={getDisplayName}
-                key={`${pokemon.name}Paginated`}
-              />
-            ))}
-          </React.Fragment>
-        ))}
-      </>
-    );
+    if (allData) {
+      const filtered = allData?.results.filter((pokemon) =>
+        getDisplayName(pokemon.name)
+          .toLowerCase()
+          .includes(search.toLowerCase())
+      );
+
+      if (filtered.length > 0) {
+        return filtered
+          .slice(0, 40)
+          .map((pokemon) => (
+            <PokemonCard
+              pokemon={pokemon}
+              getDisplayName={getDisplayName}
+              key={`${pokemon.name}Searched`}
+            />
+          ));
+      } else {
+        return <h1 className="text-xl text-gray-700">Nothing here...</h1>;
+      }
+    } else {
+      return (
+        <>
+          {data.pages.map((group, i) => (
+            <React.Fragment key={i}>
+              {group.results.map((pokemon) => (
+                <PokemonCard
+                  pokemon={pokemon}
+                  getDisplayName={getDisplayName}
+                  key={`${pokemon.name}Paginated`}
+                />
+              ))}
+            </React.Fragment>
+          ))}
+        </>
+      );
+    }
   }
 
   function throttle(callbackFn, limit) {

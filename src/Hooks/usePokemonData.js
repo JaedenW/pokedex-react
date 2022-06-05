@@ -1,7 +1,7 @@
 import { useInfiniteQuery, useQuery } from 'react-query';
 
 async function fetchPokemon({
-  pageParam = 'https://pokeapi.co/api/v2/pokemon?limit=20',
+  pageParam = 'https://pokeapi.co/api/v2/pokemon?limit=30',
 }) {
   const res = await fetch(pageParam);
   return res.json();
