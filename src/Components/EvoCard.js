@@ -13,7 +13,7 @@ const EvoCard = ({ pokemon, evoDetails, evoStage, getDisplayName }) => {
   function renderEvoDetails() {
     return evoDetails.map((evo) => {
       return evo.detailsArray?.map((evoDetails) => (
-        <div className="mx-1 rounded-lg bg-[#DFDFDF] p-2 shadow-inner md:my-2 md:p-3">
+        <div className="m-1 rounded-lg bg-[#DFDFDF] p-2 shadow-inner md:my-2 md:p-3">
           <ul className="divide-y-8 divide-[#DFDFDF] text-sm">
             {Object.entries(evoDetails)
               .reverse()
