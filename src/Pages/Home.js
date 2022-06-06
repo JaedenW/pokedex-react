@@ -1,11 +1,13 @@
 import React from 'react';
 import PokemonCard from '../Components/PokemonCard';
 import usePokemonData from '../Hooks/usePokemonData';
+import { useLocation } from 'react-router-dom';
 
 function Home({ search }) {
   const [isSearching, setIsSearching] = React.useState(false);
   const { data, status, fetchNextPage, hasNextPage, allData } =
     usePokemonData(isSearching);
+  const location = useLocation();
 
   React.useEffect(() => {
     setIsSearching(search.length > 0);
@@ -44,22 +46,29 @@ function Home({ search }) {
     }
   }
 
-  function throttle(callbackFn, limit) {
+  function throttle(callbackFn, delay) {
     let wait = false;
     if (!wait) {
       callbackFn();
       wait = true;
       setTimeout(() => {
         wait = false;
-      }, limit);
+      }, delay);
     }
   }
 
-  window.onscroll = function () {
-    if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight) {
-      hasNextPage && throttle(fetchNextPage, 1000);
-    }
-  };
+  React.useEffect(() => {
+    window.onscroll = function () {
+      if (
+        window.innerHeight + window.pageYOffset >=
+        document.body.offsetHeight
+      ) {
+        hasNextPage && throttle(fetchNextPage, 1000);
+      }
+    };
+
+    return () => (window.onscroll = null);
+  }, [location]);
 
   return (
     <div>

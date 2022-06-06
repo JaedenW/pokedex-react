@@ -11,23 +11,55 @@ function TypePage() {
   const location = useLocation();
   const { name, url } = location.state.type;
   const { allData } = usePokemonData(true);
+  const [limit, setLimit] = React.useState(20);
+  const { data, isSuccess } = useQuery(['type', url], () => fetchType(url));
 
   async function fetchType(url) {
     const res = await fetch(url);
     return res.json();
   }
 
-  const { data, isSuccess } = useQuery(['type', url], () => fetchType(url));
+  function renderTypePokemon(limit) {
+    const pokemonList = [
+      ...data.pokemon.map((pokemon) => pokemon.pokemon.name),
+    ];
 
-  function renderTypePokemon() {
-    const pokemonList = data.pokemon.map((pokemon) => pokemon.pokemon.name);
     if (allData) {
       return allData?.results
         .filter((pokemon) => pokemonList.includes(pokemon.name))
-        .slice(0, 40)
+        .slice(0, limit)
         .map((pokemon) => (
           <PokemonCard pokemon={pokemon} key={`${pokemon.name}Searched`} />
         ));
+    }
+  }
+
+  React.useEffect(() => {
+    setLimit(15);
+
+    window.onscroll = function () {
+      if (
+        window.innerHeight + window.pageYOffset >=
+        document.body.offsetHeight
+      ) {
+        function paginate() {
+          setLimit((prevLimit) => prevLimit + 10);
+        }
+        throttle(paginate, 1000);
+      }
+    };
+
+    return () => (window.onscroll = null);
+  }, [location]);
+
+  function throttle(callbackFn, delay) {
+    let wait = false;
+    if (!wait) {
+      callbackFn();
+      wait = true;
+      setTimeout(() => {
+        wait = false;
+      }, delay);
     }
   }
 
@@ -42,7 +74,10 @@ function TypePage() {
           {getDisplayName(name)}
         </h1>
         <div>
-          <div style={{ backgroundColor: typeColours[name] }}>
+          <div
+            className="rounded-b-2xl"
+            style={{ backgroundColor: typeColours[name] }}
+          >
             <div className="container mx-auto w-full content-center py-10 shadow-inner lg:px-5 xl:px-10">
               <div className="mx-auto flex w-[90%] flex-wrap justify-evenly rounded-xl bg-gray-50 p-3 shadow-lg md:w-[85%]">
                 {isSuccess &&
@@ -69,12 +104,12 @@ function TypePage() {
                   })}
               </div>
             </div>
-            <div className="container mx-auto mb-12 w-full content-center rounded-b-xl pb-5">
+            <div className="container mx-auto mb-12 w-full content-center rounded-b-2xl pb-5">
               <h2 className="mx-auto mb-6 w-fit max-w-[85%] rounded-xl border bg-white px-8 py-3 text-3xl font-bold text-stone-700 shadow-md">
                 {getDisplayName(name)} Type Pokemon:
               </h2>
               <div className="-mx-0.5 flex flex-wrap place-content-center sm:mx-2">
-                {isSuccess && renderTypePokemon()}
+                {isSuccess && renderTypePokemon(limit)}
               </div>
             </div>
           </div>
