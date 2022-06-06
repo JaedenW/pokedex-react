@@ -13,7 +13,7 @@ const EvoCard = ({ pokemon, evoDetails, evoStage, getDisplayName }) => {
   function renderEvoDetails() {
     return evoDetails.map((evo) => {
       return evo.detailsArray?.map((evoDetails) => (
-        <div className="my-2 rounded-lg bg-[#DFDFDF] p-2 shadow-inner md:p-3">
+        <div className="mt-2 rounded-lg bg-[#DFDFDF] p-2 shadow-inner md:p-3">
           <ul className="divide-y-8 divide-[#DFDFDF] text-sm">
             {Object.entries(evoDetails)
               .reverse()
@@ -43,7 +43,7 @@ const EvoCard = ({ pokemon, evoDetails, evoStage, getDisplayName }) => {
     id < 10000 && (
       <div>
         <div
-          className={`m-2 mb-0 flex h-fit max-w-[13rem] rounded-lg bg-gray-100 p-3 shadow-inner transition-[max-height] duration-200 ease-linear ${
+          className={`m-2 flex h-fit max-w-[13rem] rounded-lg bg-gray-100 p-3 shadow-inner transition-[max-height] duration-200 ease-linear ${
             wasClicked ? 'max-h-[50rem]' : 'max-h-[12rem]'
           }`}
         >
