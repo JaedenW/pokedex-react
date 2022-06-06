@@ -71,7 +71,7 @@ function TypePage() {
             </div>
             <div className="container mx-auto mb-12 w-full content-center rounded-b-xl pb-5">
               <h2 className="mx-auto mb-6 w-fit max-w-[85%] rounded-xl border bg-white px-8 py-3 text-3xl font-bold text-stone-700 shadow-md">
-                {getDisplayName(name)} Type Pokemon
+                {getDisplayName(name)} Type Pokemon:
               </h2>
               <div className="-mx-0.5 flex flex-wrap place-content-center sm:mx-2">
                 {isSuccess && renderTypePokemon()}
