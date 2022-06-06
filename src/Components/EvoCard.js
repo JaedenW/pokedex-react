@@ -43,7 +43,7 @@ const EvoCard = ({ pokemon, evoDetails, evoStage, getDisplayName }) => {
     id < 10000 && (
       <div>
         <div
-          className={`m-2 flex h-fit max-w-[13rem] rounded-lg bg-gray-100 p-2 pb-0 shadow-inner transition-[max-height] duration-200 ease-linear ${
+          className={`m-2 flex h-fit max-w-[13rem] rounded-lg bg-gray-100 p-3 shadow-inner transition-[max-height] duration-200 ease-linear ${
             wasClicked ? 'max-h-[50rem]' : 'max-h-[12rem]'
           }`}
         >
