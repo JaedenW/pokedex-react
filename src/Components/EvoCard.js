@@ -51,7 +51,7 @@ const EvoCard = ({ pokemon, evoDetails, evoStage, getDisplayName }) => {
             <Link to={`/pokemon/${name}`} state={{ pokemonData }}>
               <div className="text-center">
                 <img
-                  className="mx-auto -my-3 w-[70%]"
+                  className="mx-auto -my-2 w-[70%]"
                   src={sprites.front_default}
                   alt={displayName}
                 />
