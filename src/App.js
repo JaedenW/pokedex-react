@@ -8,6 +8,7 @@ import {
 import './index.css';
 import Home from './Pages/Home';
 import Navbar from './Components/Navbar';
+import ScrollToTop from './Components/ScrollToTop';
 import Pokemon from './Pages/Pokemon';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
@@ -25,6 +26,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
+        <ScrollToTop />
         <Navbar className="m-[20%]" search={search} setSearch={setSearch} />
         <Routes>
           <Route
