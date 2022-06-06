@@ -4,13 +4,12 @@ import Stats from '../Components/Stats';
 import Evolutions from '../Components/Evolutions';
 
 function Pokemon({ search, getDisplayName }) {
-  const [pageVisibility, setPageVisibility] = React.useState('hidden');
   const location = useLocation();
   const currentPokemon = location.state.pokemonData;
   const { name, displayName, sprites, id } = currentPokemon;
 
   return (
-    <div className="mt-20" style={{ visibility: pageVisibility }}>
+    <div className="mt-20">
       <div className="container mx-auto w-[90%] rounded-2xl bg-white text-center shadow-md md:w-[80%] 2xl:w-[50%]">
         <h2 className="rounded-t-2xl bg-[#FFCC00] p-2 text-center text-2xl font-bold text-[#D5A100] shadow-inner">
           #{('000' + id).slice(-3)} {/* Zerofilled ID */}
@@ -20,7 +19,6 @@ function Pokemon({ search, getDisplayName }) {
             className="my-5 mx-auto w-[60%] min-w-[10rem] max-w-[20rem] md:pt-5 lg:pt-10"
             src={sprites?.other['official-artwork']?.front_default}
             alt={displayName}
-            onLoad={() => setPageVisibility('visible')}
           />
         </div>
         <h1 className=" text-4xl font-bold text-black md:text-6xl">
