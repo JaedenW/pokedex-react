@@ -3,7 +3,7 @@ import useEvolutionChain from '../Hooks/useEvolutionChain';
 import usePokemonData from '../Hooks/usePokemonData';
 import EvoCard from './EvoCard';
 
-function EvolutionChain({ url, getDisplayName }) {
+function EvolutionChain({ url, isLegendary, isMythical, getDisplayName }) {
   const { data, isSuccess } = useEvolutionChain(url);
   const { allData } = usePokemonData(true);
   const evoChain = flattenEvoChain();
@@ -51,8 +51,22 @@ function EvolutionChain({ url, getDisplayName }) {
 
   function renderEvolutionChain() {
     return evoChain?.map((evoStage, i) => (
-      <div className="inline-grid w-fit px-4">
-        <h3 className="m-2 text-lg font-bold">STAGE {romanise(i + 1)}</h3>
+      <div className="m-2 inline-grid w-[90%] rounded-lg  bg-stone-300 p-1 pb-3 shadow-md">
+        {isLegendary || isMythical ? (
+          <h3
+            className="my-2 mx-auto w-fit rounded-md border-2 bg-gray-100 py-2 px-4 text-xl font-bold shadow-md"
+            style={{
+              color: isLegendary ? '#ffd500' : '#855AC9',
+              borderColor: isLegendary ? '#ffd500' : '#855AC9',
+            }}
+          >
+            {isLegendary ? 'Legendary' : 'Mythical'}
+          </h3>
+        ) : (
+          <h3 className="my-2 text-xl font-semibold">
+            STAGE {romanise(i + 1)}
+          </h3>
+        )}
         <div className="-mx-1 flex flex-wrap place-content-center sm:mx-0">
           {evoStage.map((evoDetails) =>
             allData?.results

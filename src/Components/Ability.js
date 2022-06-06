@@ -12,8 +12,9 @@ function Ability({ ability: { ability, is_hidden }, getDisplayName }) {
   const { data, isSuccess } = useQuery(['abilities', url], () =>
     fetchAbility(url)
   );
+
   return (
-    <div className="text-md mt-3 flex-col justify-between rounded-md bg-gray-100 p-3 font-bold shadow-inner">
+    <div className="text-md mt-3 flex-col justify-between rounded-md bg-gray-100 p-3 font-semibold shadow-inner">
       <p className="mb-2">{`${getDisplayName(name)} ${
         is_hidden ? ' (Hidden)' : ''
       }`}</p>

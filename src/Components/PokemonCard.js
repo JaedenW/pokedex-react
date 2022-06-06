@@ -1,9 +1,10 @@
 import React from 'react';
 import Type from './Type';
 import { Link } from 'react-router-dom';
+import getDisplayName from './Data/getDisplayName';
 import useThisPokemon from '../Hooks/useThisPokemon';
 
-const PokemonCard = ({ pokemon, getDisplayName }) => {
+const PokemonCard = ({ pokemon }) => {
   const { name, url } = pokemon;
   const { data, isSuccess } = useThisPokemon(url);
   const displayName = getDisplayName(name);
@@ -19,7 +20,7 @@ const PokemonCard = ({ pokemon, getDisplayName }) => {
         state={{ pokemonData }}
         style={{ visibility: cardVisibility }}
       >
-        <div className="m-4 w-[14rem] items-center overflow-hidden rounded-lg border-0 bg-gray-50 shadow-sm transition duration-100 hover:scale-105 hover:shadow-lg">
+        <div className="m-2 w-[10rem] items-center overflow-hidden rounded-lg border-0 bg-gray-50 shadow-md transition duration-100 hover:scale-105 hover:shadow-lg sm:m-4 sm:w-[14rem]">
           <img
             onLoad={() => setCardVisibility('visible')}
             className="mx-auto my-5 block h-auto w-[60%]"
@@ -31,7 +32,7 @@ const PokemonCard = ({ pokemon, getDisplayName }) => {
               {displayName}
             </h1>
             {types.map((type) => (
-              <div className="inline-flex px-1 pb-3 pt-1">
+              <div className="inline-flex px-1 pb-2 sm:pb-3 sm:pt-1">
                 <Type type={type.type} key={type.slot} />
               </div>
             ))}

@@ -2,7 +2,7 @@ import React from 'react';
 import PokemonCard from '../Components/PokemonCard';
 import usePokemonData from '../Hooks/usePokemonData';
 
-function Home({ search, getDisplayName }) {
+function Home({ search }) {
   const [isSearching, setIsSearching] = React.useState(false);
   const { data, status, fetchNextPage, hasNextPage, allData } =
     usePokemonData(isSearching);
@@ -14,20 +14,14 @@ function Home({ search, getDisplayName }) {
   function renderPokemonCards() {
     if (allData) {
       const filtered = allData?.results.filter((pokemon) =>
-        getDisplayName(pokemon.name)
-          .toLowerCase()
-          .includes(search.toLowerCase())
+        pokemon.name.toLowerCase().includes(search.toLowerCase())
       );
 
       if (filtered.length > 0) {
         return filtered
           .slice(0, 40)
           .map((pokemon) => (
-            <PokemonCard
-              pokemon={pokemon}
-              getDisplayName={getDisplayName}
-              key={`${pokemon.name}Searched`}
-            />
+            <PokemonCard pokemon={pokemon} key={`${pokemon.name}Searched`} />
           ));
       } else {
         return <h1 className="mt-20 text-xl text-gray-700">Nothing here...</h1>;
@@ -40,7 +34,6 @@ function Home({ search, getDisplayName }) {
               {group.results.map((pokemon) => (
                 <PokemonCard
                   pokemon={pokemon}
-                  getDisplayName={getDisplayName}
                   key={`${pokemon.name}Paginated`}
                 />
               ))}

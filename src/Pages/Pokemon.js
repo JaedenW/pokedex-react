@@ -2,14 +2,15 @@ import React from 'react';
 import { useLocation, Outlet } from 'react-router-dom';
 import Stats from '../Components/Stats';
 import Evolutions from '../Components/Evolutions';
+import getDisplayName from '../Components/Data/getDisplayName';
 
-function Pokemon({ search, getDisplayName }) {
+function Pokemon() {
   const location = useLocation();
   const currentPokemon = location.state.pokemonData;
   const { name, displayName, sprites, id } = currentPokemon;
 
   return (
-    <div className="mt-20">
+    <div className="mt-20 text-stone-700">
       <div className="container mx-auto w-[90%] rounded-2xl bg-white text-center shadow-md md:w-[80%] 2xl:w-[50%]">
         <h2 className="rounded-t-2xl bg-[#FFCC00] p-2 text-center text-2xl font-bold text-[#D5A100] shadow-inner">
           #{('000' + id).slice(-3)} {/* Zerofilled ID */}
@@ -21,9 +22,7 @@ function Pokemon({ search, getDisplayName }) {
             alt={displayName}
           />
         </div>
-        <h1 className=" text-4xl font-bold text-black md:text-6xl">
-          {displayName}
-        </h1>
+        <h1 className=" text-4xl font-bold md:text-6xl">{displayName}</h1>
         <div className="container my-10 mx-auto w-full content-center rounded-b-xl bg-[#FFCC00] py-5 shadow-inner lg:px-5 xl:px-10">
           <div className="flex flex-wrap">
             <Stats

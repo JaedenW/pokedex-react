@@ -10,18 +10,12 @@ import Home from './Pages/Home';
 import Navbar from './Components/Navbar';
 import ScrollToTop from './Components/ScrollToTop';
 import Pokemon from './Pages/Pokemon';
+import TypePage from './Pages/TypePage';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 function App() {
   const [search, setSearch] = React.useState('');
   const queryClient = new QueryClient();
-
-  function getDisplayName(name, sep = '-') {
-    return name
-      .split(sep)
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  }
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -29,18 +23,10 @@ function App() {
         <ScrollToTop />
         <Navbar className="m-[20%]" search={search} setSearch={setSearch} />
         <Routes>
-          <Route
-            path="/"
-            element={<Home search={search} getDisplayName={getDisplayName} />}
-          />
-          <Route
-            index
-            element={<Home search={search} getDisplayName={getDisplayName} />}
-          />
-          <Route
-            path="pokemon/:name"
-            element={<Pokemon getDisplayName={getDisplayName} />}
-          />
+          <Route path="/" element={<Home search={search} />} />
+          <Route index element={<Home search={search} />} />
+          <Route path="pokemon/:name" element={<Pokemon />} />
+          <Route path="type/:typeName" element={<TypePage />} />
           <Route path="/pokedex-react" element={<Navigate to="/" />} />
         </Routes>
       </Router>

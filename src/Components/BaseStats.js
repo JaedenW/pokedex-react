@@ -2,7 +2,7 @@ import React from 'react';
 
 function BaseStats({ stats, getDisplayName }) {
   return (
-    <div className="rounded-md bg-gray-100 p-3">
+    <div className="rounded-md bg-gray-100 p-3 shadow-inner">
       {stats.map((baseStat) => {
         const statName = baseStat.stat.name;
         return (
