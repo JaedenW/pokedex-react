@@ -17,9 +17,7 @@ function TypePage() {
     return res.json();
   }
 
-  const { data, isSuccess } = useQuery(['abilities', url], () =>
-    fetchType(url)
-  );
+  const { data, isSuccess } = useQuery(['type', url], () => fetchType(url));
 
   function renderTypePokemon() {
     const pokemonList = data.pokemon.map((pokemon) => pokemon.pokemon.name);
@@ -52,7 +50,7 @@ function TypePage() {
                     const [relationName, relationData] = relation;
                     return (
                       relationData.length > 0 && (
-                        <div className="flex-grid m-2 w-full min-w-[15rem] rounded-xl bg-[#DFDFDF] p-2 text-lg font-bold shadow-inner md:w-fit md:p-3">
+                        <div className="flex-grid m-2 w-full min-w-[15rem] rounded-xl bg-[#DFDFDF] p-2 text-lg font-bold shadow-inner md:w-fit md:p-3 xl:min-w-[25rem]">
                           <h2 className="text-stone-700">
                             {getDisplayName(relationName, '_')}
                           </h2>
@@ -75,7 +73,7 @@ function TypePage() {
               <h2 className="mx-auto mb-6 w-fit max-w-[85%] rounded-xl border bg-white px-8 py-3 text-3xl font-bold text-stone-700 shadow-md">
                 {getDisplayName(name)} Type Pokemon
               </h2>
-              <div className="-mx-0.5 flex flex-wrap place-content-center sm:mx-2 2xl:-mx-4">
+              <div className="-mx-0.5 flex flex-wrap place-content-center sm:mx-2">
                 {isSuccess && renderTypePokemon()}
               </div>
             </div>
