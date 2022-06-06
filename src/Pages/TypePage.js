@@ -35,7 +35,7 @@ function TypePage() {
   }
 
   React.useEffect(() => {
-    setLimit(20);
+    setLimit(15);
 
     window.onscroll = function () {
       if (
@@ -43,7 +43,7 @@ function TypePage() {
         document.body.offsetHeight
       ) {
         function paginate() {
-          setLimit((prevLimit) => prevLimit + 20);
+          setLimit((prevLimit) => prevLimit + 10);
         }
         throttle(paginate, 1000);
       }
