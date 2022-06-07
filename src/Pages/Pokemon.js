@@ -9,6 +9,8 @@ function Pokemon() {
   const currentPokemon = location.state.pokemonData;
   const { name, displayName, sprites, id } = currentPokemon;
 
+  window.onscroll = null;
+
   return (
     <div className="mt-20 text-stone-700">
       <div className="container mx-auto w-[90%] rounded-2xl bg-white text-center shadow-md md:w-[80%] 2xl:w-[50%]">

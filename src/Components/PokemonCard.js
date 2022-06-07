@@ -6,28 +6,21 @@ import useThisPokemon from '../Hooks/useThisPokemon';
 
 const PokemonCard = ({ pokemon }) => {
   const { name, url } = pokemon;
-  const { data, isSuccess } = useThisPokemon(url);
+  const { data } = useThisPokemon(url);
   const displayName = getDisplayName(name);
   const pokemonData = { name, url, displayName, ...data };
   const { sprites, types, id } = pokemonData;
-  const [cardVisibility, setCardVisibility] = React.useState('hidden');
 
   return (
-    id < 10000 &&
-    isSuccess && (
-      <Link
-        to={`/pokemon/${name}`}
-        state={{ pokemonData }}
-        style={{ visibility: cardVisibility }}
-      >
-        <div className="m-2 w-[10rem] items-center overflow-hidden rounded-lg border-0 bg-gray-50 shadow-md transition duration-100 hover:scale-105 hover:shadow-lg sm:m-4 sm:w-[14rem]">
+    id < 10000 && (
+      <Link to={`/pokemon/${name}`} state={{ pokemonData }}>
+        <div className="m-2 w-[10rem] overflow-hidden rounded-lg bg-gray-50 shadow-md transition duration-100 hover:scale-105 hover:shadow-lg sm:m-4 sm:w-[14rem]">
           <img
-            onLoad={() => setCardVisibility('visible')}
             className="mx-auto my-5 block h-auto w-[60%]"
             src={sprites.front_default}
             alt={displayName}
           />
-          <div className="text-center">
+          <div className="justify-end text-center">
             <h1 className="text mb-1 text-xl font-bold text-black">
               {displayName}
             </h1>

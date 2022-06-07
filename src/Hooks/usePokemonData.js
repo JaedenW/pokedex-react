@@ -1,9 +1,7 @@
-import { useInfiniteQuery, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 
-async function fetchPokemon({
-  pageParam = 'https://pokeapi.co/api/v2/pokemon?limit=30',
-}) {
-  const res = await fetch(pageParam);
+async function fetchPokemon() {
+  const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1');
   return res.json();
 }
 
@@ -12,30 +10,20 @@ async function fetchAllPokemon(count) {
   return res.json();
 }
 
-export default function usePokemonData(isSearching) {
-  const { data, status, fetchNextPage, hasNextPage } = useInfiniteQuery(
-    'pokemon',
-    fetchPokemon,
-    {
-      getNextPageParam: (lastPage) => lastPage.next,
-    }
-  );
+export default function usePokemonData() {
+  const { data: countData } = useQuery('pokemon', fetchPokemon, {});
 
-  const count = data?.pages[0].count;
+  const count = countData?.count;
 
   const { isIdle, data: allData } = useQuery(
-    ['allPokemon', count, isSearching],
+    ['allPokemon', count],
     () => fetchAllPokemon(count),
     {
-      enabled: isSearching,
+      enabled: count > 0,
     }
   );
 
   return {
-    data,
-    status,
-    fetchNextPage,
-    hasNextPage,
     isIdle,
     allData,
   };

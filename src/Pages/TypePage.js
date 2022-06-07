@@ -3,9 +3,10 @@ import { useLocation, Outlet } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { typeColours } from '../Components/Data/typeColours';
 import getDisplayName from '../Components/Data/getDisplayName';
-import PokemonCard from '../Components/PokemonCard';
 import Type from '../Components/Type';
 import usePokemonData from '../Hooks/usePokemonData';
+
+const PokemonCard = React.lazy(() => import('../Components/PokemonCard'));
 
 function TypePage() {
   const location = useLocation();
@@ -24,14 +25,12 @@ function TypePage() {
       ...data.pokemon.map((pokemon) => pokemon.pokemon.name),
     ];
 
-    if (allData) {
-      return allData?.results
-        .filter((pokemon) => pokemonList.includes(pokemon.name))
-        .slice(0, limit)
-        .map((pokemon) => (
-          <PokemonCard pokemon={pokemon} key={`${pokemon.name}Searched`} />
-        ));
-    }
+    return allData?.results
+      .filter((pokemon) => pokemonList.includes(pokemon.name))
+      .slice(0, limit)
+      .map((pokemon) => (
+        <PokemonCard pokemon={pokemon} key={`${pokemon.name}Searched`} />
+      ));
   }
 
   React.useEffect(() => {

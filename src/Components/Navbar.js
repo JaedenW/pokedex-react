@@ -6,7 +6,7 @@ function Navbar({ search, setSearch }) {
   const navigate = useNavigate();
 
   return (
-    <div className="fixed top-0 z-50 w-full">
+    <div className="fixed top-0 z-30 w-full">
       <nav className="relative flex w-full flex-wrap items-center justify-between bg-[#0A285F] py-3.5 text-gray-600 shadow-md hover:text-gray-800 focus:text-gray-800">
         <div className="container-fluid flex w-full flex-wrap items-center px-3">
           <Link to="/" onClick={() => setSearch('')}>

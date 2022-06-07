@@ -6,5 +6,5 @@ async function fetchThisPokemon(url) {
 }
 
 export default function useThisPokemon(url) {
-  return useQuery(['thisPokemon', url], () => fetchThisPokemon(url));
+  return useQuery(['thisPokemon', url], () => fetchThisPokemon(url), {});
 }
