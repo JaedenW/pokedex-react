@@ -9,7 +9,7 @@ const Type = ({ type }) => {
   return (
     <Link to={`/type/${name}`} state={{ type }}>
       <button
-        className="hover:shadow-xs rounded-md px-2 py-1 text-center text-sm font-bold text-white shadow-sm hover:shadow-gray-600 sm:py-2 sm:px-3 sm:text-lg"
+        className="hover:shadow-xs rounded-md px-2 py-1 text-center text-sm font-bold text-white shadow-sm hover:shadow-gray-600 sm:py-2 sm:px-3 md:text-lg"
         style={{ backgroundColor: typeColours[name] }}
       >
         {getDisplayName(name)}

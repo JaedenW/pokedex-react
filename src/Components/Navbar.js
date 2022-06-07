@@ -6,8 +6,8 @@ function Navbar({ search, setSearch }) {
   const navigate = useNavigate();
 
   return (
-    <div className="fixed top-0 z-30 w-full">
-      <nav className="relative flex w-full flex-wrap items-center justify-between bg-[#0A285F] py-3.5 text-gray-600 shadow-md hover:text-gray-800 focus:text-gray-800">
+    <div className="fixed top-0 z-30 h-[3.9rem] w-full">
+      <nav className="relative flex h-full w-full flex-wrap items-center justify-between bg-[#0A285F] py-3.5 text-gray-600 shadow-md hover:text-gray-800 focus:text-gray-800">
         <div className="container-fluid flex w-full flex-wrap items-center px-3">
           <Link to="/" onClick={() => setSearch('')}>
             <div className="mr-1 flex items-center text-white">
@@ -24,8 +24,9 @@ function Navbar({ search, setSearch }) {
           <input
             type="text"
             id="search-navbar"
-            className="absolute right-2 w-[50%] max-w-[50%] rounded-lg border border-black bg-[#DFDFDF] py-2 pl-4 font-sans placeholder-gray-500 shadow-sm hover:border-[#FB1B1B] sm:max-w-full md:left-0 md:mx-auto md:w-[40%] lg:right-0 xl:w-[30%]"
+            className="absolute right-3 w-[50%] max-w-[50%] rounded-lg border border-black bg-[#DFDFDF] py-2 pl-4 font-sans placeholder-gray-500 shadow-sm hover:border-[#FB1B1B] sm:max-w-full md:left-0 md:mx-auto md:w-[40%] lg:right-0 xl:w-[30%]"
             placeholder="Search..."
+            enterkeyhint="search"
             onChange={(event) => setSearch(event.target?.value)}
             onKeyUp={(event) => event.code === 'Enter' && navigate('/')}
             value={search}

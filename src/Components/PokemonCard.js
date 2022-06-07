@@ -15,11 +15,13 @@ const PokemonCard = ({ pokemon }) => {
     id < 10000 && (
       <Link to={`/pokemon/${name}`} state={{ pokemonData }}>
         <div className="m-2 w-[10rem] overflow-hidden rounded-lg bg-gray-50 shadow-md transition duration-100 hover:scale-105 hover:shadow-lg sm:m-4 sm:w-[14rem]">
-          <img
-            className="mx-auto my-5 block h-auto w-[60%]"
-            src={sprites.front_default}
-            alt={displayName}
-          />
+          <div className="container h-[7rem] sm:h-[8rem]">
+            <img
+              className="mx-auto my-5 block h-[90%]"
+              src={sprites.front_default}
+              alt={displayName}
+            />
+          </div>
           <div className="justify-end text-center">
             <h1 className="text mb-1 text-xl font-bold text-black">
               {displayName}

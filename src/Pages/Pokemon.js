@@ -17,7 +17,7 @@ function Pokemon() {
         <h2 className="rounded-t-2xl bg-[#FFCC00] p-2 text-center text-2xl font-bold text-[#D5A100] shadow-inner">
           #{('000' + id).slice(-3)} {/* Zerofilled ID */}
         </h2>
-        <div className="inline-flex w-full justify-center">
+        <div className="container h-[15rem] w-full justify-center sm:h-[25rem]">
           <img
             className="my-5 mx-auto w-[60%] min-w-[10rem] max-w-[20rem] md:pt-5 lg:pt-10"
             src={sprites?.other['official-artwork']?.front_default}

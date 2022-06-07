@@ -5,14 +5,15 @@ import { typeColours } from '../Components/Data/typeColours';
 import getDisplayName from '../Components/Data/getDisplayName';
 import Type from '../Components/Type';
 import usePokemonData from '../Hooks/usePokemonData';
-
-const PokemonCard = React.lazy(() => import('../Components/PokemonCard'));
+import PokemonCard from '../Components/PokemonCard';
+import ProgressIndicator from '../Components/ProgressIndicator';
 
 function TypePage() {
   const location = useLocation();
   const { name, url } = location.state.type;
   const { allData } = usePokemonData(true);
   const [limit, setLimit] = React.useState(20);
+  const [isPending, startTransition] = React.useTransition();
   const { data, isSuccess } = useQuery(['type', url], () => fetchType(url));
 
   async function fetchType(url) {
@@ -42,7 +43,7 @@ function TypePage() {
         document.body.offsetHeight
       ) {
         function paginate() {
-          setLimit((prevLimit) => prevLimit + 10);
+          startTransition(() => setLimit((prevLimit) => prevLimit + 5));
         }
         throttle(paginate, 1000);
       }
@@ -64,6 +65,7 @@ function TypePage() {
 
   return (
     <div className="mt-20">
+      {isPending && <ProgressIndicator />}
       <div className="container mx-auto w-[95%] rounded-2xl bg-white text-center shadow-md md:w-[80%] 2xl:w-[50%]">
         <div
           className="h-[3.5rem] rounded-t-2xl shadow-inner"

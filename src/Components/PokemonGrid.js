@@ -1,6 +1,7 @@
 import React from 'react';
 import ProgressIndicator from './ProgressIndicator';
 import usePokemonData from '../Hooks/usePokemonData';
+import { useLocation } from 'react-router-dom';
 
 const PokemonCard = React.lazy(() => import('./PokemonCard'));
 
@@ -8,6 +9,7 @@ function PokemonGrid({ search }) {
   const { allData } = usePokemonData();
   const [isPending, startTransition] = React.useTransition();
   const [toRender, setToRender] = React.useState([]);
+  const location = useLocation();
   const [limit, setLimit] = React.useState(20);
 
   React.useEffect(() => setLimit(40), [search]);
@@ -26,15 +28,21 @@ function PokemonGrid({ search }) {
     [limit, allData, search]
   );
 
-  window.onscroll = function () {
-    function paginate() {
-      setLimit((prevLimit) => prevLimit + 2);
-      console.log('called!');
-    }
-    if (window.innerHeight + window.pageYOffset >= document.body.offsetHeight) {
-      throttle(paginate, 1000);
-    }
-  };
+  React.useEffect(() => {
+    window.onscroll = function () {
+      if (
+        window.innerHeight + window.pageYOffset >=
+        document.body.offsetHeight
+      ) {
+        function paginate() {
+          startTransition(() => setLimit((prevLimit) => prevLimit + 5));
+        }
+        throttle(paginate, 1000);
+      }
+    };
+
+    return () => (window.onscroll = null);
+  }, [location]);
 
   function throttle(callbackFn, delay) {
     let wait = false;

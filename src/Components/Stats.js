@@ -19,11 +19,11 @@ function Stats({ currentPokemon, getDisplayName }) {
         <ul className="-mt-2 text-xl">
           <li className="h-25 py-2 sm:py-3">
             <div className="flex">
-              <div className="inline-flex w-[60%] font-semibold">Type</div>
-              <div className="inline-flex w-[40%]">
-                <div className="md:text-md mr-0 ml-auto text-lg">
+              <div className="inline-flex w-[50%] font-semibold">Type</div>
+              <div className="inline-flex w-[50%] justify-end">
+                <div className="inline-flex">
                   {types.map((type) => (
-                    <div className="flex justify-end pb-2">
+                    <div className="ml-2">
                       <Type type={type.type} key={`${type.slot}Stats`} />
                     </div>
                   ))}
