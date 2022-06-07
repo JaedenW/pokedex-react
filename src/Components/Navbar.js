@@ -5,6 +5,13 @@ import { Outlet, Link, useNavigate } from 'react-router-dom';
 function Navbar({ search, setSearch }) {
   const navigate = useNavigate();
 
+  function handleEnterKey(event) {
+    if (event.code === 'Enter') {
+      event.target.blur();
+      navigate('/');
+    }
+  }
+
   return (
     <div className="fixed top-0 z-30 h-[3.9rem] w-full">
       <nav className="relative flex h-full w-full flex-wrap items-center justify-between bg-[#0A285F] py-3.5 text-gray-600 shadow-md hover:text-gray-800 focus:text-gray-800">
@@ -28,9 +35,7 @@ function Navbar({ search, setSearch }) {
             placeholder="Search..."
             enterkeyhint="search"
             onChange={(event) => setSearch(event.target?.value)}
-            onKeyUp={(event) =>
-              event.code === 'Enter' && event.target.blur() && navigate('/')
-            }
+            onKeyUp={handleEnterKey}
             value={search}
           />
         </div>
