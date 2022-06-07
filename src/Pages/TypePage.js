@@ -1,8 +1,8 @@
 import React from 'react';
 import { useLocation, Outlet } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { typeColours } from '../Components/Data/typeColours';
-import getDisplayName from '../Components/Data/getDisplayName';
+import { typeColours } from '../Utils/typeColours';
+import { getDisplayName, throttle } from '../Utils/Functions';
 import Type from '../Components/Type';
 import usePokemonData from '../Hooks/usePokemonData';
 import PokemonCard from '../Components/PokemonCard';
@@ -51,17 +51,6 @@ function TypePage() {
 
     return () => (window.onscroll = null);
   }, [location]);
-
-  function throttle(callbackFn, delay) {
-    let wait = false;
-    if (!wait) {
-      callbackFn();
-      wait = true;
-      setTimeout(() => {
-        wait = false;
-      }, delay);
-    }
-  }
 
   return (
     <div className="mt-20">

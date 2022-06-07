@@ -1,7 +1,7 @@
 import React from 'react';
 import Type from './Type';
 import { Link } from 'react-router-dom';
-import getDisplayName from './Data/getDisplayName';
+import { getDisplayName } from '../Utils/Functions';
 import useThisPokemon from '../Hooks/useThisPokemon';
 
 const PokemonCard = ({ pokemon }) => {

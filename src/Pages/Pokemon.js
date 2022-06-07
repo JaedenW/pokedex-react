@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation, Outlet } from 'react-router-dom';
 import Stats from '../Components/Stats';
 import Evolutions from '../Components/Evolutions';
-import getDisplayName from '../Components/Data/getDisplayName';
+import { getDisplayName } from '../Utils/Functions';
 
 function Pokemon() {
   const location = useLocation();

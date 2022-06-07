@@ -2,6 +2,7 @@ import React from 'react';
 import ProgressIndicator from './ProgressIndicator';
 import usePokemonData from '../Hooks/usePokemonData';
 import { useLocation } from 'react-router-dom';
+import { throttle } from '../Utils/Functions';
 
 const PokemonCard = React.lazy(() => import('./PokemonCard'));
 
@@ -43,17 +44,6 @@ function PokemonGrid({ search }) {
 
     return () => (window.onscroll = null);
   }, [location]);
-
-  function throttle(callbackFn, delay) {
-    let wait = false;
-    if (!wait) {
-      callbackFn();
-      wait = true;
-      setTimeout(() => {
-        wait = false;
-      }, delay);
-    }
-  }
 
   return (
     <div className="container my-12 mx-auto w-full content-center">

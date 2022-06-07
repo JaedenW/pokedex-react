@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { typeColours } from './Data/typeColours';
-import getDisplayName from './Data/getDisplayName';
+import { typeColours } from '../Utils/typeColours';
+import { getDisplayName } from '../Utils/Functions';
 
 const Type = ({ type }) => {
   const { name } = type;
