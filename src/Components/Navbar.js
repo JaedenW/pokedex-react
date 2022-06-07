@@ -28,7 +28,9 @@ function Navbar({ search, setSearch }) {
             placeholder="Search..."
             enterkeyhint="search"
             onChange={(event) => setSearch(event.target?.value)}
-            onKeyUp={(event) => event.code === 'Enter' && navigate('/')}
+            onKeyUp={(event) =>
+              event.code === 'Enter' && event.target.blur() && navigate('/')
+            }
             value={search}
           />
         </div>
