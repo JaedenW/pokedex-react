@@ -1,23 +1,17 @@
 import React from 'react';
 
 import { PokedexContext } from '../PokedexContext';
-import useAllPokedex from '../Hooks/useAllRegions';
+import useAllRegions from '../Hooks/useAllRegions';
 import useThisRegion from '../Hooks/useThisRegion';
+import ScrollToTop from './ScrollToTop';
+import Region from './Region';
 
-function PokedexSelector({ toggleSidebar, setToggleSidebar }) {
-  const { currentRegion, setCurrentRegion, currentPokedex, setCurrentPokedex } =
+function RegionSelector({ toggleSidebar, setToggleSidebar }) {
+  const { currentRegion, setCurrentRegion, setCurrentPokedex } =
     React.useContext(PokedexContext);
+  const { data: allRegions } = useAllRegions();
 
-  const { data } = useAllPokedex();
-
-  !currentRegion && setCurrentRegion(data.results[0]);
-
-  React.useEffect(
-    () => setCurrentPokedex(selectedRegion.pokedexes[0]),
-    [currentRegion]
-  );
-
-  const { data: selectedRegion } = useThisRegion(currentRegion?.url);
+  !currentRegion && setCurrentRegion(allRegions?.results[0]);
 
   return (
     <>
@@ -65,52 +59,13 @@ function PokedexSelector({ toggleSidebar, setToggleSidebar }) {
         } -mt-6 overflow-y-scroll bg-[#FFCC00] pt-6 text-lg text-stone-700 shadow-2xl transition-[width] sm:relative sm:-mt-0 sm:w-[10rem] sm:shadow-none`}
       >
         <ul className="grid-col">
-          {data.results.map((region) => {
-            const regionName = region.name;
-            const isActive = regionName === currentRegion?.name;
-            return (
-              <li>
-                <button
-                  className={`${
-                    isActive ? 'active-tab' : ''
-                  } py-auto h-[4rem] w-full border-l-8 border-transparent px-4 text-right text-lg font-bold text-stone-700 hover:border-l-0 hover:border-r-8 hover:border-[#FB1B1B] hover:bg-white hover:bg-opacity-70 hover:shadow-inner md:text-xl`}
-                  onClick={() => setCurrentRegion(region)}
-                >
-                  {regionName.toUpperCase()}
-                </button>
-                {isActive && (
-                  <ul>
-                    {selectedRegion.pokedexes.map((pokedex) => {
-                      const pokedexName = pokedex.name;
-                      const isActive = pokedexName === currentPokedex?.name;
-                      return (
-                        <li className="h-[3.3rem]">
-                          <button
-                            className={`${
-                              isActive ? 'active-pokedex' : ''
-                            } py-auto h-full w-full border-r-8 border-transparent bg-white bg-opacity-50 px-4 text-right text-sm font-bold text-stone-700 hover:border-r-0 hover:border-l-8 hover:border-[#0A285F] hover:bg-white hover:bg-opacity-80 hover:shadow-inner`}
-                            onClick={() => setCurrentPokedex(pokedex)}
-                          >
-                            {pokedexName.includes('-')
-                              ? pokedexName
-                                  .split('-')
-                                  .filter((word) => word !== regionName && word)
-                                  .join(' ')
-                                  .toUpperCase()
-                              : 'ORIGINAL'}
-                          </button>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
-              </li>
-            );
-          })}
+          {allRegions.results.map((region) => (
+            <Region region={region} />
+          ))}
         </ul>
       </div>
     </>
   );
 }
 
-export default PokedexSelector;
+export default RegionSelector;

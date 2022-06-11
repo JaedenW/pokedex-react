@@ -5,13 +5,13 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom';
-import './index.css';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { PokedexContext } from './PokedexContext';
 import Navbar from './Components/Navbar';
 import RegionSelector from './Components/RegionSelector';
 import ScrollToTop from './Components/ScrollToTop';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import ProgressIndicator from './Components/ProgressIndicator';
+import './index.css';
 
 const Home = React.lazy(() => import('./Pages/Home'));
 const Pokemon = React.lazy(() => import('./Pages/Pokemon'));
@@ -46,7 +46,11 @@ function App() {
             <Navbar search={search} setSearch={setSearch} />
             <React.Suspense
               fallback={
-                <div className="fixed h-full w-[8rem] overflow-y-scroll bg-[#FFCC00] pt-6 text-lg text-stone-700 shadow-xl sm:relative sm:w-[10rem]" />
+                <div
+                  className={`fixed h-full ${
+                    toggleSidebar ? 'w-[8rem]' : 'w-[0rem]'
+                  } -mt-6 overflow-y-scroll bg-[#FFCC00] pt-6 text-lg text-stone-700 shadow-2xl transition-[width] sm:relative sm:-mt-0 sm:w-[10rem] sm:shadow-none`}
+                />
               }
             >
               <RegionSelector
