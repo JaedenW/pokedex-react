@@ -54,9 +54,9 @@ function TypePage() {
   }
 
   return (
-    <div className="mt-14">
+    <div className="mt-14 lg:-ml-[10rem]">
       <div
-        className="container z-20 mx-auto w-[90%] rounded-t-2xl bg-white text-center shadow-md md:w-[80%] 2xl:w-[60%]"
+        className="container z-20 mx-auto w-[90%] rounded-t-2xl bg-white text-center shadow-md lg:w-[60%] 2xl:w-[50%]"
         style={{ backgroundColor: typeColours[name] }}
       >
         <div className="h-[3.5rem] rounded-t-2xl shadow-inner" />
@@ -98,7 +98,7 @@ function TypePage() {
         </div>
       </div>
       <div
-        className="container z-20 mx-auto mb-12 w-full content-center rounded-2xl pb-5 sm:w-[90%] md:w-[80%] 2xl:w-[60%]"
+        className="container z-20 mx-auto mb-12 w-full content-center rounded-2xl pb-5 sm:w-[90%] lg:w-[60%] 2xl:w-[50%]"
         style={{ backgroundColor: typeColours[name] }}
       >
         <div className="mx-auto mb-6 w-full border bg-white px-8 py-8 text-center text-stone-700 shadow-sm">

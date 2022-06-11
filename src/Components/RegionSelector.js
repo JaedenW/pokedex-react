@@ -39,22 +39,27 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
             </svg>
           </span>
         </button>
-        <h3 className="my-auto p-2 font-bold sm:hidden">
-          {currentRegion.name.toUpperCase()} REGION -{' '}
-          {currentPokedex.name.includes('-')
-            ? currentPokedex.name
-                .split('-')
-                .filter((word) => word !== currentRegion.name && word)
-                .join(' ')
-                .toUpperCase()
-            : 'ORIGINAL'}{' '}
-          POKEDEX
-        </h3>
+        <div className="fixed flex h-[3rem] w-full">
+          <h3
+            className={`${
+              toggleSidebar ? 'ml-10' : 'mx-auto'
+            } my-auto whitespace-nowrap text-sm font-bold sm:hidden`}
+          >
+            {currentRegion.name.toUpperCase()} REGION -{' '}
+            {currentPokedex.name.includes('-')
+              ? currentPokedex.name
+                  .split('-')
+                  .filter((word) => word !== currentRegion.name && word)
+                  .join(' ')
+                  .toUpperCase()
+              : 'ORIGINAL'}
+          </h3>
+        </div>
       </div>
       <div
         className={`fixed h-screen ${
           toggleSidebar ? 'w-[10rem]' : 'w-[0rem]'
-        } z-40 mt-[4rem] overflow-y-scroll bg-[#FFCC00] pb-[50%] text-lg text-stone-700 transition-[width] sm:relative sm:z-10 sm:w-[10rem]`}
+        } z-40 mt-[4rem] overflow-y-scroll bg-[#FFCC00] pb-[50%] text-lg text-stone-700 transition-[width] sm:relative sm:w-[10rem] sm:shadow-md`}
       >
         <div className="grid-col">
           {allRegions.results.map((region) => (
