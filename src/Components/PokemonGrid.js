@@ -1,6 +1,6 @@
 import React from 'react';
 import ProgressIndicator from './ProgressIndicator';
-import { PokedexContext } from '../PokedexContext';
+import { PokedexContext } from '../Utils/PokedexContext';
 import useThisPokedex from '../Hooks/useThisPokedex';
 
 const PokemonCard = React.lazy(() => import('./PokemonCard'));

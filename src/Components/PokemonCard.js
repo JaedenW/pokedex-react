@@ -21,7 +21,7 @@ const PokemonCard = ({ pokemon }) => {
   return (
     id < 10000 && (
       <Link to={`/pokemon/${name}`} state={{ pokemonData }}>
-        <div className="m-2 w-[10rem] overflow-hidden rounded-lg bg-gray-50 shadow-md transition duration-100 sm:m-4 sm:w-[14rem] sm:hover:scale-105 sm:hover:shadow-lg">
+        <div className="m-2 w-[10rem] overflow-hidden rounded-lg bg-gray-50 shadow-md transition sm:m-4 sm:w-[14rem] sm:hover:scale-105 sm:hover:shadow-lg">
           <div className="container h-[7rem] sm:h-[8rem]">
             <img
               className="mx-auto my-5 block h-[90%]"

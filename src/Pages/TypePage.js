@@ -2,20 +2,18 @@ import React from 'react';
 import { useLocation, Outlet } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { typeColours } from '../Utils/typeColours';
-import { getDisplayName, throttle } from '../Utils/Functions';
+import { getDisplayName } from '../Utils/Functions';
 import Type from '../Components/Type';
 import useThisPokedex from '../Hooks/useThisPokedex';
 import PokemonCard from '../Components/PokemonCard';
-import ProgressIndicator from '../Components/ProgressIndicator';
-import { PokedexContext } from '../PokedexContext';
+import { PokedexContext } from '../Utils/PokedexContext';
 
 function TypePage() {
-  const { currentPokedex, currentRegion } = React.useContext(PokedexContext);
+  const { currentPokedex, currentRegion, setWillScroll } =
+    React.useContext(PokedexContext);
   const location = useLocation();
   const { name, url } = location.state.type;
   const { data: pokedexData } = useThisPokedex(currentPokedex?.url);
-  const [limit, setLimit] = React.useState(20);
-  const [isPending, startTransition] = React.useTransition();
   const { data, isSuccess } = useQuery(['type', url], () => fetchType(url));
   const pokedexSpecies = pokedexData?.pokemon_entries.map((entry) => {
     return {
@@ -24,46 +22,28 @@ function TypePage() {
     };
   });
 
+  React.useEffect(() => setWillScroll(true), [location]);
+
   async function fetchType(url) {
     const res = await fetch(url);
     return res.json();
   }
 
-  function renderTypePokemon(limit) {
+  function renderTypePokemon() {
     const pokemonList = [
       ...data.pokemon.map((pokemon) => pokemon.pokemon.name),
     ];
 
     return pokedexSpecies
       .filter((pokemon) => pokemonList.includes(pokemon.species.name))
-      .slice(0, limit)
       .map((pokemon) => (
-        <PokemonCard pokemon={pokemon} key={`${pokemon.name}Searched`} />
+        <PokemonCard pokemon={pokemon} key={`${pokemon.species.name}Type`} />
       ));
   }
 
-  React.useEffect(() => {
-    setLimit(15);
-
-    window.onscroll = function () {
-      if (
-        window.innerHeight + window.pageYOffset >=
-        document.body.offsetHeight
-      ) {
-        function paginate() {
-          startTransition(() => setLimit((prevLimit) => prevLimit + 5));
-        }
-        throttle(paginate, 1000);
-      }
-    };
-
-    return () => (window.onscroll = null);
-  }, [location]);
-
   return (
     <div className="mt-14">
-      {isPending && <ProgressIndicator />}
-      <div className="container mx-auto w-[95%] rounded-2xl bg-white text-center shadow-md md:w-[80%] 2xl:w-[50%]">
+      <div className="container z-20 mx-auto w-[90%] rounded-t-2xl bg-white text-center shadow-md md:w-[80%] 2xl:w-[50%]">
         <div
           className="h-[3.5rem] rounded-t-2xl shadow-inner"
           style={{ backgroundColor: typeColours[name] }}
@@ -72,10 +52,7 @@ function TypePage() {
           {getDisplayName(name)}
         </h1>
         <div>
-          <div
-            className="rounded-b-2xl"
-            style={{ backgroundColor: typeColours[name] }}
-          >
+          <div style={{ backgroundColor: typeColours[name] }}>
             <div className="container mx-auto w-full content-center py-10 shadow-inner lg:px-5 xl:px-10">
               <div className="mx-auto flex w-[90%] flex-wrap justify-evenly rounded-xl bg-gray-50 p-3 shadow-lg md:w-[85%]">
                 {isSuccess &&
@@ -102,17 +79,25 @@ function TypePage() {
                   })}
               </div>
             </div>
-            <div className="container mx-auto mb-12 w-full content-center rounded-b-2xl pb-5">
-              <h2 className="mx-auto mb-6 w-fit max-w-[85%] rounded-xl border bg-white px-8 py-3 text-3xl font-bold text-stone-700 shadow-md">
-                {`${getDisplayName(name)} Type Pokemon in ${getDisplayName(
-                  currentRegion.name
-                )}`}
-              </h2>
-              <div className="-mx-0.5 flex flex-wrap place-content-center sm:mx-2">
-                {isSuccess && renderTypePokemon(limit)}
-              </div>
-            </div>
           </div>
+        </div>
+      </div>
+      <div
+        className="container z-20 mx-auto mb-12 w-full content-center rounded-2xl pb-5 sm:w-[90%] md:w-[80%]"
+        style={{ backgroundColor: typeColours[name] }}
+      >
+        <div className="mx-auto mb-6 w-full border bg-white px-8 py-3 text-center text-stone-700 shadow-sm">
+          <h2 className="text-3xl font-bold">
+            {getDisplayName(name)} Type Pokemon
+          </h2>
+          <h3 className="text-md mt-1 font-semibold">
+            {`${getDisplayName(currentRegion.name)} Region - ${getDisplayName(
+              currentPokedex.name
+            )}`}
+          </h3>
+        </div>
+        <div className="-mx-1 flex flex-wrap place-content-center sm:mx-5">
+          {isSuccess && renderTypePokemon()}
         </div>
       </div>
       <Outlet />
