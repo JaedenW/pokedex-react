@@ -38,7 +38,7 @@ function Region({ region, setToggleSidebar }) {
                 <button
                   className={`${
                     isActive && 'active-pokedex'
-                  } py-auto h-full w-full border-r-8 border-transparent bg-white bg-opacity-50 pr-4 pl-14 text-right text-sm font-bold text-stone-700 hover:border-r-0 hover:border-l-8 hover:border-[#0A285F] hover:bg-white hover:bg-opacity-80 hover:shadow-inner`}
+                  } py-auto h-full w-full border-r-8 border-transparent bg-white bg-opacity-50 pr-2 pl-14 text-right text-sm font-bold text-stone-700 hover:border-r-0 hover:border-l-8 hover:border-[#0A285F] hover:bg-white hover:bg-opacity-80 hover:shadow-inner`}
                   onClick={() => {
                     setCurrentPokedex(pokedex);
                     setToggleSidebar(false);
