@@ -17,7 +17,9 @@ function App() {
   const topRef = React.useRef();
 
   React.useEffect(() => {
-    willScroll && (() => (topRef.current.scrollTop = 0))();
+    willScroll &&
+      topRef?.current?.scrollTop &&
+      (() => (topRef.current.scrollTop = 0))();
     setWillScroll(false);
   }, [willScroll]);
 
