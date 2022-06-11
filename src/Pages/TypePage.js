@@ -4,17 +4,25 @@ import { useQuery } from 'react-query';
 import { typeColours } from '../Utils/typeColours';
 import { getDisplayName, throttle } from '../Utils/Functions';
 import Type from '../Components/Type';
-import usePokemonData from '../Hooks/usePokemonData';
+import useThisPokedex from '../Hooks/useThisPokedex';
 import PokemonCard from '../Components/PokemonCard';
 import ProgressIndicator from '../Components/ProgressIndicator';
+import { PokedexContext } from '../PokedexContext';
 
 function TypePage() {
+  const { currentPokedex, currentRegion } = React.useContext(PokedexContext);
   const location = useLocation();
   const { name, url } = location.state.type;
-  const { allData } = usePokemonData(true);
+  const { data: pokedexData } = useThisPokedex(currentPokedex?.url);
   const [limit, setLimit] = React.useState(20);
   const [isPending, startTransition] = React.useTransition();
   const { data, isSuccess } = useQuery(['type', url], () => fetchType(url));
+  const pokedexSpecies = pokedexData?.pokemon_entries.map((entry) => {
+    return {
+      id: entry.entry_number,
+      species: entry.pokemon_species,
+    };
+  });
 
   async function fetchType(url) {
     const res = await fetch(url);
@@ -26,8 +34,8 @@ function TypePage() {
       ...data.pokemon.map((pokemon) => pokemon.pokemon.name),
     ];
 
-    return allData?.results
-      .filter((pokemon) => pokemonList.includes(pokemon.name))
+    return pokedexSpecies
+      .filter((pokemon) => pokemonList.includes(pokemon.species.name))
       .slice(0, limit)
       .map((pokemon) => (
         <PokemonCard pokemon={pokemon} key={`${pokemon.name}Searched`} />
@@ -96,7 +104,9 @@ function TypePage() {
             </div>
             <div className="container mx-auto mb-12 w-full content-center rounded-b-2xl pb-5">
               <h2 className="mx-auto mb-6 w-fit max-w-[85%] rounded-xl border bg-white px-8 py-3 text-3xl font-bold text-stone-700 shadow-md">
-                {getDisplayName(name)} Type Pokemon:
+                {`${getDisplayName(name)} Type Pokemon in ${getDisplayName(
+                  currentRegion.name
+                )}`}
               </h2>
               <div className="-mx-0.5 flex flex-wrap place-content-center sm:mx-2">
                 {isSuccess && renderTypePokemon(limit)}

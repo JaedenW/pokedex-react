@@ -18,8 +18,16 @@ const Pokemon = React.lazy(() => import('./Pages/Pokemon'));
 const TypePage = React.lazy(() => import('./Pages/TypePage'));
 
 function App() {
-  const [currentRegion, setCurrentRegion] = React.useState();
-  const [currentPokedex, setCurrentPokedex] = React.useState();
+  const [currentRegion, setCurrentRegion] = React.useState({
+    name: 'kanto',
+    url: 'https://pokeapi.co/api/v2/region/1/',
+  });
+
+  const [currentPokedex, setCurrentPokedex] = React.useState({
+    name: 'kanto',
+    url: 'https://pokeapi.co/api/v2/pokedex/2/',
+  });
+
   const [search, setSearch] = React.useState('');
   const [toggleSidebar, setToggleSidebar] = React.useState(false);
 
@@ -47,9 +55,7 @@ function App() {
             <React.Suspense
               fallback={
                 <div
-                  className={`fixed h-full ${
-                    toggleSidebar ? 'w-[8rem]' : 'w-[0rem]'
-                  } -mt-6 overflow-y-scroll bg-[#FFCC00] pt-6 text-lg text-stone-700 shadow-2xl transition-[width] sm:relative sm:-mt-0 sm:w-[10rem] sm:shadow-none`}
+                  className={`fixed -mt-6 h-full w-[8rem] bg-[#FFCC00] pt-6 shadow-2xl sm:relative sm:-mt-0 sm:w-[10rem] sm:shadow-none`}
                 />
               }
             >
