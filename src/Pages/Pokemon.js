@@ -12,7 +12,7 @@ function Pokemon() {
   window.onscroll = null;
 
   return (
-    <div className="mt-20 text-stone-700">
+    <div className="mt-14 text-stone-700">
       <div className="container mx-auto w-[90%] rounded-2xl bg-white text-center shadow-md md:w-[80%] 2xl:w-[50%]">
         <h2 className="rounded-t-2xl bg-[#FFCC00] p-2 text-center text-2xl font-bold text-[#D5A100] shadow-inner">
           #{('000' + id).slice(-3)} {/* Zerofilled ID */}

@@ -1,56 +1,41 @@
 import React from 'react';
 import ProgressIndicator from './ProgressIndicator';
-import usePokemonData from '../Hooks/usePokemonData';
-import { useLocation } from 'react-router-dom';
-import { throttle } from '../Utils/Functions';
+import { PokedexContext } from '../PokedexContext';
+import useThisPokedex from '../Hooks/useThisPokedex';
 
 const PokemonCard = React.lazy(() => import('./PokemonCard'));
 
 function PokemonGrid({ search }) {
-  const { allData } = usePokemonData();
   const [isPending, startTransition] = React.useTransition();
   const [toRender, setToRender] = React.useState([]);
-  const location = useLocation();
-  const [limit, setLimit] = React.useState(20);
+  const { currentPokedex } = React.useContext(PokedexContext);
+  const { data: pokedexData } = useThisPokedex(currentPokedex?.url);
 
-  React.useEffect(() => setLimit(40), [search]);
-
-  React.useEffect(
-    () =>
-      startTransition(() =>
-        setToRender(
-          allData?.results
-            .filter((pokemon) =>
-              pokemon.name.toLowerCase().includes(search.toLowerCase())
-            )
-            .slice(0, limit)
-        )
-      ),
-    [limit, allData, search]
-  );
+  const pokedexSpecies = pokedexData?.pokemon_entries.map((entry) => {
+    return {
+      id: entry.entry_number,
+      species: entry.pokemon_species,
+    };
+  });
 
   React.useEffect(() => {
-    window.onscroll = function () {
-      if (
-        window.innerHeight + window.pageYOffset >=
-        document.body.offsetHeight
-      ) {
-        function paginate() {
-          startTransition(() => setLimit((prevLimit) => prevLimit + 5));
-        }
-        throttle(paginate, 1000);
-      }
-    };
-
-    return () => (window.onscroll = null);
-  }, [location]);
+    startTransition(() => {
+      setToRender(
+        search.length > 0
+          ? pokedexSpecies.filter((pokemon) =>
+              pokemon.species.name?.includes(search.toLowerCase())
+            )
+          : pokedexSpecies
+      );
+    });
+  }, [search, pokedexData]);
 
   return (
-    <div className="container my-12 mx-auto w-full content-center">
+    <div className="container mx-auto mt-14 w-full content-center">
       {isPending && <ProgressIndicator />}
       <div className="-mx-1 flex flex-wrap place-content-center sm:mx-0 lg:-mx-7">
         {toRender?.map((pokemon) => (
-          <PokemonCard pokemon={pokemon} key={`${pokemon.name}Searched`} />
+          <PokemonCard pokemon={pokemon} key={pokemon.species.name} />
         ))}
       </div>
     </div>

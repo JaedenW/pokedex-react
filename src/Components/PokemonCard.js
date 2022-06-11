@@ -3,18 +3,25 @@ import Type from './Type';
 import { Link } from 'react-router-dom';
 import { getDisplayName } from '../Utils/Functions';
 import useThisPokemon from '../Hooks/useThisPokemon';
+import useThisSpecies from '../Hooks/useThisSpecies';
 
 const PokemonCard = ({ pokemon }) => {
-  const { name, url } = pokemon;
-  const { data } = useThisPokemon(url);
-  const displayName = getDisplayName(name);
+  const {
+    species: { name, displayName = getDisplayName(name), url },
+    id,
+  } = pokemon;
+  const { data: speciesData } = useThisSpecies(url);
+  const variety = speciesData.varieties.map(
+    (variety) => variety.is_default && variety.pokemon
+  )[0];
+  const { data } = useThisPokemon(variety.url);
   const pokemonData = { name, url, displayName, ...data };
-  const { sprites, types, id } = pokemonData;
+  const { sprites, types } = pokemonData;
 
   return (
     id < 10000 && (
       <Link to={`/pokemon/${name}`} state={{ pokemonData }}>
-        <div className="m-2 w-[10rem] overflow-hidden rounded-lg bg-gray-50 shadow-md transition duration-100 hover:scale-105 hover:shadow-lg sm:m-4 sm:w-[14rem]">
+        <div className="m-2 w-[10rem] overflow-hidden rounded-lg bg-gray-50 shadow-md transition duration-100 sm:m-4 sm:w-[14rem] sm:hover:scale-105 sm:hover:shadow-lg">
           <div className="container h-[7rem] sm:h-[8rem]">
             <img
               className="mx-auto my-5 block h-[90%]"

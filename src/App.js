@@ -6,7 +6,9 @@ import {
   Navigate,
 } from 'react-router-dom';
 import './index.css';
+import { PokedexContext } from './PokedexContext';
 import Navbar from './Components/Navbar';
+import RegionSelector from './Components/RegionSelector';
 import ScrollToTop from './Components/ScrollToTop';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import ProgressIndicator from './Components/ProgressIndicator';
@@ -16,7 +18,11 @@ const Pokemon = React.lazy(() => import('./Pages/Pokemon'));
 const TypePage = React.lazy(() => import('./Pages/TypePage'));
 
 function App() {
+  const [currentRegion, setCurrentRegion] = React.useState();
+  const [currentPokedex, setCurrentPokedex] = React.useState();
   const [search, setSearch] = React.useState('');
+  const [toggleSidebar, setToggleSidebar] = React.useState(false);
+
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -26,36 +32,64 @@ function App() {
   });
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <Navbar className="m-[20%]" search={search} setSearch={setSearch} />
-        <React.Suspense fallback={<ProgressIndicator />}>
-          <Routes>
-            <Route path="/" element={<Home search={search} />} />
-            <Route index element={<Home search={search} />} />
-            <Route
-              path="pokemon/:name"
-              element={
-                <div>
-                  <ScrollToTop />
-                  <Pokemon />
-                </div>
+    <PokedexContext.Provider
+      value={{
+        currentRegion,
+        setCurrentRegion,
+        currentPokedex,
+        setCurrentPokedex,
+      }}
+    >
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <div className="flex h-screen pt-16 sm:pt-10">
+            <Navbar search={search} setSearch={setSearch} />
+            <React.Suspense
+              fallback={
+                <div className="fixed h-full w-[8rem] overflow-y-scroll bg-[#FFCC00] pt-6 text-lg text-stone-700 shadow-xl sm:relative sm:w-[10rem]" />
               }
-            />
-            <Route
-              path="type/:typeName"
-              element={
-                <div>
-                  <ScrollToTop />
-                  <TypePage />
+            >
+              <RegionSelector
+                toggleSidebar={toggleSidebar}
+                setToggleSidebar={setToggleSidebar}
+              />
+            </React.Suspense>
+            <React.Suspense fallback={<ProgressIndicator />}>
+              <div className="flex flex-1 overflow-hidden">
+                <div className="flex-1 overflow-y-scroll">
+                  <Routes>
+                    <Route path="/" element={<Home search={search} />} />
+                    <Route index element={<Home search={search} />} />
+                    <Route
+                      path="pokemon/:name"
+                      element={
+                        <div>
+                          <ScrollToTop />
+                          <Pokemon />
+                        </div>
+                      }
+                    />
+                    <Route
+                      path="type/:typeName"
+                      element={
+                        <div>
+                          <ScrollToTop />
+                          <TypePage />
+                        </div>
+                      }
+                    />
+                    <Route
+                      path="/pokedex-react"
+                      element={<Navigate to="/" />}
+                    />
+                  </Routes>
                 </div>
-              }
-            />
-            <Route path="/pokedex-react" element={<Navigate to="/" />} />
-          </Routes>
-        </React.Suspense>
-      </Router>
-    </QueryClientProvider>
+              </div>
+            </React.Suspense>
+          </div>
+        </Router>
+      </QueryClientProvider>
+    </PokedexContext.Provider>
   );
 }
 

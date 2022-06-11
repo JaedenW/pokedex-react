@@ -53,7 +53,7 @@ function TypePage() {
   }, [location]);
 
   return (
-    <div className="mt-20">
+    <div className="mt-14">
       {isPending && <ProgressIndicator />}
       <div className="container mx-auto w-[95%] rounded-2xl bg-white text-center shadow-md md:w-[80%] 2xl:w-[50%]">
         <div

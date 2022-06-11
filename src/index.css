@@ -8,11 +8,22 @@
 
 body {
   background-color: #e9e7db;
-  margin-top: 6rem;
 }
 
-.pokefont {
-  font-family: 'VT323', monospace;
+::-webkit-scrollbar {
+  display: none;
+}
+
+.active-tab {
+  background-color: #e9e7db;
+  border-color: #fb1b1b !important;
+  pointer-events: none !important;
+}
+
+.active-pokedex {
+  background-color: #e9e7db;
+  border-color: #0a285f !important;
+  pointer-events: none !important;
 }
 
 .progress-line,

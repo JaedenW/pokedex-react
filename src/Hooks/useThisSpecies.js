@@ -5,6 +5,6 @@ async function fetchSpecies(url) {
   return res.json();
 }
 
-export default function useSpeciesData(url) {
-  return useQuery(['thisPokemon', url], () => fetchSpecies(url), {});
+export default function useThisSpecies(url) {
+  return useQuery(['thisPokemon', url], () => fetchSpecies(url));
 }

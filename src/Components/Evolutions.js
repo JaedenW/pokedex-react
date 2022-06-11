@@ -1,5 +1,5 @@
 import React from 'react';
-import useSpeciesData from '../Hooks/useSpeciesData';
+import useSpeciesData from '../Hooks/useThisSpecies';
 import EvolutionChain from './EvolutionChain';
 
 function Evolutions({ currentPokemon, getDisplayName }) {
