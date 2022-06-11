@@ -23,8 +23,6 @@ function TypePage() {
     };
   });
 
-  React.useEffect(() => setWillScroll(true), [location]);
-
   React.useEffect(
     () =>
       typePokemonRef.current.scrollIntoView({
@@ -32,6 +30,8 @@ function TypePage() {
       }),
     [currentPokedex]
   );
+
+  React.useEffect(() => setWillScroll(true), [location]);
 
   async function fetchType(url) {
     const res = await fetch(url);
@@ -108,7 +108,7 @@ function TypePage() {
             )} Pokedex`}
           </h3>
         </div>
-        <div className="-mx-1 flex flex-wrap place-content-center sm:mx-5">
+        <div className="flex flex-wrap place-content-center px-1 sm:px-5">
           {isSuccess && renderTypePokemon()}
         </div>
       </div>

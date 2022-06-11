@@ -8,19 +8,19 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
   const { data: allRegions } = useAllRegions();
 
   return (
-    <>
+    <div className="width-screen overfow-hidden">
       <div
-        className={`absolute top-[4em] flex ${
+        className={`fixed top-[4rem] flex ${
           toggleSidebar ? 'ml-[10rem] shadow-none' : 'ml-[0rem]'
         }
-     z-30 h-[3rem] w-screen bg-[#FFCC00] text-center shadow-md transition-[padding] ease-linear sm:hidden`}
+     z-30 h-[3rem] w-full bg-[#FFCC00] text-center shadow-md transition-[padding] sm:hidden`}
       >
         <button
           type="button"
           className="z-50 inline-flex h-full cursor-pointer"
           onClick={() => setToggleSidebar((prevState) => !prevState)}
         >
-          <span className="my-auto inline-flex h-10 w-10 items-center justify-center rounded-full active:bg-white active:opacity-50">
+          <span className="my-auto inline-flex h-10 w-10 items-center justify-center rounded-full duration-200 active:bg-white active:opacity-50">
             <svg
               className={`${
                 toggleSidebar ? '-scale-x-100' : 'scale-x-100'
@@ -52,9 +52,9 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
         </h3>
       </div>
       <div
-        className={`fixed h-full ${
+        className={`fixed h-screen ${
           toggleSidebar ? 'w-[10rem]' : 'w-[0rem]'
-        } z-40 mt-[4rem] h-full overflow-y-scroll bg-[#FFCC00] text-lg text-stone-700 transition-[width] ease-linear sm:relative sm:z-10 sm:w-[10rem]`}
+        } z-40 mt-[4rem] overflow-y-scroll bg-[#FFCC00] pb-[8rem] text-lg text-stone-700 transition-[width] sm:relative sm:z-10 sm:w-[10rem]`}
       >
         <div className="grid-col">
           {allRegions.results.map((region) => (
@@ -62,7 +62,7 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
