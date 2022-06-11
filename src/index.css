@@ -18,14 +18,13 @@ body {
   background-color: #e9e7db;
   border-color: #fb1b1b !important;
   pointer-events: none !important;
-  padding-right: 0.25rem;
 }
 
 .active-pokedex {
   background-color: #e9e7db;
   border-color: #0a285f !important;
   pointer-events: none !important;
-  padding-right: 0.25rem;
+  padding-right: 0.5rem;
 }
 
 .progress-line,
