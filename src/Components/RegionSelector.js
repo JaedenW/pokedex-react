@@ -24,7 +24,7 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
             <svg
               className={`${
                 toggleSidebar ? '-scale-x-100' : 'scale-x-100'
-              } h-7  transform-gpu transition-transform duration-200 ease-linear`}
+              } h-7 transition-transform duration-200 ease-linear`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -54,7 +54,7 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
       <div
         className={`fixed h-screen ${
           toggleSidebar ? 'w-[10rem]' : 'w-[0rem]'
-        } z-40 mt-[4rem] overflow-y-scroll bg-[#FFCC00] pb-[8rem] text-lg text-stone-700 transition-[width] sm:relative sm:z-10 sm:w-[10rem]`}
+        } z-40 mt-[4rem] overflow-y-scroll bg-[#FFCC00] pb-[50%] text-lg text-stone-700 transition-[width] sm:relative sm:z-10 sm:w-[10rem]`}
       >
         <div className="grid-col">
           {allRegions.results.map((region) => (
