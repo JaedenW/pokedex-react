@@ -13,7 +13,7 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
         className={`absolute top-[4em] flex ${
           toggleSidebar ? 'ml-[10rem] shadow-none' : 'ml-[0rem]'
         }
-     z-30 h-[3rem] w-screen bg-[#FFCC00] text-center shadow-md transition-[padding] sm:hidden`}
+     z-30 h-[3rem] w-screen bg-[#FFCC00] text-center shadow-md transition-[padding] ease-linear sm:hidden`}
       >
         <button
           type="button"
@@ -54,7 +54,7 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
       <div
         className={`fixed h-full ${
           toggleSidebar ? 'w-[10rem]' : 'w-[0rem]'
-        } z-40 mt-[4rem] h-full overflow-y-scroll bg-[#FFCC00] text-lg text-stone-700 transition-[width] sm:relative sm:z-10 sm:w-[10rem]`}
+        } z-40 mt-[4rem] h-full overflow-y-scroll bg-[#FFCC00] text-lg text-stone-700 transition-[width] ease-linear sm:relative sm:z-10 sm:w-[10rem]`}
       >
         <div className="grid-col">
           {allRegions.results.map((region) => (
