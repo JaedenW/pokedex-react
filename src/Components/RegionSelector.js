@@ -1,29 +1,30 @@
 import React from 'react';
+import { PokedexContext } from '../Utils/PokedexContext';
 import useAllRegions from '../Hooks/useAllRegions';
 import Region from './Region';
 
 function RegionSelector({ toggleSidebar, setToggleSidebar }) {
+  const { currentRegion, currentPokedex } = React.useContext(PokedexContext);
   const { data: allRegions } = useAllRegions();
 
   return (
     <>
       <div
-        className={`absolute top-[4rem] flex ${
-          toggleSidebar ? 'w-fit shadow-none' : 'w-fit'
-        } z-30 -ml-1
-     rounded-b-md bg-[#FFCC00] text-center shadow-md sm:hidden`}
+        className={`absolute top-[4em] flex ${
+          toggleSidebar ? 'ml-[10rem] shadow-none' : 'ml-[0rem]'
+        }
+     z-30 h-[3rem] w-screen bg-[#FFCC00] text-center shadow-md transition-[padding] sm:hidden`}
       >
-        <h3 className="my-auto inline-flex pl-4 pr-1 text-lg font-bold sm:hidden">
-          SELECT REGION
-        </h3>
         <button
           type="button"
           className="z-50 inline-flex h-full cursor-pointer"
           onClick={() => setToggleSidebar((prevState) => !prevState)}
         >
-          <span className="inline-flex h-10 w-10 items-center justify-center active:bg-white active:opacity-50">
+          <span className="my-auto inline-flex h-10 w-10 items-center justify-center rounded-full active:bg-white active:opacity-50">
             <svg
-              className="h-7"
+              className={`${
+                toggleSidebar ? '-scale-x-100' : 'scale-x-100'
+              } h-7  transform-gpu transition-transform duration-200 ease-linear`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -33,16 +34,27 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2.5"
-                d={!toggleSidebar ? 'M9 5l7 7-7 7' : 'M15 19l-7-7 7-7'}
+                d={'M9 5l7 7-7 7'}
               ></path>
             </svg>
           </span>
         </button>
+        <h3 className="my-auto p-2 font-bold sm:hidden">
+          {currentRegion.name.toUpperCase()} REGION -{' '}
+          {currentPokedex.name.includes('-')
+            ? currentPokedex.name
+                .split('-')
+                .filter((word) => word !== currentRegion.name && word)
+                .join(' ')
+                .toUpperCase()
+            : 'ORIGINAL'}{' '}
+          POKEDEX
+        </h3>
       </div>
       <div
         className={`fixed h-full ${
-          toggleSidebar ? 'w-[9rem]' : 'w-[0rem]'
-        } z-40 mt-[4rem] overflow-y-scroll bg-[#FFCC00] text-lg text-stone-700 transition-[width] sm:relative sm:z-10 sm:w-[10rem]`}
+          toggleSidebar ? 'w-[10rem]' : 'w-[0rem]'
+        } z-40 mt-[4rem] h-full overflow-y-scroll bg-[#FFCC00] text-lg text-stone-700 transition-[width] sm:relative sm:z-10 sm:w-[10rem]`}
       >
         <div className="grid-col">
           {allRegions.results.map((region) => (

@@ -15,9 +15,9 @@ function Navbar({ search, setSearch }) {
   }
 
   return (
-    <div className="fixed top-0 z-30 h-[3.9rem] w-full shadow-lg">
-      <nav className="relative flex h-full w-full flex-wrap items-center justify-between text-gray-600 hover:text-gray-800 focus:text-gray-800">
-        <div className="container-fluid z-40 flex w-full flex-wrap items-center bg-[#0A285F] px-3 py-3.5 shadow-xl">
+    <div className="fixed top-0 z-30 h-[4rem] w-full bg-[#0A285F] shadow-lg">
+      <nav className="flex h-full w-screen items-center text-gray-600 hover:text-gray-800 focus:text-gray-800">
+        <div className="container-fluid z-40 inline-flex h-full w-full items-center px-3 shadow-xl">
           <Link
             to="/"
             onClick={() => {
@@ -36,10 +36,12 @@ function Navbar({ search, setSearch }) {
               </h1>
             </div>
           </Link>
+        </div>
+        <div className="inline-flex w-full md:absolute md:flex">
           <input
             type="text"
             id="search-navbar"
-            className="absolute right-3 w-[50%] max-w-[50%] rounded-lg border border-black bg-[#DFDFDF] py-2 pl-4 font-sans placeholder-gray-500 shadow-sm hover:border-[#FB1B1B] sm:max-w-full md:left-0 md:mx-auto md:w-[40%] lg:right-0 xl:w-[30%]"
+            className="mr-2 w-full rounded-lg border border-black bg-[#DFDFDF] py-2 pl-4 font-sans placeholder-gray-500 shadow-sm hover:border-[#FB1B1B] md:mx-auto md:w-[40%] xl:w-[30%]"
             placeholder="Search..."
             enterKeyHint="search"
             onChange={(event) => setSearch(event.target?.value)}

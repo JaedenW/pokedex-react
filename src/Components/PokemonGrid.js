@@ -35,7 +35,7 @@ function PokemonGrid({ search }) {
   return (
     <div className="container mx-auto mt-14 w-full content-center">
       {isPending && <ProgressIndicator />}
-      <div className="-mx-1 flex flex-wrap place-content-center sm:mx-0">
+      <div className="-mx-1 flex flex-wrap place-content-center sm:mx-0 md:mx-5">
         {toRender?.map((pokemon) => (
           <PokemonCard pokemon={pokemon} key={pokemon.species.name} />
         ))}
