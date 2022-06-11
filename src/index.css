@@ -24,7 +24,6 @@ body {
   background-color: #e9e7db;
   border-color: #0a285f !important;
   pointer-events: none !important;
-  padding-right: 0.5rem;
 }
 
 .progress-line,
