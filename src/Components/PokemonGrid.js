@@ -8,7 +8,7 @@ const PokemonCard = React.lazy(() => import('./PokemonCard'));
 function PokemonGrid({ search }) {
   const [isPending, startTransition] = React.useTransition();
   const [toRender, setToRender] = React.useState([]);
-  const { currentPokedex } = React.useContext(PokedexContext);
+  const { currentPokedex, setWillScroll } = React.useContext(PokedexContext);
   const { data: pokedexData } = useThisPokedex(currentPokedex?.url);
 
   const pokedexSpecies = pokedexData?.pokemon_entries.map((entry) => {
@@ -28,6 +28,8 @@ function PokemonGrid({ search }) {
           : pokedexSpecies
       );
     });
+
+    setWillScroll(true);
   }, [search, pokedexData]);
 
   return (

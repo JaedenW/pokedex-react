@@ -13,12 +13,12 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
         } z-30 -ml-1
      rounded-b-md bg-[#FFCC00] text-center shadow-md sm:hidden`}
       >
-        <h3 className="my-auto inline-flex pl-5 pr-3 font-bold sm:hidden">
+        <h3 className="my-auto inline-flex pl-4 pr-1 text-lg font-bold sm:hidden">
           SELECT REGION
         </h3>
         <button
           type="button"
-          className="justify-right z-50 inline-flex h-full cursor-pointer"
+          className="z-50 inline-flex h-full cursor-pointer"
           onClick={() => setToggleSidebar((prevState) => !prevState)}
         >
           <span className="inline-flex h-10 w-10 items-center justify-center active:bg-white active:opacity-50">
@@ -32,7 +32,7 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth="2"
+                strokeWidth="2.5"
                 d={!toggleSidebar ? 'M9 5l7 7-7 7' : 'M15 19l-7-7 7-7'}
               ></path>
             </svg>
@@ -42,7 +42,7 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
       <div
         className={`fixed h-full ${
           toggleSidebar ? 'w-[9rem]' : 'w-[0rem]'
-        } z-40 mt-[4rem] h-screen overflow-y-scroll bg-[#FFCC00] text-lg text-stone-700 transition-[width] sm:relative sm:z-10 sm:w-[10rem]`}
+        } z-40 mt-[4rem] overflow-y-scroll bg-[#FFCC00] text-lg text-stone-700 transition-[width] sm:relative sm:z-10 sm:w-[10rem]`}
       >
         <div className="grid-col">
           {allRegions.results.map((region) => (
