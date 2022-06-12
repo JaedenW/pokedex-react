@@ -16,7 +16,7 @@ function TypePage({ reachedBottom, setReachedBottom }) {
   const { name, url } = location.state.type;
   const { data } = useQuery(['type', url], () => fetchType(url));
 
-  const tyePokemonFilter = [
+  const typePokemonFilter = [
     ...data.pokemon.map((pokemon) => pokemon.pokemon.name),
   ];
 
@@ -94,7 +94,7 @@ function TypePage({ reachedBottom, setReachedBottom }) {
         </div>
         <div ref={gridRef}>
           <PokemonGrid
-            typeFilter={tyePokemonFilter}
+            filterArray={typePokemonFilter}
             reachedBottom={reachedBottom}
             setReachedBottom={setReachedBottom}
           />
