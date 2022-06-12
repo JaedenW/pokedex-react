@@ -8,13 +8,13 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
   const { data: allRegions } = useAllRegions();
 
   return (
-    <div className="container pointer-events-none fixed top-0 z-30 flex h-screen flex-row  pt-[4rem] text-stone-800">
+    <div className="container pointer-events-none fixed top-0 z-30 flex h-screen flex-row pt-[4rem] text-stone-800 sm:relative sm:w-[10rem]">
       <div
-        className={`z-40 flex h-full flex-col justify-end shadow-lg ${
+        className={`z-40 flex h-full flex-col shadow-lg ${
           toggleSidebar ? 'w-[10rem]' : 'w-[0rem]'
-        }  pointer-events-auto bg-[#FFCC00] text-lg transition-[width] sm:relative sm:w-[10rem]`}
+        }  pointer-events-auto bg-[#FFCC00] text-lg transition-[width] sm:w-[10rem]`}
       >
-        <div className="overflow-y-scroll pb-[10rem]">
+        <div className="justify-end overflow-y-scroll pb-[10rem]">
           {allRegions.results.map((region) => (
             <Region region={region} setToggleSidebar={setToggleSidebar} />
           ))}
