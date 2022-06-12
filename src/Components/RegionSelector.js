@@ -8,64 +8,67 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
   const { data: allRegions } = useAllRegions();
 
   return (
-    <div className="width-screen overfow-hidden">
+    <div className="container pointer-events-none fixed top-0 z-30 flex h-screen flex-row  pt-[4rem] text-stone-800">
       <div
-        className={`fixed top-[4rem] flex ${
-          toggleSidebar ? 'ml-[10rem] shadow-none' : 'ml-[0rem]'
-        }
-     z-30 h-[3rem] w-full bg-[#FFCC00] text-center shadow-md transition-[padding] sm:hidden`}
-      >
-        <button
-          type="button"
-          className="z-50 inline-flex h-full cursor-pointer"
-          onClick={() => setToggleSidebar((prevState) => !prevState)}
-        >
-          <span className="my-auto inline-flex h-10 w-10 items-center justify-center rounded-full duration-200 active:bg-white active:opacity-50">
-            <svg
-              className={`${
-                toggleSidebar ? '-scale-x-100' : 'scale-x-100'
-              } h-7 transition-transform duration-200 ease-linear`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2.5"
-                d={'M9 5l7 7-7 7'}
-              ></path>
-            </svg>
-          </span>
-        </button>
-        <div className="fixed flex h-[3rem] w-full">
-          <h3
-            className={`${
-              toggleSidebar ? 'ml-10' : 'mx-auto'
-            } my-auto whitespace-nowrap text-sm font-bold sm:hidden`}
-          >
-            {currentRegion.name.toUpperCase()} REGION -{' '}
-            {currentPokedex.name.includes('-')
-              ? currentPokedex.name
-                  .split('-')
-                  .filter((word) => word !== currentRegion.name && word)
-                  .join(' ')
-                  .toUpperCase()
-              : 'ORIGINAL'}
-          </h3>
-        </div>
-      </div>
-      <div
-        className={`fixed h-screen ${
+        className={`z-40 flex h-full flex-col justify-end shadow-lg ${
           toggleSidebar ? 'w-[10rem]' : 'w-[0rem]'
-        } z-40 mt-[4rem] overflow-y-scroll bg-[#FFCC00] pb-[50%] text-lg text-stone-700 transition-[width] sm:relative sm:w-[10rem] sm:shadow-md`}
+        }  pointer-events-auto bg-[#FFCC00] text-lg transition-[width] sm:relative sm:w-[10rem]`}
       >
-        <div className="grid-col">
+        <div className="overflow-y-scroll pb-[10rem]">
           {allRegions.results.map((region) => (
             <Region region={region} setToggleSidebar={setToggleSidebar} />
           ))}
         </div>
+      </div>
+      <div className="inline-flex flex-grow flex-col">
+        <div className="pointer-events-auto inline-flex h-[3rem] bg-[#FFCC00] text-center shadow-lg transition-[padding] sm:hidden">
+          <button
+            type="button"
+            className="z-50 inline-flex h-full"
+            onClick={() => setToggleSidebar((prevState) => !prevState)}
+          >
+            <span className="my-auto inline-flex h-10 w-10 items-center justify-center rounded-full duration-200 sm:hover:bg-white sm:hover:opacity-50">
+              <svg
+                className={`${
+                  toggleSidebar ? '-scale-x-100' : 'scale-x-100'
+                } h-7 transition-transform duration-200 ease-linear`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2.5"
+                  d={'M9 5l7 7-7 7'}
+                ></path>
+              </svg>
+            </span>
+          </button>
+          <div className="fixed flex h-[3rem] w-full pt-0.5">
+            <h3
+              className={`${
+                toggleSidebar ? 'ml-10' : 'mx-auto'
+              } my-auto whitespace-nowrap text-sm font-bold sm:hidden`}
+            >
+              {currentRegion.name.toUpperCase()} REGION -{' '}
+              {currentPokedex.name.includes('-')
+                ? currentPokedex.name
+                    .split('-')
+                    .filter((word) => word !== currentRegion.name && word)
+                    .join(' ')
+                    .toUpperCase()
+                : 'ORIGINAL'}
+            </h3>
+          </div>
+        </div>
+        <div
+          className={`flex ${
+            toggleSidebar ? 'flex-grow' : 'h-0 w-0'
+          } pointer-events-auto z-20`}
+          onClick={(event) => setToggleSidebar(false)}
+        />
       </div>
     </div>
   );

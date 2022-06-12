@@ -98,7 +98,7 @@ function TypePage() {
         </div>
       </div>
       <div
-        className="container z-20 mx-auto mb-12 w-full content-center rounded-2xl pb-5 sm:w-[90%] lg:w-[60%] 2xl:w-[50%]"
+        className="container z-20 mx-auto w-full content-center pb-10 sm:w-[90%] lg:w-[60%] 2xl:w-[50%]"
         style={{ backgroundColor: typeColours[name] }}
       >
         <div className="mx-auto mb-6 w-full border bg-white px-8 py-8 text-center text-stone-700 shadow-sm">

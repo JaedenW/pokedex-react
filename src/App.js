@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { PokedexContext } from './Utils/PokedexContext';
 import Navbar from './Components/Navbar';
 import RegionSelector from './Components/RegionSelector';
@@ -13,6 +13,7 @@ const TypePage = React.lazy(() => import('./Pages/TypePage'));
 function App() {
   const [search, setSearch] = React.useState('');
   const [toggleSidebar, setToggleSidebar] = React.useState(false);
+  const { pathname } = useLocation();
   const { willScroll, setWillScroll } = React.useContext(PokedexContext);
   const topRef = React.useRef();
 
@@ -22,6 +23,10 @@ function App() {
       (() => (topRef.current.scrollTop = 0))();
     setWillScroll(false);
   }, [willScroll]);
+
+  React.useEffect(() => {
+    setToggleSidebar(false);
+  }, [pathname]);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -42,7 +47,7 @@ function App() {
         <div className="flex flex-1">
           <div
             ref={topRef}
-            className="flex-1 overflow-y-scroll scroll-auto pt-20 sm:pt-10"
+            className="flex-1 overflow-y-scroll scroll-auto py-20 sm:pt-10"
           >
             <Routes>
               <Route path="/" element={<Home search={search} />} />

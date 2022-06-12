@@ -20,7 +20,7 @@ function Region({ region, setToggleSidebar }) {
       <button
         className={`${
           isActive && 'active-tab'
-        } h-[4rem] w-full border-l-8 border-transparent px-4 text-right text-lg font-bold text-stone-700 hover:border-l-0 hover:border-r-8 hover:border-[#FB1B1B] hover:bg-white hover:bg-opacity-70 hover:shadow-inner md:text-xl`}
+        } h-[4.1rem] w-full border-l-8 border-transparent px-4 text-right text-lg font-bold text-stone-700 hover:border-l-0 hover:border-r-8 hover:border-[#FB1B1B] hover:bg-white hover:bg-opacity-70 hover:shadow-inner md:text-xl`}
         onClick={() => {
           setCurrentRegion(region);
           setCurrentPokedex(regionData.pokedexes[0]);
