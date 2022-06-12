@@ -47,7 +47,7 @@ function App() {
         <div className="flex flex-1">
           <div
             ref={topRef}
-            className="flex-1 overflow-y-scroll scroll-auto py-20 sm:pt-10"
+            className="flex-1 overflow-y-scroll scroll-auto py-20 sm:pt-10 sm:pl-[10rem]"
           >
             <Routes>
               <Route path="/" element={<Home search={search} />} />

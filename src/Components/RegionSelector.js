@@ -8,7 +8,7 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
   const { data: allRegions } = useAllRegions();
 
   return (
-    <div className="container pointer-events-none fixed top-0 z-30 flex h-screen flex-row pt-[4rem] text-stone-800 sm:relative sm:w-[10rem]">
+    <div className="container pointer-events-none fixed top-0 z-30 flex h-screen flex-row pt-[4rem] text-stone-800 sm:w-[10rem]">
       <div
         className={`z-40 flex h-full flex-col shadow-lg ${
           toggleSidebar ? 'w-[10rem]' : 'w-[0rem]'
@@ -50,7 +50,7 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
             <h3
               className={`${
                 toggleSidebar ? 'ml-10' : 'mx-auto'
-              } my-auto whitespace-nowrap text-sm font-bold sm:hidden`}
+              } my-auto whitespace-nowrap text-sm font-bold`}
             >
               {currentRegion.name.toUpperCase()} REGION -{' '}
               {currentPokedex.name.includes('-')

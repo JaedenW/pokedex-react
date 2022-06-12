@@ -17,8 +17,9 @@ function Navbar({ search, setSearch }) {
   return (
     <div className="fixed top-0 z-30 h-[4rem] w-full bg-[#0A285F] shadow-lg">
       <nav className="flex h-full w-screen items-center text-gray-600 hover:text-gray-800 focus:text-gray-800">
-        <div className="container-fluid z-40 inline-flex h-full w-full items-center px-3 shadow-xl">
+        <div className="container-fluid inline-flex h-full w-full items-center px-3 shadow-xl">
           <Link
+            className="z-50 flex h-full items-center"
             to="/"
             onClick={() => {
               setSearch('');
@@ -37,11 +38,11 @@ function Navbar({ search, setSearch }) {
             </div>
           </Link>
         </div>
-        <div className="z-50 inline-flex w-full md:absolute md:flex">
+        <div className="inline-flex w-full md:absolute md:flex">
           <input
             type="text"
             id="search-navbar"
-            className="mr-2 w-full rounded-lg border border-black bg-[#DFDFDF] py-2 pl-4 font-sans placeholder-gray-500 shadow-sm hover:border-[#FB1B1B] md:mx-auto md:w-[40%] xl:w-[30%]"
+            className="z-50 mr-2 w-full rounded-lg border border-black bg-[#DFDFDF] py-2 pl-4 font-sans placeholder-gray-500 shadow-sm hover:border-[#FB1B1B] md:mx-auto md:w-[40%] xl:w-[30%]"
             placeholder="Search..."
             enterKeyHint="search"
             onChange={(event) => setSearch(event.target?.value)}
