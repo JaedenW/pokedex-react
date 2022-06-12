@@ -1,12 +1,7 @@
 import React from 'react';
-import PokemonGrid from '../Components/PokemonGrid';
 
-function Home({ search }) {
-  return (
-    <div>
-      <PokemonGrid search={search} />
-    </div>
-  );
+function Home({ children }) {
+  return <>{children}</>;
 }
 
 export default Home;

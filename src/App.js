@@ -1,14 +1,15 @@
 import React from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { PokedexContext } from './Utils/PokedexContext';
 import Navbar from './Components/Navbar';
-import RegionSelector from './Components/RegionSelector';
 import ProgressIndicator from './Components/ProgressIndicator';
 import './index.css';
 
+const RegionSelector = React.lazy(() => import('./Components/RegionSelector'));
 const Home = React.lazy(() => import('./Pages/Home'));
 const Pokemon = React.lazy(() => import('./Pages/Pokemon'));
 const TypePage = React.lazy(() => import('./Pages/TypePage'));
+const PokemonGrid = React.lazy(() => import('./Components/PokemonGrid'));
 
 function App() {
   const [search, setSearch] = React.useState('');
@@ -29,7 +30,7 @@ function App() {
   }, [pathname]);
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen w-screen overflow-hidden">
       <Navbar search={search} setSearch={setSearch} />
       <React.Suspense
         fallback={
@@ -47,14 +48,27 @@ function App() {
         <div className="flex flex-1">
           <div
             ref={topRef}
-            className="flex-1 overflow-y-scroll scroll-auto py-20 sm:pt-10 sm:pl-[10rem]"
+            className="flex-1 overflow-y-scroll scroll-auto py-20 sm:py-10 sm:pl-[10rem]"
           >
             <Routes>
-              <Route path="/" element={<Home search={search} />} />
-              <Route index element={<Home search={search} />} />
+              <Route
+                path="/"
+                element={
+                  <Home>
+                    <PokemonGrid search={search} />
+                  </Home>
+                }
+              />
+              <Route
+                index
+                element={
+                  <Home>
+                    <PokemonGrid search={search} />
+                  </Home>
+                }
+              />
               <Route path="pokemon/:name" element={<Pokemon />} />
               <Route path="type/:typeName" element={<TypePage />} />
-              <Route path="/pokedex-react" element={<Navigate to="/" />} />
             </Routes>
           </div>
         </div>

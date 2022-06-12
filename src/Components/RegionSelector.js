@@ -27,7 +27,7 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
             className="z-50 inline-flex h-full"
             onClick={() => setToggleSidebar((prevState) => !prevState)}
           >
-            <span className="my-auto inline-flex h-10 w-10 items-center justify-center rounded-full duration-200 sm:hover:bg-white sm:hover:opacity-50">
+            <span className="my-auto inline-flex h-10 w-10 items-center justify-center rounded-full sm:hover:bg-white sm:hover:opacity-50">
               <svg
                 className={`${
                   toggleSidebar ? '-scale-x-100' : 'scale-x-100'
@@ -42,7 +42,7 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
                   strokeLinejoin="round"
                   strokeWidth="2.5"
                   d={'M9 5l7 7-7 7'}
-                ></path>
+                />
               </svg>
             </span>
           </button>

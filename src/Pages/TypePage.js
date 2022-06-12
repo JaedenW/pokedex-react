@@ -1,12 +1,12 @@
 import React from 'react';
 import { useLocation, Outlet } from 'react-router-dom';
 import { useQuery } from 'react-query';
+import { PokedexContext } from '../Utils/PokedexContext';
 import { typeColours } from '../Utils/typeColours';
 import { getDisplayName } from '../Utils/Functions';
-import Type from '../Components/Type';
 import useThisPokedex from '../Hooks/useThisPokedex';
-import PokemonCard from '../Components/PokemonCard';
-import { PokedexContext } from '../Utils/PokedexContext';
+import PokemonGrid from '../Components/PokemonGrid';
+import Type from '../Components/Type';
 
 function TypePage() {
   const { currentPokedex, currentRegion, setWillScroll } =
@@ -16,13 +16,11 @@ function TypePage() {
   const location = useLocation();
   const { name, url } = location.state.type;
   const { data: pokedexData } = useThisPokedex(currentPokedex?.url);
-  const { data, isSuccess } = useQuery(['type', url], () => fetchType(url));
-  const pokedexSpecies = pokedexData?.pokemon_entries.map((entry) => {
-    return {
-      id: entry.entry_number,
-      species: entry.pokemon_species,
-    };
-  });
+  const { data } = useQuery(['type', url], () => fetchType(url));
+
+  const tyePokemonFilter = [
+    ...data.pokemon.map((pokemon) => pokemon.pokemon.name),
+  ];
 
   React.useEffect(() => setWillScroll(true), [location]);
 
@@ -41,18 +39,6 @@ function TypePage() {
     return res.json();
   }
 
-  function renderTypePokemon() {
-    const pokemonList = [
-      ...data.pokemon.map((pokemon) => pokemon.pokemon.name),
-    ];
-
-    return pokedexSpecies
-      .filter((pokemon) => pokemonList.includes(pokemon.species.name))
-      .map((pokemon) => (
-        <PokemonCard pokemon={pokemon} key={`${pokemon.species.name}Type`} />
-      ));
-  }
-
   return (
     <div className="mt-14 lg:-ml-[10rem]">
       <div
@@ -67,31 +53,30 @@ function TypePage() {
           <div>
             <div className="container mx-auto w-full content-center py-10 shadow-inner lg:px-5">
               <div className="mx-auto flex w-[90%] flex-wrap justify-evenly rounded-xl bg-gray-50 p-3 shadow-lg md:w-[85%]">
-                {isSuccess &&
-                  Object.entries(data.damage_relations).map((relation) => {
-                    const [relationName, relationData] = relation;
-                    return (
-                      relationData.length > 0 && (
-                        <div className="flex-grid m-2 mb-1 w-full min-w-[15rem] rounded-xl bg-[#DFDFDF] p-2 text-lg font-bold shadow-inner md:w-fit md:p-3 xl:min-w-[15rem]">
-                          <h2 className="text-stone-700">
-                            {getDisplayName(relationName, '_')}
-                          </h2>
-                          <div
-                            ref={typePokemonRef}
-                            className="flex flex-wrap justify-center"
-                          >
-                            {relationData.map((entry) => {
-                              return (
-                                <div className="m-1 sm:m-2">
-                                  <Type type={entry} />
-                                </div>
-                              );
-                            })}
-                          </div>
+                {Object.entries(data.damage_relations).map((relation) => {
+                  const [relationName, relationData] = relation;
+                  return (
+                    relationData.length > 0 && (
+                      <div className="flex-grid m-2 mb-1 w-full min-w-[15rem] rounded-xl bg-[#DFDFDF] p-2 text-lg font-bold shadow-inner md:w-fit md:p-3 xl:min-w-[15rem]">
+                        <h2 className="text-stone-700">
+                          {getDisplayName(relationName, '_')}
+                        </h2>
+                        <div
+                          ref={typePokemonRef}
+                          className="flex flex-wrap justify-center"
+                        >
+                          {relationData.map((entry) => {
+                            return (
+                              <div className="m-1 sm:m-2">
+                                <Type type={entry} />
+                              </div>
+                            );
+                          })}
                         </div>
-                      )
-                    );
-                  })}
+                      </div>
+                    )
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -111,9 +96,7 @@ function TypePage() {
             )} Pokedex`}
           </h3>
         </div>
-        <div className="flex flex-wrap place-content-center px-1 sm:px-5">
-          {isSuccess && renderTypePokemon()}
-        </div>
+        <PokemonGrid typeFilter={tyePokemonFilter} />
       </div>
       <Outlet />
     </div>
