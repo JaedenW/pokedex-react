@@ -2,15 +2,12 @@ import React from 'react';
 import Pokeball from '../Images/pokeball.png';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 
-function Navbar({ search, setSearch, scrollRef }) {
+function Navbar({ search, setSearch, scrollTop }) {
   const navigate = useNavigate();
 
   function handleClick() {
     setSearch('');
-    setTimeout(
-      () => scrollRef.current && (() => (scrollRef.current.scrollTop = 0))(),
-      500
-    );
+    scrollTop();
   }
 
   function handleEnterKey(event) {

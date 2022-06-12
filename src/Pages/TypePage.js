@@ -26,7 +26,7 @@ function TypePage({ reachedBottom, setReachedBottom }) {
           typePokemonRef.current.scrollIntoView({
             behavior: 'smooth',
           });
-        }, 1000)
+        }, 500)
       : setTimeout(() => (mountRef.current = true), 500);
   }, [currentPokedex]);
 

@@ -25,17 +25,21 @@ function App() {
     }
   }
 
-  React.useEffect(() => {
+  function scrollTop() {
     setTimeout(
       () => scrollRef.current && (() => (scrollRef.current.scrollTop = 0))(),
       500
     );
+  }
+
+  React.useEffect(() => {
+    scrollTop();
     setToggleSidebar(false);
   }, [pathname]);
 
   return (
     <div className="flex h-screen w-screen overflow-hidden">
-      <Navbar search={search} setSearch={setSearch} scrollRef={scrollRef} />
+      <Navbar search={search} setSearch={setSearch} scrollTop={scrollTop} />
       <React.Suspense
         fallback={
           <div
@@ -46,6 +50,7 @@ function App() {
         <RegionSelector
           toggleSidebar={toggleSidebar}
           setToggleSidebar={setToggleSidebar}
+          scrollTop={scrollTop}
         />
       </React.Suspense>
       <React.Suspense fallback={<ProgressIndicator />}>
