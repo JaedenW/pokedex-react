@@ -39,7 +39,6 @@ function PokemonGrid({ search, filterArray, reachedBottom, setReachedBottom }) {
   }, [search, currentPokedex]);
 
   React.useEffect(() => {
-    console.log(limit);
     startTransition(
       () =>
         reachedBottom &&
