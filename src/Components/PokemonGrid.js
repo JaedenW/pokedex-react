@@ -6,7 +6,7 @@ import useThisPokedex from '../Hooks/useThisPokedex';
 import PokemonCard from './PokemonCard';
 
 function PokemonGrid({ search, filterArray, reachedBottom, setReachedBottom }) {
-  const [limit, setLimit] = React.useState(20);
+  const [limit, setLimit] = React.useState(15);
   const { currentPokedex } = React.useContext(PokedexContext);
   const [isPending, startTransition] = React.useTransition();
   const [toRender, setToRender] = React.useState([]);
@@ -21,7 +21,7 @@ function PokemonGrid({ search, filterArray, reachedBottom, setReachedBottom }) {
 
   React.useEffect(() => {
     startTransition(() => {
-      setLimit(20);
+      setLimit(15);
       setToRender(() => {
         if (search?.length > 0) {
           return pokedexSpecies.filter((pokemon) =>
@@ -36,14 +36,15 @@ function PokemonGrid({ search, filterArray, reachedBottom, setReachedBottom }) {
         }
       });
     });
-  }, [search, pokedexData, filterArray]);
+  }, [search, currentPokedex]);
 
   React.useEffect(() => {
+    console.log(limit);
     startTransition(
       () =>
         reachedBottom &&
         limit < toRender.length &&
-        setLimit((prevLimit) => prevLimit + 20)
+        setLimit((prevLimit) => prevLimit + 15)
     );
 
     setReachedBottom(false);
