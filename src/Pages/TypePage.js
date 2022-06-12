@@ -92,12 +92,13 @@ function TypePage({ reachedBottom, setReachedBottom }) {
             )} Pokedex`}
           </h3>
         </div>
-        <PokemonGrid
-          ref={gridRef}
-          typeFilter={tyePokemonFilter}
-          reachedBottom={reachedBottom}
-          setReachedBottom={setReachedBottom}
-        />
+        <div ref={gridRef}>
+          <PokemonGrid
+            typeFilter={tyePokemonFilter}
+            reachedBottom={reachedBottom}
+            setReachedBottom={setReachedBottom}
+          />
+        </div>
       </div>
       <Outlet />
     </div>

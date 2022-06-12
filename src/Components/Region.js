@@ -2,10 +2,9 @@ import React from 'react';
 import { PokedexContext } from '../Utils/PokedexContext';
 import useThisRegion from '../Hooks/useThisRegion';
 
-function Region({ region, setToggleSidebar, scrollTop }) {
+function Region({ region, setToggleSidebar }) {
   const { currentRegion, setCurrentRegion, currentPokedex, setCurrentPokedex } =
     React.useContext(PokedexContext);
-
   const [isActive, setIsActive] = React.useState(false);
   const { data: regionData } = useThisRegion(region.url);
   const { name: regionName } = region;
@@ -25,7 +24,6 @@ function Region({ region, setToggleSidebar, scrollTop }) {
           setCurrentRegion(region);
           setCurrentPokedex(regionData.pokedexes[0]);
           setToggleSidebar(false);
-          scrollTop();
         }}
       >
         {regionName.toUpperCase()}
@@ -44,7 +42,6 @@ function Region({ region, setToggleSidebar, scrollTop }) {
                   onClick={() => {
                     setCurrentPokedex(pokedex);
                     setToggleSidebar(false);
-                    scrollTop();
                   }}
                 >
                   {pokedexName.includes('-')

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { PokedexContext } from './Utils/PokedexContext';
 import Navbar from './Components/Navbar';
 import ProgressIndicator from './Components/ProgressIndicator';
 import './index.css';
@@ -50,7 +49,6 @@ function App() {
         <RegionSelector
           toggleSidebar={toggleSidebar}
           setToggleSidebar={setToggleSidebar}
-          scrollTop={scrollTop}
         />
       </React.Suspense>
       <React.Suspense fallback={<ProgressIndicator />}>
@@ -64,7 +62,7 @@ function App() {
               <Route
                 path="/"
                 element={
-                  <Home>
+                  <Home scrollTop={scrollTop}>
                     <PokemonGrid
                       search={search}
                       reachedBottom={reachedBottom}
@@ -76,7 +74,7 @@ function App() {
               <Route
                 index
                 element={
-                  <Home>
+                  <Home scrollTop={scrollTop}>
                     <PokemonGrid
                       search={search}
                       reachedBottom={reachedBottom}

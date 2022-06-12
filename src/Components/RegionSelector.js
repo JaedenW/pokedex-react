@@ -3,7 +3,7 @@ import { PokedexContext } from '../Utils/PokedexContext';
 import useAllRegions from '../Hooks/useAllRegions';
 import Region from './Region';
 
-function RegionSelector({ toggleSidebar, setToggleSidebar, scrollTop }) {
+function RegionSelector({ toggleSidebar, setToggleSidebar }) {
   const { currentRegion, currentPokedex } = React.useContext(PokedexContext);
   const { data: allRegions } = useAllRegions();
 
@@ -16,11 +16,7 @@ function RegionSelector({ toggleSidebar, setToggleSidebar, scrollTop }) {
       >
         <div className="justify-end overflow-y-scroll pb-[10rem]">
           {allRegions.results.map((region) => (
-            <Region
-              region={region}
-              setToggleSidebar={setToggleSidebar}
-              scrollTop={scrollTop}
-            />
+            <Region region={region} setToggleSidebar={setToggleSidebar} />
           ))}
         </div>
       </div>
