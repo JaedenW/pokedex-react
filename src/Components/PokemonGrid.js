@@ -5,8 +5,9 @@ import { PokedexContext } from '../Utils/PokedexContext';
 import useThisPokedex from '../Hooks/useThisPokedex';
 import PokemonCard from './PokemonCard';
 
-function PokemonGrid({ search, filterArray }) {
-  const { currentPokedex, setWillScroll } = React.useContext(PokedexContext);
+function PokemonGrid({ search, filterArray, reachedBottom, setReachedBottom }) {
+  const [limit, setLimit] = React.useState(20);
+  const { currentPokedex } = React.useContext(PokedexContext);
   const [isPending, startTransition] = React.useTransition();
   const [toRender, setToRender] = React.useState([]);
   const { data: pokedexData } = useThisPokedex(currentPokedex?.url);
@@ -20,6 +21,7 @@ function PokemonGrid({ search, filterArray }) {
 
   React.useEffect(() => {
     startTransition(() => {
+      setLimit(20);
       setToRender(() => {
         if (search?.length > 0) {
           return pokedexSpecies.filter((pokemon) =>
@@ -36,13 +38,22 @@ function PokemonGrid({ search, filterArray }) {
     });
   }, [search, pokedexData, filterArray]);
 
-  React.useEffect(() => setWillScroll(true), [search, pokedexData]);
+  React.useEffect(() => {
+    startTransition(
+      () =>
+        reachedBottom &&
+        limit < toRender.length &&
+        setLimit((prevLimit) => prevLimit + 20)
+    );
+
+    setReachedBottom(false);
+  }, [reachedBottom]);
 
   return (
-    <div className="container mx-auto mt-12 w-full content-center">
+    <div className="container mx-auto my-12 w-full content-center">
       {isPending && <ProgressIndicator />}
       <div className="flex flex-wrap place-content-center px-1 sm:px-0 lg:px-5">
-        {toRender?.map((pokemon) => (
+        {toRender?.slice(0, limit).map((pokemon) => (
           <PokemonCard pokemon={pokemon} key={pokemon.species.name} />
         ))}
       </div>

@@ -3,15 +3,11 @@ import { useLocation, Outlet } from 'react-router-dom';
 import Stats from '../Components/Stats';
 import Evolutions from '../Components/Evolutions';
 import { getDisplayName } from '../Utils/Functions';
-import { PokedexContext } from '../Utils/PokedexContext';
 
 function Pokemon() {
   const location = useLocation();
-  const { setWillScroll } = React.useContext(PokedexContext);
   const currentPokemon = location.state.pokemonData;
   const { name, displayName, sprites, id } = currentPokemon;
-
-  React.useEffect(() => setWillScroll(true), [location]);
 
   return (
     <div className="pt-14 text-stone-700 lg:-ml-[10rem]">

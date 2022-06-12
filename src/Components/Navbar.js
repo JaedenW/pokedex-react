@@ -1,11 +1,17 @@
 import React from 'react';
 import Pokeball from '../Images/pokeball.png';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
-import { PokedexContext } from '../Utils/PokedexContext';
 
-function Navbar({ search, setSearch }) {
+function Navbar({ search, setSearch, scrollRef }) {
   const navigate = useNavigate();
-  const { setWillScroll } = React.useContext(PokedexContext);
+
+  function handleClick() {
+    setSearch('');
+    setTimeout(
+      () => scrollRef.current && (() => (scrollRef.current.scrollTop = 0))(),
+      500
+    );
+  }
 
   function handleEnterKey(event) {
     if (event.code === 'Enter') {
@@ -21,10 +27,7 @@ function Navbar({ search, setSearch }) {
           <Link
             className="z-50 flex h-full items-center"
             to="/"
-            onClick={() => {
-              setSearch('');
-              setWillScroll(true);
-            }}
+            onClick={handleClick}
           >
             <div className="mr-1 flex items-center text-white">
               <img

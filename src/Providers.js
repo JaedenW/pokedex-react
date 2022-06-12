@@ -14,8 +14,6 @@ function Providers({ children }) {
     url: 'https://pokeapi.co/api/v2/pokedex/2/',
   });
 
-  const [willScroll, setWillScroll] = React.useState(false);
-
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -32,8 +30,6 @@ function Providers({ children }) {
           setCurrentRegion,
           currentPokedex,
           setCurrentPokedex,
-          willScroll,
-          setWillScroll,
         }}
       >
         <QueryClientProvider client={queryClient}>

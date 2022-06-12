@@ -4,35 +4,31 @@ import { useQuery } from 'react-query';
 import { PokedexContext } from '../Utils/PokedexContext';
 import { typeColours } from '../Utils/typeColours';
 import { getDisplayName } from '../Utils/Functions';
-import useThisPokedex from '../Hooks/useThisPokedex';
 import PokemonGrid from '../Components/PokemonGrid';
 import Type from '../Components/Type';
 
-function TypePage() {
-  const { currentPokedex, currentRegion, setWillScroll } =
-    React.useContext(PokedexContext);
+function TypePage({ reachedBottom, setReachedBottom }) {
+  const { currentPokedex, currentRegion } = React.useContext(PokedexContext);
   const mountRef = React.useRef(false);
+  const gridRef = React.useRef();
   const typePokemonRef = React.useRef();
   const location = useLocation();
   const { name, url } = location.state.type;
-  const { data: pokedexData } = useThisPokedex(currentPokedex?.url);
   const { data } = useQuery(['type', url], () => fetchType(url));
 
   const tyePokemonFilter = [
     ...data.pokemon.map((pokemon) => pokemon.pokemon.name),
   ];
 
-  React.useEffect(() => setWillScroll(true), [location]);
-
   React.useEffect(() => {
-    if (mountRef.current) {
-      typePokemonRef.current.scrollIntoView({
-        behavior: 'smooth',
-      });
-    } else {
-      setTimeout(() => (mountRef.current = true), 500);
-    }
-  }, [pokedexData]);
+    mountRef.current && gridRef
+      ? setTimeout(() => {
+          typePokemonRef.current.scrollIntoView({
+            behavior: 'smooth',
+          });
+        }, 1000)
+      : setTimeout(() => (mountRef.current = true), 500);
+  }, [currentPokedex]);
 
   async function fetchType(url) {
     const res = await fetch(url);
@@ -83,7 +79,7 @@ function TypePage() {
         </div>
       </div>
       <div
-        className="container z-20 mx-auto w-full content-center pb-10 sm:w-[90%] lg:w-[60%] 2xl:w-[50%]"
+        className="container z-20 mx-auto w-full content-center pb-10 sm:w-[90%] sm:rounded-b-2xl lg:w-[60%] 2xl:w-[50%]"
         style={{ backgroundColor: typeColours[name] }}
       >
         <div className="mx-auto mb-6 w-full border bg-white px-8 py-8 text-center text-stone-700 shadow-sm">
@@ -96,7 +92,12 @@ function TypePage() {
             )} Pokedex`}
           </h3>
         </div>
-        <PokemonGrid typeFilter={tyePokemonFilter} />
+        <PokemonGrid
+          ref={gridRef}
+          typeFilter={tyePokemonFilter}
+          reachedBottom={reachedBottom}
+          setReachedBottom={setReachedBottom}
+        />
       </div>
       <Outlet />
     </div>

@@ -15,23 +15,27 @@ function App() {
   const [search, setSearch] = React.useState('');
   const [toggleSidebar, setToggleSidebar] = React.useState(false);
   const { pathname } = useLocation();
-  const { willScroll, setWillScroll } = React.useContext(PokedexContext);
-  const topRef = React.useRef();
+  const scrollRef = React.useRef();
+  const [reachedBottom, setReachedBottom] = React.useState(false);
+
+  function onScroll() {
+    if (scrollRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+      scrollTop + clientHeight === scrollHeight && setReachedBottom(true);
+    }
+  }
 
   React.useEffect(() => {
-    willScroll &&
-      topRef?.current?.scrollTop &&
-      (() => (topRef.current.scrollTop = 0))();
-    setWillScroll(false);
-  }, [willScroll]);
-
-  React.useEffect(() => {
+    setTimeout(
+      () => scrollRef.current && (() => (scrollRef.current.scrollTop = 0))(),
+      500
+    );
     setToggleSidebar(false);
   }, [pathname]);
 
   return (
     <div className="flex h-screen w-screen overflow-hidden">
-      <Navbar search={search} setSearch={setSearch} />
+      <Navbar search={search} setSearch={setSearch} scrollRef={scrollRef} />
       <React.Suspense
         fallback={
           <div
@@ -47,7 +51,8 @@ function App() {
       <React.Suspense fallback={<ProgressIndicator />}>
         <div className="flex flex-1">
           <div
-            ref={topRef}
+            ref={scrollRef}
+            onScroll={onScroll}
             className="flex-1 overflow-y-scroll scroll-auto py-20 sm:py-10 sm:pl-[10rem]"
           >
             <Routes>
@@ -55,7 +60,11 @@ function App() {
                 path="/"
                 element={
                   <Home>
-                    <PokemonGrid search={search} />
+                    <PokemonGrid
+                      search={search}
+                      reachedBottom={reachedBottom}
+                      setReachedBottom={setReachedBottom}
+                    />
                   </Home>
                 }
               />
@@ -63,12 +72,24 @@ function App() {
                 index
                 element={
                   <Home>
-                    <PokemonGrid search={search} />
+                    <PokemonGrid
+                      search={search}
+                      reachedBottom={reachedBottom}
+                      setReachedBottom={setReachedBottom}
+                    />
                   </Home>
                 }
               />
               <Route path="pokemon/:name" element={<Pokemon />} />
-              <Route path="type/:typeName" element={<TypePage />} />
+              <Route
+                path="type/:typeName"
+                element={
+                  <TypePage
+                    reachedBottom={reachedBottom}
+                    setReachedBottom={setReachedBottom}
+                  />
+                }
+              />
             </Routes>
           </div>
         </div>
