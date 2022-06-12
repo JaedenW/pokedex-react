@@ -37,7 +37,7 @@ function Navbar({ search, setSearch }) {
             </div>
           </Link>
         </div>
-        <div className="inline-flex w-full md:absolute md:flex">
+        <div className="z-50 inline-flex w-full md:absolute md:flex">
           <input
             type="text"
             id="search-navbar"
