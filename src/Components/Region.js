@@ -34,7 +34,7 @@ function Region({ region, setToggleSidebar }) {
             const pokedexName = pokedex.name;
             const isActive = pokedexName === currentPokedex?.name;
             return (
-              <div className="h-[3.4rem]">
+              <div className="h-[3.3rem]">
                 <button
                   className={`${
                     isActive && 'active-pokedex'
