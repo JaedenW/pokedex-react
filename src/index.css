@@ -42,8 +42,8 @@ body {
 .progress-line:before {
   background-color: #fb1b1b;
   content: '';
-  -webkit-animation: running-progress 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  animation: running-progress 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  -webkit-animation: running-progress 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation: running-progress 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 @-webkit-keyframes running-progress {
