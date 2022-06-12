@@ -27,7 +27,7 @@ function App() {
   function scrollTop() {
     setTimeout(
       () => scrollRef.current && (() => (scrollRef.current.scrollTop = 0))(),
-      500
+      200
     );
   }
 
