@@ -14,34 +14,6 @@ const EvoCard = ({ species, evoDetails, evoStage }) => {
   const { sprites } = pokemonData;
   const [wasClicked, setWasClicked] = React.useState(false);
 
-  function renderEvoDetails() {
-    return evoDetails.map((evo) => {
-      return evo.detailsArray?.map((evoMethods) => (
-        <div className="mt-2 rounded-lg bg-[#DFDFDF] p-2 shadow-inner md:p-3">
-          <ul className="divide-y-8 divide-[#DFDFDF] text-sm">
-            {Object.entries(evoMethods)
-              .reverse()
-              .map((evoMethod) => {
-                const [condition, value] = evoMethod;
-                return (
-                  value && (
-                    <li className="flex justify-between">
-                      <p className="inline-flex w-[70%] text-left font-bold">
-                        {getDisplayName(condition, '_')}:
-                      </p>
-                      <p className="inline-flex flex-wrap text-right">
-                        {(value?.name && getDisplayName(value.name)) || value}
-                      </p>
-                    </li>
-                  )
-                );
-              })}
-          </ul>
-        </div>
-      ));
-    });
-  }
-
   return (
     <div>
       <div
@@ -91,7 +63,33 @@ const EvoCard = ({ species, evoDetails, evoStage }) => {
           {wasClicked && (
             <div className={`w-full`}>
               {<h4 className="font-bold">Conditions</h4>}
-              {renderEvoDetails()}
+              {evoDetails.map((evo) => {
+                return evo.detailsArray?.map((evoMethods) => (
+                  <div className="mt-2 rounded-lg bg-[#DFDFDF] p-2 shadow-inner md:p-3">
+                    <ul className="divide-y-8 divide-[#DFDFDF] text-sm">
+                      {Object.entries(evoMethods)
+                        .reverse()
+                        .map((evoMethod) => {
+                          const [condition, value] = evoMethod;
+                          return (
+                            value && (
+                              <li className="flex justify-between">
+                                <p className="inline-flex w-[70%] text-left font-bold">
+                                  {getDisplayName(condition, '_')}:
+                                </p>
+                                <p className="inline-flex flex-wrap text-right">
+                                  {(value?.name &&
+                                    getDisplayName(value.name)) ||
+                                    value}
+                                </p>
+                              </li>
+                            )
+                          );
+                        })}
+                    </ul>
+                  </div>
+                ));
+              })}
             </div>
           )}
         </div>
