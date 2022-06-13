@@ -4,8 +4,13 @@ import useEvolutionChain from '../Hooks/useEvolutionChain';
 import useThisPokedex from '../Hooks/useThisPokedex';
 import EvoCard from './EvoCard';
 
-function EvolutionChain({ url, isLegendary, isMythical, getDisplayName }) {
+function EvolutionChain({ speciesData }) {
   const { currentPokedex } = React.useContext(PokedexContext);
+  const {
+    evolution_chain: { url },
+    is_legendary,
+    is_mythical,
+  } = speciesData;
   const { data } = useEvolutionChain(url);
   const { data: pokedexData } = useThisPokedex(currentPokedex?.url);
   const pokedexSpecies = pokedexData?.pokemon_entries.map((entry) => {
@@ -57,45 +62,6 @@ function EvolutionChain({ url, isLegendary, isMythical, getDisplayName }) {
     return Array(+numerals.join('') + 1).join('M') + roman;
   }
 
-  function renderEvolutionChain() {
-    return evoChain?.map((evoStage, i) => (
-      <div className="m-2 inline-grid w-[90%] rounded-lg  bg-stone-300 p-1 pb-3 shadow-md">
-        {isLegendary || isMythical ? (
-          <h3
-            className="my-2 mx-auto w-fit rounded-md border-2 bg-gray-100 py-2 px-4 text-xl font-bold shadow-md"
-            style={{
-              color: isLegendary ? '#ffd500' : '#855AC9',
-              borderColor: isLegendary ? '#ffd500' : '#855AC9',
-            }}
-          >
-            {isLegendary ? 'Legendary' : 'Mythical'}
-          </h3>
-        ) : (
-          <h3 className="my-2 text-xl font-semibold">
-            STAGE {romanise(i + 1)}
-          </h3>
-        )}
-        <div className="-mx-1 flex flex-wrap place-content-center sm:mx-0">
-          {evoStage.map((evoDetails) =>
-            pokedexSpecies
-              .filter(
-                (species) => species.species.name === evoDetails.species.name
-              )
-              .map((species) => (
-                <EvoCard
-                  species={species}
-                  evoStage={i + 1}
-                  getDisplayName={getDisplayName}
-                  evoDetails={[evoDetails]}
-                  key={`${species.name}Evo`}
-                />
-              ))
-          )}
-        </div>
-      </div>
-    ));
-  }
-
   function flattenEvoChain() {
     const evoChain = [];
     let evoData = data?.chain;
@@ -132,7 +98,43 @@ function EvolutionChain({ url, isLegendary, isMythical, getDisplayName }) {
   return (
     <div>
       <div className="container mt-4 mb-0 content-center">
-        <div>{renderEvolutionChain()}</div>
+        <div>
+          {evoChain?.map((evoStage, i) => (
+            <div className="m-2 inline-grid w-[90%] rounded-lg  bg-stone-300 p-1 pb-3 shadow-md">
+              {is_legendary || is_mythical ? (
+                <h3
+                  className="my-2 mx-auto w-fit rounded-md border-2 bg-gray-100 py-2 px-4 text-xl font-bold shadow-md"
+                  style={{
+                    color: is_legendary ? '#ffd500' : '#855AC9',
+                    borderColor: is_legendary ? '#ffd500' : '#855AC9',
+                  }}
+                >
+                  {is_legendary ? 'Legendary' : 'Mythical'}
+                </h3>
+              ) : (
+                <h3 className="my-2 text-xl font-semibold">
+                  STAGE {romanise(i + 1)}
+                </h3>
+              )}
+              <div className="-mx-1 flex flex-wrap place-content-center sm:mx-0">
+                {evoStage.map((evoDetails) =>
+                  pokedexSpecies
+                    .filter(
+                      (species) =>
+                        species.species.name === evoDetails.species.name
+                    )
+                    .map((species) => (
+                      <EvoCard
+                        species={species.species}
+                        evoStage={i + 1}
+                        evoDetails={[evoDetails]}
+                      />
+                    ))
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

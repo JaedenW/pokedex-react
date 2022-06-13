@@ -2,14 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import useThisPokemon from '../Hooks/useThisPokemon';
 import useThisSpecies from '../Hooks/useThisSpecies';
+import { getDisplayName } from '../Utils/Functions';
 
-const EvoCard = ({ species, evoDetails, evoStage, getDisplayName }) => {
-  const { name, url } = species.species;
-  const { data: speciesData } = useThisSpecies(url);
-  const variety = speciesData.varieties.map(
-    (variety) => variety.is_default && variety.pokemon
-  )[0];
-  const { data } = useThisPokemon(variety.url);
+const EvoCard = ({ species, evoDetails, evoStage }) => {
+  const { data: speciesData } = useThisSpecies(species.url);
+  const variety = speciesData.varieties[0];
+  const { name, url } = variety.pokemon;
+  const { data } = useThisPokemon(url);
   const displayName = getDisplayName(name);
   const pokemonData = { name, url, displayName, ...data };
   const { sprites } = pokemonData;
@@ -17,10 +16,10 @@ const EvoCard = ({ species, evoDetails, evoStage, getDisplayName }) => {
 
   function renderEvoDetails() {
     return evoDetails.map((evo) => {
-      return evo.detailsArray?.map((evoDetails) => (
+      return evo.detailsArray?.map((evoMethods) => (
         <div className="mt-2 rounded-lg bg-[#DFDFDF] p-2 shadow-inner md:p-3">
           <ul className="divide-y-8 divide-[#DFDFDF] text-sm">
-            {Object.entries(evoDetails)
+            {Object.entries(evoMethods)
               .reverse()
               .map((evoMethod) => {
                 const [condition, value] = evoMethod;
@@ -47,7 +46,7 @@ const EvoCard = ({ species, evoDetails, evoStage, getDisplayName }) => {
     <div>
       <div
         className={`m-2 flex h-fit max-w-[13rem] rounded-lg bg-gray-100 p-3 shadow-inner transition-[max-height] duration-200 ease-linear ${
-          wasClicked ? 'max-h-[50rem]' : 'max-h-[12rem]'
+          wasClicked ? 'max-h-[50rem]' : 'max-h-[13rem]'
         }`}
       >
         <div className="w-[12rem] md:w-[10rem]">
@@ -89,7 +88,7 @@ const EvoCard = ({ species, evoDetails, evoStage, getDisplayName }) => {
               </div>
             )}
           </div>
-          {wasClicked && evoStage > 1 && (
+          {wasClicked && (
             <div className={`w-full`}>
               {<h4 className="font-bold">Conditions</h4>}
               {renderEvoDetails()}

@@ -1,6 +1,7 @@
 import React from 'react';
+import { getDisplayName } from '../Utils/Functions';
 
-function BaseStats({ stats, getDisplayName }) {
+function BaseStats({ stats }) {
   return (
     <div className="rounded-md bg-gray-100 p-3 shadow-inner">
       {stats.map((baseStat) => {
