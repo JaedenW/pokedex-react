@@ -1,13 +1,14 @@
 import React from 'react';
 import { useLocation, Outlet } from 'react-router-dom';
-import Stats from '../Components/Stats';
-import Evolutions from '../Components/Evolutions';
 import { getDisplayName } from '../Utils/Functions';
+
+const Stats = React.lazy(() => import('../Components/Stats'));
+const Evolutions = React.lazy(() => import('../Components/Evolutions'));
 
 function Pokemon() {
   const location = useLocation();
-  const currentPokemon = location.state.pokemonData;
-  const { name, displayName, sprites, id } = currentPokemon;
+  const { pokemonData, speciesData } = location.state;
+  const { name, displayName, sprites, id } = pokemonData;
 
   return (
     <div className="pt-14 text-stone-700 lg:-ml-[10rem]">
@@ -26,12 +27,13 @@ function Pokemon() {
         <div className="container my-10 mx-auto w-full content-center rounded-b-xl bg-[#FFCC00] py-5 shadow-inner lg:px-5 xl:px-10">
           <div className="flex flex-wrap">
             <Stats
-              currentPokemon={currentPokemon}
+              pokemonData={pokemonData}
               getDisplayName={getDisplayName}
               key={`${name}Stats`}
             />
             <Evolutions
-              currentPokemon={currentPokemon}
+              pokemonData={pokemonData}
+              speciesData={speciesData}
               getDisplayName={getDisplayName}
               key={`${name}Evolution`}
             />

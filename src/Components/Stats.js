@@ -3,7 +3,7 @@ import Type from './Type';
 import Ability from './Ability';
 import BaseStats from './BaseStats';
 
-function Stats({ currentPokemon, getDisplayName }) {
+function Stats({ pokemonData, getDisplayName }) {
   const {
     types,
     base_experience: XP,
@@ -11,7 +11,7 @@ function Stats({ currentPokemon, getDisplayName }) {
     weight,
     stats,
     abilities,
-  } = currentPokemon;
+  } = pokemonData;
 
   return (
     <div className="w-full md:mb-5 md:max-w-[45%]">

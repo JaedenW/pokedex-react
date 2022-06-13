@@ -1,11 +1,19 @@
 import React from 'react';
+import { PokedexContext } from '../Utils/PokedexContext';
 import useEvolutionChain from '../Hooks/useEvolutionChain';
-import usePokemonData from '../Hooks/usePokemonData';
+import useThisPokedex from '../Hooks/useThisPokedex';
 import EvoCard from './EvoCard';
 
 function EvolutionChain({ url, isLegendary, isMythical, getDisplayName }) {
-  const { data, isSuccess } = useEvolutionChain(url);
-  const { allData } = usePokemonData(true);
+  const { currentPokedex } = React.useContext(PokedexContext);
+  const { data } = useEvolutionChain(url);
+  const { data: pokedexData } = useThisPokedex(currentPokedex?.url);
+  const pokedexSpecies = pokedexData?.pokemon_entries.map((entry) => {
+    return {
+      id: entry.entry_number,
+      species: entry.pokemon_species,
+    };
+  });
   const evoChain = flattenEvoChain();
 
   function romanise(number) {
@@ -69,15 +77,17 @@ function EvolutionChain({ url, isLegendary, isMythical, getDisplayName }) {
         )}
         <div className="-mx-1 flex flex-wrap place-content-center sm:mx-0">
           {evoStage.map((evoDetails) =>
-            allData?.results
-              .filter((pokemon) => pokemon.name === evoDetails.species.name)
-              .map((pokemon) => (
+            pokedexSpecies
+              .filter(
+                (species) => species.species.name === evoDetails.species.name
+              )
+              .map((species) => (
                 <EvoCard
-                  pokemon={pokemon}
+                  species={species}
                   evoStage={i + 1}
                   getDisplayName={getDisplayName}
                   evoDetails={[evoDetails]}
-                  key={`${pokemon.name}Evo`}
+                  key={`${species.name}Evo`}
                 />
               ))
           )}
@@ -122,7 +132,7 @@ function EvolutionChain({ url, isLegendary, isMythical, getDisplayName }) {
   return (
     <div>
       <div className="container mt-4 mb-0 content-center">
-        <div>{isSuccess && renderEvolutionChain()}</div>
+        <div>{renderEvolutionChain()}</div>
       </div>
     </div>
   );

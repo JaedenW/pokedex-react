@@ -19,7 +19,7 @@ const PokemonCard = ({ pokemon }) => {
   const { sprites, types } = pokemonData;
 
   return (
-    <Link to={`/pokemon/${name}`} state={{ pokemonData }}>
+    <Link to={`/pokemon/${name}`} state={{ pokemonData, speciesData }}>
       <div className="m-2 w-[10rem] overflow-hidden rounded-lg bg-gray-50 shadow-md transition sm:m-4 sm:w-[14rem] sm:hover:scale-105 sm:hover:shadow-lg">
         <div className="container h-[7rem] sm:h-[8rem]">
           <img

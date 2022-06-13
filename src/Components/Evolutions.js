@@ -1,10 +1,8 @@
 import React from 'react';
-import useSpeciesData from '../Hooks/useThisSpecies';
 import EvolutionChain from './EvolutionChain';
 
-function Evolutions({ currentPokemon, getDisplayName }) {
-  const { data, isSuccess } = useSpeciesData(currentPokemon?.species?.url);
-  const { evolution_chain, is_legendary, is_mythical } = isSuccess && data;
+function Evolutions({ pokemonData, speciesData, getDisplayName }) {
+  const { evolution_chain, is_legendary, is_mythical } = speciesData;
 
   return (
     <div className="mb-5 w-full md:max-w-[55%]">
