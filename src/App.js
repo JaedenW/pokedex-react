@@ -51,7 +51,7 @@ function App() {
         />
       </React.Suspense>
       <React.Suspense fallback={<ProgressIndicator />}>
-        <div className="flex h-screen flex-1">
+        <div className="flex h-screen flex-1 overflow-hidden">
           <div
             ref={scrollRef}
             onScroll={onScroll}
