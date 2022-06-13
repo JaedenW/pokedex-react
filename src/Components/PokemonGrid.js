@@ -19,6 +19,10 @@ function PokemonGrid({ search, filterArray, reachedBottom, setReachedBottom }) {
   });
 
   React.useEffect(() => {
+    startTransition(() => setLimit(20));
+  }, [search, currentPokedex]);
+
+  React.useEffect(() => {
     startTransition(() => {
       setLimit(20);
       setToRender(() => {
