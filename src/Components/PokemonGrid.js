@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 import ProgressIndicator from './ProgressIndicator';
 import { PokedexContext } from '../Utils/PokedexContext';
