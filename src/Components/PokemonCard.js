@@ -20,7 +20,7 @@ const PokemonCard = ({ pokemon }) => {
 
   return (
     <Link to={`/pokemon/${name}`} state={{ pokemonData, speciesData }}>
-      <div className="m-2 w-[10rem] overflow-hidden rounded-lg bg-gray-50 shadow-md transition sm:m-4 sm:w-[14rem] sm:hover:scale-105 sm:hover:shadow-lg">
+      <div className="m-2 w-[10.5rem] overflow-hidden rounded-lg bg-gray-50 shadow-md transition sm:m-4 sm:w-[14rem] sm:hover:scale-105 sm:hover:shadow-lg">
         <div className="container h-[7rem] sm:h-[8rem]">
           <img
             className="mx-auto my-5 block h-[90%]"
@@ -33,7 +33,7 @@ const PokemonCard = ({ pokemon }) => {
             {displayName}
           </h1>
           {types.map((type) => (
-            <div className="inline-flex px-1 pb-2 sm:pb-3 sm:pt-1">
+            <div className="inline-flex px-0.5 pb-2 sm:px-1 sm:pb-3 sm:pt-1">
               <Type type={type.type} key={type.slot} />
             </div>
           ))}

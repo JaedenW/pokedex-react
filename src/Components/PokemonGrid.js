@@ -1,6 +1,7 @@
 import React from 'react';
-import ProgressIndicator from './ProgressIndicator';
 import { PokedexContext } from '../Utils/PokedexContext';
+import ProgressIndicator from './ProgressIndicator';
+import Spinner from './Spinner';
 import useThisPokedex from '../Hooks/useThisPokedex';
 import PokemonCard from './PokemonCard';
 
@@ -52,12 +53,19 @@ function PokemonGrid({ search, filterArray, reachedBottom, setReachedBottom }) {
   }, [reachedBottom]);
 
   return (
-    <div className="container mx-auto my-12 w-full content-center">
-      {isPending && <ProgressIndicator />}
+    <div className="container mx-auto mt-12 -mb-10 w-full content-center">
       <div className="flex flex-wrap place-content-center px-1 sm:px-0 lg:px-5">
         {toRender?.slice(0, limit).map((pokemon) => (
           <PokemonCard pokemon={pokemon} key={pokemon.species.name} />
         ))}
+        <div className="flex h-[6rem] w-full text-center">
+          {isPending && (
+            <>
+              <ProgressIndicator />
+              {limit <= toRender.length && <Spinner />}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
