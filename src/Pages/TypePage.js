@@ -7,7 +7,7 @@ import { getDisplayName } from '../Utils/Functions';
 import PokemonGrid from '../Components/PokemonGrid';
 import Type from '../Components/Type';
 
-function TypePage({ reachedBottom, setReachedBottom }) {
+function TypePage({ reachedBottom, setReachedBottom, scrollTop }) {
   const { currentPokedex, currentRegion } = React.useContext(PokedexContext);
   const mountRef = React.useRef(false);
   const gridRef = React.useRef();
@@ -29,6 +29,8 @@ function TypePage({ reachedBottom, setReachedBottom }) {
         }, 500)
       : setTimeout(() => (mountRef.current = true), 500);
   }, [currentPokedex]);
+
+  React.useEffect(() => scrollTop(), [data]);
 
   async function fetchType(url) {
     const res = await fetch(url);

@@ -32,7 +32,6 @@ function App() {
   }
 
   React.useEffect(() => {
-    scrollTop();
     setToggleSidebar(false);
   }, [pathname]);
 
@@ -83,11 +82,15 @@ function App() {
                   </Home>
                 }
               />
-              <Route path="pokemon/:name" element={<Pokemon />} />
+              <Route
+                path="pokemon/:name"
+                element={<Pokemon scrollTop={scrollTop} />}
+              />
               <Route
                 path="type/:typeName"
                 element={
                   <TypePage
+                    scrollTop={scrollTop}
                     reachedBottom={reachedBottom}
                     setReachedBottom={setReachedBottom}
                   />

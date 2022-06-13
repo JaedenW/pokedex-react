@@ -1,7 +1,7 @@
 import React from 'react';
 import EvolutionChain from './EvolutionChain';
 
-function Evolutions({ pokemonData, speciesData, getDisplayName }) {
+function Evolutions({ speciesData, getDisplayName }) {
   const { evolution_chain, is_legendary, is_mythical } = speciesData;
 
   return (

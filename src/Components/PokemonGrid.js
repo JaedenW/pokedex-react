@@ -43,7 +43,7 @@ function PokemonGrid({ search, filterArray, reachedBottom, setReachedBottom }) {
       () =>
         reachedBottom &&
         limit < toRender.length &&
-        setLimit((prevLimit) => prevLimit + 15)
+        setLimit((prevLimit) => prevLimit + 20)
     );
 
     setReachedBottom(false);
