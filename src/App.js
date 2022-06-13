@@ -51,11 +51,11 @@ function App() {
         />
       </React.Suspense>
       <React.Suspense fallback={<ProgressIndicator />}>
-        <div className="flex flex-1">
+        <div className="flex h-screen flex-1">
           <div
             ref={scrollRef}
             onScroll={onScroll}
-            className="flex-1 overflow-y-scroll scroll-auto py-20 sm:py-10 sm:pl-[10rem]"
+            className="h-full flex-1 overflow-y-scroll scroll-auto py-20 sm:py-10 sm:pl-[10rem]"
           >
             <Routes>
               <Route
