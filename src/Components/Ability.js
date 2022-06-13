@@ -1,7 +1,8 @@
 import React from 'react';
 import { useQuery } from 'react-query';
+import { getDisplayName } from '../Utils/Functions';
 
-function Ability({ ability: { ability, is_hidden }, getDisplayName }) {
+function Ability({ ability: { ability, is_hidden } }) {
   const { name, url } = ability;
 
   async function fetchAbility(url) {

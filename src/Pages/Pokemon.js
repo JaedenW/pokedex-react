@@ -1,6 +1,5 @@
 import React from 'react';
 import { useLocation, Outlet, useNavigate } from 'react-router-dom';
-import { getDisplayName } from '../Utils/Functions';
 import { PokedexContext } from '../Utils/PokedexContext';
 
 const Stats = React.lazy(() => import('../Components/Stats'));
@@ -42,15 +41,10 @@ function Pokemon({ scrollTop }) {
           <h1 className=" text-4xl font-bold md:text-6xl">{displayName}</h1>
           <div className="container my-10 mx-auto w-full content-center rounded-b-xl bg-[#FFCC00] py-5 shadow-inner lg:px-5 xl:px-10">
             <div className="flex flex-wrap">
-              <Stats
-                pokemonData={pokemonData}
-                getDisplayName={getDisplayName}
-                key={`${name}Stats`}
-              />
+              <Stats pokemonData={pokemonData} key={`${name}Stats`} />
               <Evolutions
                 pokemonData={pokemonData}
                 speciesData={speciesData}
-                getDisplayName={getDisplayName}
                 key={`${name}Evolution`}
               />
             </div>

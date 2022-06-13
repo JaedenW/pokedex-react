@@ -3,7 +3,7 @@ import Type from './Type';
 import Ability from './Ability';
 import BaseStats from './BaseStats';
 
-function Stats({ pokemonData, getDisplayName }) {
+function Stats({ pokemonData }) {
   const {
     types,
     base_experience: XP,
@@ -61,12 +61,12 @@ function Stats({ pokemonData, getDisplayName }) {
         <div className="flex-grid">
           <div className="mt-4 rounded-lg bg-stone-300 p-4 text-[#292929] shadow-md">
             <h2 className="mb-3 text-xl font-bold">Base Stats</h2>
-            <BaseStats stats={stats} getDisplayName={getDisplayName} />
+            <BaseStats stats={stats} />
           </div>
           <div className="mt-4 rounded-lg bg-stone-300 p-4 text-[#292929] shadow-md">
             <h2 className="mb-3 text-xl font-bold">Abilities</h2>
             {abilities.map((ability) => (
-              <Ability ability={ability} getDisplayName={getDisplayName} />
+              <Ability ability={ability} />
             ))}
           </div>
         </div>
