@@ -7,10 +7,10 @@ import { getDisplayName } from '../Utils/Functions';
 const EvoCard = ({ species, evoDetails, evoStage }) => {
   const { data: speciesData } = useThisSpecies(species.url);
   const variety = speciesData.varieties[0];
-  const { name, url } = variety.pokemon;
-  const { data } = useThisPokemon(url);
+  const { name } = speciesData;
+  const { data } = useThisPokemon(variety.pokemon.url);
   const displayName = getDisplayName(name);
-  const pokemonData = { name, url, displayName, ...data };
+  const pokemonData = { name, displayName, ...data };
   const { sprites } = pokemonData;
   const [wasClicked, setWasClicked] = React.useState(false);
 
@@ -62,7 +62,7 @@ const EvoCard = ({ species, evoDetails, evoStage }) => {
           </Link>
           <div>
             {evoStage > 1 && (
-              <div className="mx-auto mb-1 -mt-5 flex w-fit rotate-90 justify-center">
+              <div className="mx-auto -mt-3 flex w-fit rotate-90 justify-center">
                 <button
                   type="button"
                   className="justify-right group z-30 inline-flex h-full cursor-pointer items-center"
