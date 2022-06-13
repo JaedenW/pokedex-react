@@ -36,7 +36,7 @@ function PokemonGrid({ search, filterArray, reachedBottom, setReachedBottom }) {
         }
       });
     });
-  }, [search, currentPokedex]);
+  }, [search, currentPokedex, filterArray]);
 
   React.useEffect(() => {
     startTransition(

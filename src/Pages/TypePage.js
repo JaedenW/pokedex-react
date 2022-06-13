@@ -30,7 +30,7 @@ function TypePage({ reachedBottom, setReachedBottom, scrollTop }) {
       : setTimeout(() => (mountRef.current = true), 500);
   }, [currentPokedex]);
 
-  React.useEffect(() => scrollTop(), [data]);
+  React.useEffect(() => scrollTop(), [typePokemonFilter]);
 
   async function fetchType(url) {
     const res = await fetch(url);
