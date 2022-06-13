@@ -36,7 +36,7 @@ function App() {
   }, [pathname]);
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden">
+    <div className="flex h-screen w-screen overflow-hidden overscroll-none">
       <Navbar search={search} setSearch={setSearch} scrollTop={scrollTop} />
       <React.Suspense
         fallback={
@@ -51,7 +51,7 @@ function App() {
         />
       </React.Suspense>
       <React.Suspense fallback={<ProgressIndicator />}>
-        <div className="flex h-screen flex-1 overflow-hidden">
+        <div className="flex h-screen flex-1 overscroll-none">
           <div
             ref={scrollRef}
             onScroll={onScroll}
