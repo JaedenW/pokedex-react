@@ -6,6 +6,10 @@
   font-family: 'VT323', monospace;
 }
 
+html {
+  overscroll-behavior: none;
+}
+
 body {
   background-color: #e9e7db;
 }
