@@ -55,15 +55,18 @@ function TypePage({ reachedBottom, setReachedBottom, scrollTop }) {
                   const [relationName, relationData] = relation;
                   return (
                     relationData.length > 0 && (
-                      <div className="mb-1 flex h-fit w-full flex-row rounded-xl bg-[#DFDFDF] text-sm md:text-lg font-bold shadow-inner ">
-                        <div className="my-auto flex h-full w-[25%] justify-end border-4 rounded-l-xl border-stone-400 p-2 md:p-3">
+                      <div className="sm:text-md mb-1 flex h-fit w-full rounded-xl bg-[#DFDFDF] text-sm font-bold shadow-inner ">
+                        <div
+                          className="my-auto flex h-full max-w-[30%] flex-grow flex-col justify-center rounded-l-xl border-2 p-2 sm:max-w-[20%] md:p-3"
+                          style={{ borderColor: typeColours[name] }}
+                        >
                           <h2 className="text-right text-stone-700">
-                            {getDisplayName(relationName, '_')}
+                            {getDisplayName(relationName, '_').toUpperCase()}
                           </h2>
                         </div>
                         <div
                           ref={typePokemonRef}
-                          className="my-auto mx-3 flex flex-grow flex-wrap justify-start"
+                          className="my-auto flex flex-shrink flex-wrap justify-start p-1"
                         >
                           {relationData.map((entry) => {
                             return (
