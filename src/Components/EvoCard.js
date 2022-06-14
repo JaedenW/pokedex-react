@@ -73,7 +73,7 @@ const EvoCard = ({ species, evoDetails, evoStage }) => {
                           const [condition, value] = evoMethod;
                           return (
                             value && (
-                              <li className="flex justify-between font font-mono">
+                              <li className="font flex justify-between font-mono">
                                 <p className="inline-flex w-[70%] text-left font-bold">
                                   {condition === 'min_level'
                                     ? 'Level'

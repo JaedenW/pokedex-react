@@ -49,23 +49,25 @@ function TypePage({ reachedBottom, setReachedBottom, scrollTop }) {
         </h1>
         <div>
           <div>
-            <div className="container mx-auto w-full content-center py-10 shadow-inner lg:px-5">
-              <div className="mx-auto flex w-[90%] flex-wrap justify-evenly rounded-xl bg-gray-50 p-3 shadow-lg md:w-[85%]">
+            <div className="flex-grid mx-auto flex w-full content-center py-10 shadow-inner lg:px-5">
+              <div className=" mx-auto flex w-[90%] flex-col flex-wrap justify-evenly rounded-xl bg-gray-50 p-3 pt-4 shadow-lg md:w-[85%]">
                 {Object.entries(data.damage_relations).map((relation) => {
                   const [relationName, relationData] = relation;
                   return (
                     relationData.length > 0 && (
-                      <div className="flex-grid m-2 mb-1 w-full min-w-[15rem] rounded-xl bg-[#DFDFDF] p-2 text-lg font-bold shadow-inner md:w-fit md:p-3 xl:min-w-[15rem]">
-                        <h2 className="text-stone-700">
-                          {getDisplayName(relationName, '_')}
-                        </h2>
+                      <div className="mb-1 flex h-fit w-full flex-row rounded-xl bg-[#DFDFDF] text-sm md:text-lg font-bold shadow-inner ">
+                        <div className="my-auto flex h-full w-[25%] justify-end border-4 rounded-l-xl border-stone-400 p-2 md:p-3">
+                          <h2 className="text-right text-stone-700">
+                            {getDisplayName(relationName, '_')}
+                          </h2>
+                        </div>
                         <div
                           ref={typePokemonRef}
-                          className="flex flex-wrap justify-center"
+                          className="my-auto mx-3 flex flex-grow flex-wrap justify-start"
                         >
                           {relationData.map((entry) => {
                             return (
-                              <div className="m-1 sm:m-2">
+                              <div className="m-1">
                                 <Type type={entry} />
                               </div>
                             );
@@ -81,7 +83,7 @@ function TypePage({ reachedBottom, setReachedBottom, scrollTop }) {
         </div>
       </div>
       <div
-        className="container z-20 mx-auto w-full content-center pb-10 sm:w-[90%] rounded-b-2xl lg:w-[60%] 2xl:w-[50%]"
+        className="container z-20 mx-auto w-full content-center rounded-b-2xl pb-10 sm:w-[90%] lg:w-[60%] 2xl:w-[50%]"
         style={{ backgroundColor: typeColours[name] }}
       >
         <div className="mx-auto mb-6 w-full border bg-white px-8 py-8 text-center text-stone-700 shadow-sm">
