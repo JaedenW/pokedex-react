@@ -49,8 +49,11 @@ function TypePage({ reachedBottom, setReachedBottom, scrollTop }) {
         </h1>
         <div>
           <div>
-            <div className="flex-grid mx-auto flex w-full content-center py-10 shadow-inner lg:px-5">
+            <div className="mx-auto flex w-full content-center py-10 shadow-inner lg:px-5">
               <div className=" mx-auto flex w-[90%] flex-col flex-wrap justify-evenly rounded-xl bg-gray-50 p-3 pt-4 shadow-lg md:w-[85%]">
+                <h2 className="mb-3 -mt-1 w-full text-lg font-bold">
+                  Battle Interactions
+                </h2>
                 {Object.entries(data.damage_relations).map((relation) => {
                   const [relationName, relationData] = relation;
                   return (
