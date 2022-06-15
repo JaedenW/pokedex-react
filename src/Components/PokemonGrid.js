@@ -54,7 +54,7 @@ function PokemonGrid({ search, filterArray, reachedBottom, setReachedBottom }) {
 
   return (
     <div className="container mx-auto mt-12 w-full content-center">
-      <div className="flex flex-wrap place-content-center px-1 sm:px-0 lg:px-5">
+      <div className="flex flex-wrap place-content-center px-0 lg:px-5">
         {toRender?.slice(0, limit).map((pokemon) => (
           <PokemonCard pokemon={pokemon} key={pokemon.species.name} />
         ))}

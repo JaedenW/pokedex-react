@@ -49,6 +49,12 @@ function Move({ move, moveDetails, activeGroup }) {
           <p className="inline-flex max-w-[60%] text-left">PP:</p>
           <p className="inline-flex text-right font-normal">{pp}</p>
         </div>
+        <div className="flex justify-between">
+          <p className="inline-flex max-w-[60%] text-left">Target:</p>
+          <p className="inline-flex max-w-[40%] text-right font-normal">
+            {getDisplayName(moveData.target.name)}
+          </p>
+        </div>
         {moveData.power && (
           <div className="flex justify-between">
             <p className="inline-flex max-w-[60%] text-left">Power:</p>
@@ -57,12 +63,6 @@ function Move({ move, moveDetails, activeGroup }) {
             </p>
           </div>
         )}
-        <div className="flex justify-between">
-          <p className="inline-flex max-w-[60%] text-left">Target:</p>
-          <p className="inline-flex max-w-[40%] text-right font-normal">
-            {getDisplayName(moveData.target.name)}
-          </p>
-        </div>
         {Object.entries(moveData.meta).map((moveMeta) => {
           if (moveMeta[1])
             return (
