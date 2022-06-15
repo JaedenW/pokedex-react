@@ -4,6 +4,7 @@ import { PokedexContext } from '../Utils/PokedexContext';
 
 const Stats = React.lazy(() => import('../Components/Stats'));
 const Evolutions = React.lazy(() => import('../Components/Evolutions'));
+const Moves = React.lazy(() => import('../Components/Moves'));
 
 function Pokemon({ scrollTop }) {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ function Pokemon({ scrollTop }) {
                 speciesData={speciesData}
                 key={`${name}Evolution`}
               />
+              <Moves pokemonData={pokemonData} key={`${name}Moves`} />
             </div>
           </div>
         </div>
