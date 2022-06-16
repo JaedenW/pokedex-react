@@ -3,6 +3,7 @@ import useThisPokedex from '../Hooks/useThisPokedex';
 import { PokedexContext } from '../Utils/PokedexContext';
 import Move from './Move';
 import Spinner from '../Components/Spinner';
+import { getDisplayName } from '../Utils/Functions';
 
 function Moves({ pokemonData }) {
   const { currentPokedex } = React.useContext(PokedexContext);
@@ -31,7 +32,7 @@ function Moves({ pokemonData }) {
                   } mx-1 p-3 text-lg font-bold`}
                   onClick={() => setActiveGroup(versionGroup)}
                 >
-                  {versionGroup.name.toUpperCase()}
+                  {getDisplayName(versionGroup.name).toUpperCase()}
                 </button>
               );
             })}
