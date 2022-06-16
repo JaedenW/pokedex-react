@@ -38,11 +38,11 @@ function Navbar({ search, setSearch, scrollTop }) {
             </div>
           </Link>
         </div>
-        <div className="inline-flex w-full md:absolute md:flex">
+        <div className="inline-flex w-full lg:absolute">
           <input
             type="text"
             id="search-navbar"
-            className="z-50 mr-2 w-full rounded-lg border border-black bg-[#DFDFDF] py-2 pl-4 font-sans placeholder-gray-500 shadow-sm hover:border-[#FB1B1B] md:mx-auto md:w-[40%] xl:w-[30%]"
+            className="z-50 mr-2 w-full rounded-lg border border-black bg-[#DFDFDF] py-2 pl-4 font-sans placeholder-gray-500 shadow-sm hover:border-[#FB1B1B] lg:mx-auto lg:w-[40%] xl:w-[30%]"
             placeholder="Search..."
             enterKeyHint="search"
             onChange={(event) => setSearch(event.target?.value)}

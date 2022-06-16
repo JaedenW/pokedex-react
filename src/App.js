@@ -36,7 +36,7 @@ function App() {
   }, [pathname]);
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden overscroll-none py-20 sm:py-14">
+    <div className="h-screen w-screen overflow-hidden py-20 sm:py-14">
       <Navbar search={search} setSearch={setSearch} scrollTop={scrollTop} />
       <React.Suspense
         fallback={

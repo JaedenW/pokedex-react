@@ -11,7 +11,7 @@ function Move({ move, moveDetails }) {
   return (
     <div
       className={`${
-        wasClicked &&
+        wasClicked ||
         'sm:hover:scale-105 sm:hover:cursor-pointer sm:hover:shadow-lg'
       } m-2 h-fit w-[90%] rounded-md p-2 shadow-md transition sm:w-[45%] xl:w-[23%] `}
       style={{ backgroundColor: typeColours[moveData.type.name] }}

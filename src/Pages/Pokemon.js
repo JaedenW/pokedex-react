@@ -34,7 +34,7 @@ function Pokemon({ scrollTop }) {
           </h2>
           <div className="block h-fit w-full justify-center">
             <img
-              className="my-5 mx-auto w-[60%] min-w-[10rem] max-w-[20rem] md:pt-5 lg:pt-10"
+              className="my-5 mx-auto min-h-[10rem] w-[60%] min-w-[10rem] max-w-[20rem] md:pt-5 lg:pt-10"
               src={sprites?.other['official-artwork']?.front_default}
               alt={displayName}
             />
