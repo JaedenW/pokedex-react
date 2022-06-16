@@ -60,7 +60,7 @@ function TypePage({ reachedBottom, setReachedBottom, scrollTop }) {
                     relationData.length > 0 && (
                       <div className="mb-1 flex h-[5rem] w-full rounded-xl bg-[#DFDFDF] font-bold shadow-inner md:h-[6rem] ">
                         <div
-                          className="my-auto flex h-full min-w-[25%] max-w-[25%] flex-grow flex-col justify-center rounded-l-xl border-2 p-2 text-sm sm:max-w-[20%] md:p-3 md:text-base lg:border-4 xl:text-xl"
+                          className="my-auto flex h-full min-w-[25%] max-w-[25%] flex-grow flex-col justify-center rounded-l-xl border-2 p-2 text-sm sm:max-w-[20%] md:p-3 md:text-base lg:border-4 xl:max-w-[10%] xl:text-xl"
                           style={{ borderColor: typeColours[name] }}
                         >
                           <h2 className="text-right text-stone-700">
