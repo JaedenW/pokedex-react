@@ -50,17 +50,17 @@ function TypePage({ reachedBottom, setReachedBottom, scrollTop }) {
         <div>
           <div>
             <div className="mx-auto flex w-full content-center py-10 shadow-inner lg:px-5">
-              <div className=" mx-auto flex w-[90%] flex-col flex-wrap justify-evenly rounded-xl bg-gray-50 p-3 pt-4 shadow-lg md:w-[85%]">
-                <h2 className="mb-3 -mt-1 w-full text-lg font-bold">
+              <div className="mx-auto flex w-[90%] flex-col flex-wrap justify-evenly rounded-xl bg-gray-50 p-3 pt-4 shadow-lg md:w-[85%]">
+                <h2 className="mb-3 -mt-1 w-full text-lg font-bold text-stone-700 md:text-xl">
                   Battle Interactions
                 </h2>
                 {Object.entries(data.damage_relations).map((relation) => {
                   const [relationName, relationData] = relation;
                   return (
                     relationData.length > 0 && (
-                      <div className="sm:text-md mb-1 flex h-fit w-full rounded-xl bg-[#DFDFDF] text-sm font-bold shadow-inner ">
+                      <div className="mb-1 flex h-[5rem] w-full rounded-xl bg-[#DFDFDF] font-bold shadow-inner md:h-[6rem] ">
                         <div
-                          className="my-auto flex h-full max-w-[30%] flex-grow flex-col justify-center rounded-l-xl border-2 p-2 sm:max-w-[20%] md:p-3"
+                          className="my-auto flex h-full min-w-[25%] max-w-[25%] flex-grow flex-col justify-center rounded-l-xl border-2 p-2 text-sm sm:max-w-[20%] md:p-3 md:text-base"
                           style={{ borderColor: typeColours[name] }}
                         >
                           <h2 className="text-right text-stone-700">
@@ -69,11 +69,11 @@ function TypePage({ reachedBottom, setReachedBottom, scrollTop }) {
                         </div>
                         <div
                           ref={typePokemonRef}
-                          className="my-auto flex flex-shrink flex-wrap justify-start p-1"
+                          className="my-auto flex h-fit max-h-full flex-shrink flex-wrap justify-start overflow-auto p-1"
                         >
                           {relationData.map((entry) => {
                             return (
-                              <div className="m-1">
+                              <div className="m-0.5 sm:mx-1">
                                 <Type type={entry} />
                               </div>
                             );

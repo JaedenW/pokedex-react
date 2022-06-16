@@ -6,15 +6,11 @@ import { getDisplayName } from '../Utils/Functions';
 
 function Move({ move, moveDetails, activeGroup }) {
   const [wasClicked, setWasClicked] = React.useState(false);
-  const { data: moveData } = useThisMove(move.url);
-  const pp =
-    moveData?.past_values.filter(
-      (pastValue) => pastValue.version_group.name === activeGroup?.name
-    )[0] || moveData.pp;
+  const { data: moveData } = useThisMove(move?.url);
 
   return (
     <div
-      className="m-2 h-fit w-[90%] rounded-md p-2 shadow-md transition sm:w-[45%] sm:hover:scale-105 sm:hover:cursor-pointer sm:hover:shadow-lg"
+      className="m-2 h-fit w-[90%] rounded-md p-2 shadow-md transition sm:hover:scale-105 sm:hover:cursor-pointer sm:hover:shadow-lg"
       style={{ backgroundColor: typeColours[moveData.type.name] }}
       onClick={() => setWasClicked((prevState) => !prevState)}
     >
@@ -24,7 +20,7 @@ function Move({ move, moveDetails, activeGroup }) {
       <div
         className={`${
           wasClicked ? 'visible' : 'hidden'
-        } rounded-md bg-gray-100 p-2 text-sm`}
+        } rounded-md bg-gray-100 p-2 sm:text-sm`}
       >
         <div className="my-2 flex justify-between">
           <p className="inline-flex max-w-[60%] text-left">Type:</p>
@@ -47,7 +43,7 @@ function Move({ move, moveDetails, activeGroup }) {
         )}
         <div className="flex justify-between">
           <p className="inline-flex max-w-[60%] text-left">PP:</p>
-          <p className="inline-flex text-right font-normal">{pp}</p>
+          <p className="inline-flex text-right font-normal">{moveData.pp}</p>
         </div>
         <div className="flex justify-between">
           <p className="inline-flex max-w-[60%] text-left">Target:</p>
@@ -63,7 +59,7 @@ function Move({ move, moveDetails, activeGroup }) {
             </p>
           </div>
         )}
-        {Object.entries(moveData.meta).map((moveMeta) => {
+        {Object.entries(moveData?.meta).map((moveMeta) => {
           if (moveMeta[1])
             return (
               <div className="flex justify-between">

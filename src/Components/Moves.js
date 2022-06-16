@@ -15,28 +15,30 @@ function Moves({ pokemonData }) {
   );
 
   return (
-    <div className="flex w-full grow px-5">
-      <div className="flex w-full flex-col rounded-md bg-gray-50 p-5 shadow-2xl">
+    <div className="relative px-5">
+      <div className="mx-auto flex flex-col rounded-md bg-gray-50 p-5 shadow-2xl">
         <h1 className="mb-4 w-full text-2xl font-bold">MOVES</h1>
         <div className="w-full rounded-lg bg-stone-300 shadow-inner">
-          {pokedexData.version_groups.map((versionGroup) => {
-            const groupName = versionGroup.name;
-            return (
-              <button
-                className={`grow rounded-b-lg ${
-                  activeGroup?.name === groupName
-                    ? 'bg-[#FFCC00] shadow-md'
-                    : 'bg-stone-300'
-                } mx-1 p-3 text-lg font-bold`}
-                onClick={() => setActiveGroup(versionGroup)}
-              >
-                {versionGroup.name.toUpperCase()}
-              </button>
-            );
-          })}
+          <div className="overflow-auto whitespace-nowrap rounded-t-lg px-2">
+            {pokedexData.version_groups.map((versionGroup) => {
+              const groupName = versionGroup.name;
+              return (
+                <button
+                  className={`rounded-b-lg ${
+                    activeGroup?.name === groupName
+                      ? 'bg-[#FFCC00] shadow-md'
+                      : 'bg-stone-300'
+                  } mx-1 p-3 text-lg font-bold`}
+                  onClick={() => setActiveGroup(versionGroup)}
+                >
+                  {versionGroup.name.toUpperCase()}
+                </button>
+              );
+            })}
+          </div>
           <React.Suspense
             fallback={
-              <div className="h-[10rem] justify-center">
+              <div className="my-auto flex h-[20rem]">
                 <Spinner />
               </div>
             }

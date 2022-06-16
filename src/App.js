@@ -36,7 +36,7 @@ function App() {
   }, [pathname]);
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden overscroll-none">
+    <div className="flex h-screen w-screen overflow-hidden overscroll-none py-20 sm:py-14">
       <Navbar search={search} setSearch={setSearch} scrollTop={scrollTop} />
       <React.Suspense
         fallback={
@@ -55,7 +55,7 @@ function App() {
           <div
             ref={scrollRef}
             onScroll={onScroll}
-            className="h-full flex-1 overflow-y-scroll scroll-auto py-20 sm:py-10 sm:pl-[10rem]"
+            className="h-full flex-1 overflow-y-scroll scroll-auto sm:pl-[10rem]"
           >
             <Routes>
               <Route
