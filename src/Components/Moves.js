@@ -20,7 +20,7 @@ function Moves({ pokemonData }) {
       <div className="mx-auto flex flex-col rounded-md bg-gray-50 p-5 shadow-2xl">
         <h1 className="mb-4 w-full text-2xl font-bold">MOVES</h1>
         <div className="w-full rounded-lg bg-stone-300 shadow-inner">
-          <div className="overflow-auto whitespace-nowrap rounded-t-lg px-2">
+          <div className="overflow-auto whitespace-nowrap rounded-t-lg px-2 pb-2">
             {pokedexData.version_groups.map((versionGroup) => {
               const groupName = versionGroup.name;
               return (
