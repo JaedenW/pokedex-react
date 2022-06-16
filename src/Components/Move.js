@@ -4,17 +4,20 @@ import Type from './Type';
 import { typeColours } from '../Utils/typeColours';
 import { getDisplayName } from '../Utils/Functions';
 
-function Move({ move, moveDetails, activeGroup }) {
+function Move({ move, moveDetails }) {
   const [wasClicked, setWasClicked] = React.useState(false);
   const { data: moveData } = useThisMove(move?.url);
 
   return (
     <div
-      className="m-2 h-fit w-[90%] rounded-md p-2 shadow-md transition sm:hover:scale-105 sm:hover:cursor-pointer sm:hover:shadow-lg"
+      className={`${
+        wasClicked &&
+        'sm:hover:scale-105 sm:hover:cursor-pointer sm:hover:shadow-lg'
+      } m-2 h-fit w-[90%] rounded-md p-2 shadow-md transition sm:w-[45%] xl:w-[23%] `}
       style={{ backgroundColor: typeColours[moveData.type.name] }}
       onClick={() => setWasClicked((prevState) => !prevState)}
     >
-      <h3 className="mb-1 text-lg text-gray-100">
+      <h3 className="mb-1 whitespace-nowrap text-lg text-gray-100">
         {getDisplayName(move.name).toUpperCase()}
       </h3>
       <div

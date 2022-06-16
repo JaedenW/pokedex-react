@@ -40,7 +40,7 @@ function Pokemon({ scrollTop }) {
             />
           </div>
           <h1 className="text-4xl font-bold md:text-6xl">{displayName}</h1>
-          <div className="my-10 mx-auto w-full content-center rounded-b-xl bg-[#FFCC00] py-5 shadow-inner lg:px-5 xl:px-10">
+          <div className="my-10 mx-auto w-full content-center rounded-b-xl bg-[#FFCC00] pt-5 pb-20 shadow-inner lg:px-5 xl:px-10">
             <div className="flex flex-wrap">
               <Stats pokemonData={pokemonData} key={`${name}Stats`} />
               <Evolutions
