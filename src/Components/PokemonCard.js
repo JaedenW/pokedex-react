@@ -4,13 +4,17 @@ import { getDisplayName } from '../Utils/Functions';
 import useThisPokemon from '../Hooks/useThisPokemon';
 import useThisSpecies from '../Hooks/useThisSpecies';
 import Type from './Type';
+import { PokedexContext } from '../Utils/PokedexContext';
 
 const PokemonCard = ({ pokemon }) => {
+  const { currentPokedex } = React.useContext(PokedexContext);
   const {
     species: { name, displayName = getDisplayName(name), url },
-    id,
   } = pokemon;
   const { data: speciesData } = useThisSpecies(url);
+  const id = speciesData?.pokedex_numbers.filter(
+    (pokedex) => pokedex.pokedex.name === currentPokedex.name
+  )[0]?.entry_number;
   const variety = speciesData.varieties.map(
     (variety) => variety.is_default && variety.pokemon
   )[0];
@@ -19,7 +23,7 @@ const PokemonCard = ({ pokemon }) => {
   const { sprites, types } = pokemonData;
 
   return (
-    <Link to={`/pokemon/${name}`} state={{ pokemonData, speciesData }}>
+    <Link to={`/pokemon/${name}`} state={{ pokemonData, speciesData, id }}>
       <div className="m-2 w-[10.5rem] overflow-hidden rounded-lg bg-gray-50 shadow-md transition sm:m-4 sm:w-[14rem] sm:hover:scale-105 sm:hover:shadow-lg">
         <div className="container h-[7rem] sm:h-[8rem]">
           <img

@@ -11,8 +11,8 @@ function Pokemon({ scrollTop }) {
   const location = useLocation();
   const [isPending, startTransition] = React.useTransition();
   const { currentPokedex } = React.useContext(PokedexContext);
-  const { pokemonData, speciesData } = location.state;
-  const { name, displayName, sprites, id } = pokemonData;
+  const { pokemonData, speciesData, id } = location.state;
+  const { name, displayName, sprites } = pokemonData;
 
   React.useEffect(() => {
     startTransition(
