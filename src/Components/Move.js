@@ -13,7 +13,7 @@ function Move({ move, moveDetails }) {
       className={`${
         wasClicked ||
         'sm:hover:scale-105 sm:hover:cursor-pointer sm:hover:shadow-lg'
-      } m-2 h-fit w-[90%] rounded-md p-2 shadow-md transition sm:w-[45%] 2xl:w-[25%] `}
+      } m-2 h-fit w-[90%] rounded-md p-2 shadow-md transition sm:w-[45%] xl:w-[30%]`}
       style={{ backgroundColor: typeColours[moveData.type.name] }}
       onClick={() => setWasClicked((prevState) => !prevState)}
     >
