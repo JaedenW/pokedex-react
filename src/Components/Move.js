@@ -64,7 +64,7 @@ function Move({ move, moveDetails }) {
         )}
         {Object.entries(moveData?.meta).map(
           (moveMeta) =>
-            moveMeta[1] && (
+            moveMeta[1] > 0 && (
               <div className="flex justify-between">
                 <p className="inline-flex max-w-[60%] text-left">
                   {getDisplayName(moveMeta[0], '_')}:
