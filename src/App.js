@@ -41,7 +41,7 @@ function App() {
       <React.Suspense
         fallback={
           <div
-            className={`fixed h-full w-0 bg-[#FFCC00] pt-6 shadow-2xl sm:relative sm:-mt-0 sm:w-[10rem] sm:shadow-none`}
+            className={`fixed h-full w-0 bg-[#FFCC00] pt-6 shadow-2xl sm:relative sm:w-[10rem] sm:shadow-none`}
           />
         }
       >
