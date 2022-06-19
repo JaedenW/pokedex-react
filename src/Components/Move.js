@@ -62,12 +62,12 @@ function Move({ move, moveDetails }) {
             </p>
           </div>
         )}
-        {Object.entries(moveData?.meta).map((moveMeta) => {
-          if (moveMeta[1])
-            return (
+        {Object.entries(moveData?.meta).map(
+          (moveMeta) =>
+            moveMeta[1] && (
               <div className="flex justify-between">
                 <p className="inline-flex max-w-[60%] text-left">
-                  {getDisplayName(moveMeta[0], '_')}
+                  {getDisplayName(moveMeta[0], '_')}:
                 </p>
                 <p className="inline-flex max-w-[40%] text-right font-normal">
                   {(moveMeta[1]?.name &&
@@ -75,8 +75,8 @@ function Move({ move, moveDetails }) {
                     moveMeta[1]}
                 </p>
               </div>
-            );
-        })}
+            )
+        )}
       </div>
     </div>
   );
