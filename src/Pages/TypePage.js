@@ -50,7 +50,7 @@ function TypePage({ reachedBottom, setReachedBottom, scrollTop }) {
         <div>
           <div>
             <div className="mx-auto flex w-full content-center py-10 shadow-inner lg:px-5">
-              <div className="mx-auto flex w-[90%] flex-col flex-wrap justify-evenly rounded-xl bg-gray-50 p-3 pt-4 shadow-lg md:w-[85%]">
+              <div className="mx-auto flex w-[90%] flex-col flex-wrap justify-evenly rounded-xl bg-gray-50 p-3 pt-4 shadow-lg md:w-[85%] xl:w-[60%]">
                 <h2 className="mb-3 -mt-1 w-full text-lg font-bold text-stone-700 md:text-xl">
                   Battle Interactions
                 </h2>
