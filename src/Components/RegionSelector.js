@@ -15,9 +15,11 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
         }  pointer-events-auto z-40 bg-[#FFCC00] text-lg transition-[width] sm:w-[10rem]`}
       >
         <div className="justify-end overflow-y-scroll pb-[10rem]">
-          {allRegions.results.map((region) => (
-            <Region region={region} setToggleSidebar={setToggleSidebar} />
-          ))}
+          {allRegions.results
+            .filter((region) => region.name !== 'hisui')
+            .map((region) => (
+              <Region region={region} setToggleSidebar={setToggleSidebar} />
+            ))}
         </div>
       </div>
       <div className="inline-flex flex-grow flex-col">
