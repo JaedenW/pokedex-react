@@ -61,7 +61,7 @@ function Move({ move, moveDetails }) {
             </p>
           </li>
         )}
-        {Object.entries(moveData?.meta).map(
+        {Object.entries(moveData.meta ?? {}).map(
           (moveMeta) =>
             moveMeta[1] > 0 && (
               <li className="flex justify-between">

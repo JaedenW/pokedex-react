@@ -5,6 +5,13 @@ export function getDisplayName(name, delim = '-') {
     .join(' ');
 }
 
+export function getPokedexLabel(pokedexName, regionName) {
+  const words = pokedexName
+    .split('-')
+    .filter((word) => word !== regionName && word);
+  return words.length ? words.join(' ').toUpperCase() : 'ORIGINAL';
+}
+
 export function throttle(callbackFn, delay) {
   let wait = false;
   if (!wait) {

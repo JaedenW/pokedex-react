@@ -15,6 +15,14 @@ function Moves({ pokemonData }) {
     [currentPokedex]
   );
 
+  const activeMoves = pokemonData.moves.flatMap((move) =>
+    move.version_group_details
+      .filter(
+        (groupDetails) => groupDetails.version_group.name === activeGroup?.name
+      )
+      .map((activeGroupDetails) => ({ move: move.move, activeGroupDetails }))
+  );
+
   return (
     <div className="relative px-5">
       <div className="mx-auto flex flex-col rounded-md bg-gray-50 p-5 shadow-2xl">
@@ -45,19 +53,16 @@ function Moves({ pokemonData }) {
             }
           >
             <div className="flex w-full flex-wrap justify-center rounded-lg  py-4 font-semibold">
-              {pokemonData.moves.map((move) =>
-                move.version_group_details
-                  .filter(
-                    (groupDetails) =>
-                      groupDetails.version_group.name === activeGroup?.name
-                  )
-                  .map((activeGroupDetails) => (
-                    <Move
-                      move={move.move}
-                      moveDetails={activeGroupDetails}
-                      activeGroup={activeGroup}
-                    />
-                  ))
+              {activeMoves.length ? (
+                activeMoves.map(({ move, activeGroupDetails }) => (
+                  <Move
+                    move={move}
+                    moveDetails={activeGroupDetails}
+                    activeGroup={activeGroup}
+                  />
+                ))
+              ) : (
+                <p className="py-8 text-stone-500">No move data available</p>
               )}
             </div>
           </React.Suspense>

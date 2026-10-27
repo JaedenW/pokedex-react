@@ -11,16 +11,14 @@ function Pokemon({ scrollTop }) {
   const location = useLocation();
   const [isPending, startTransition] = React.useTransition();
   const { currentPokedex } = React.useContext(PokedexContext);
-  const { pokemonData, speciesData, id } = location.state;
+  const { pokemonData, speciesData } = location.state;
   const { name, displayName, sprites } = pokemonData;
+  const id = speciesData.pokedex_numbers.find(
+    (pokedexNumber) => pokedexNumber.pokedex.name === currentPokedex.name
+  )?.entry_number;
 
   React.useEffect(() => {
-    startTransition(
-      () =>
-        speciesData.pokedex_numbers.filter(
-          (pokedexNumber) => pokedexNumber.pokedex.name === currentPokedex.name
-        ).length === 0 && navigate('/')
-    );
+    startTransition(() => id === undefined && navigate('/'));
   }, [currentPokedex]);
 
   React.useEffect(() => scrollTop(), [pokemonData]);

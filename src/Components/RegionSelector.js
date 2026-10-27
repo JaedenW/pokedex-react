@@ -2,6 +2,7 @@ import React from 'react';
 import { PokedexContext } from '../Utils/PokedexContext';
 import useAllRegions from '../Hooks/useAllRegions';
 import Region from './Region';
+import { getPokedexLabel } from '../Utils/Functions';
 
 function RegionSelector({ toggleSidebar, setToggleSidebar }) {
   const { currentRegion, currentPokedex } = React.useContext(PokedexContext);
@@ -15,11 +16,9 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
         }  pointer-events-auto z-40 bg-[#FFCC00] text-lg transition-[width] sm:w-[10rem]`}
       >
         <div className="justify-end overflow-y-scroll pb-[10rem]">
-          {allRegions.results
-            .filter((region) => region.name !== 'hisui')
-            .map((region) => (
-              <Region region={region} setToggleSidebar={setToggleSidebar} />
-            ))}
+          {allRegions.results.map((region) => (
+            <Region region={region} setToggleSidebar={setToggleSidebar} />
+          ))}
         </div>
       </div>
       <div className="inline-flex flex-grow flex-col">
@@ -55,13 +54,7 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
               } my-auto whitespace-nowrap font-bold`}
             >
               {currentRegion.name.toUpperCase()} REGION -{' '}
-              {currentPokedex.name.includes('-')
-                ? currentPokedex.name
-                    .split('-')
-                    .filter((word) => word !== currentRegion.name && word)
-                    .join(' ')
-                    .toUpperCase()
-                : 'ORIGINAL'}
+              {getPokedexLabel(currentPokedex.name, currentRegion.name)}
             </h3>
           </div>
         </div>

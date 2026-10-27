@@ -1,6 +1,7 @@
 import React from 'react';
 import { PokedexContext } from '../Utils/PokedexContext';
 import useThisRegion from '../Hooks/useThisRegion';
+import { getPokedexLabel } from '../Utils/Functions';
 
 function Region({ region, setToggleSidebar }) {
   const { currentRegion, setCurrentRegion, currentPokedex, setCurrentPokedex } =
@@ -13,6 +14,9 @@ function Region({ region, setToggleSidebar }) {
     () => setIsActive(regionName === currentRegion.name),
     [currentRegion]
   );
+
+  // Skip regions the API lists without pokedex data yet (e.g. Orre)
+  if (!regionData?.pokedexes?.length) return null;
 
   return (
     <div>
@@ -44,13 +48,7 @@ function Region({ region, setToggleSidebar }) {
                     setToggleSidebar(false);
                   }}
                 >
-                  {pokedexName.includes('-')
-                    ? pokedexName
-                        .split('-')
-                        .filter((word) => word !== regionName && word)
-                        .join(' ')
-                        .toUpperCase()
-                    : 'ORIGINAL'}
+                  {getPokedexLabel(pokedexName, regionName)}
                 </button>
               </div>
             );
