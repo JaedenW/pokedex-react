@@ -16,10 +16,10 @@ export default function SectionTabs({
           end
           className={({ isActive }) =>
             cn(
-              'inline-flex h-12 items-center rounded-full px-6 t-body font-bold transition',
+              'inline-flex h-12 items-center rounded-full px-6 t-body font-bold ds-key transition',
               isActive
-                ? 'bg-pk-navy text-white shadow-card'
-                : 'border-2 border-pk-line bg-white hover:border-pk-navy'
+                ? 'ds-gloss text-white ds-text-dark'
+                : 'ds-gloss-silver hover:brightness-105'
             )
           }
         >

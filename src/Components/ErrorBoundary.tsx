@@ -9,7 +9,7 @@ function ErrorView({ error, onRetry }: { error: Error; onRetry: () => void }) {
 
   return (
     <Page>
-      <div className="rounded-3xl border border-pk-line bg-pk-paper px-5 py-14 text-center shadow-card">
+      <div className="ds-frame px-5 py-14 text-center">
         <h1 className="t-h1 text-pk-ink">
           {notFound ? 'Nothing found here' : 'Something went wrong'}
         </h1>

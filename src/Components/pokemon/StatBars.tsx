@@ -33,7 +33,7 @@ export default function StatBars({ pokemon }: { pokemon: Pokemon }) {
                 {STAT_LABELS[stat.name] ?? stat.name}
               </span>
               <span className="text-right t-body">{base_stat}</span>
-              <div className="h-3.5 overflow-hidden rounded-full bg-pk-line/60">
+              <div className="relative h-4 overflow-hidden rounded-full border-[3px] border-pk-navy-deep bg-white shadow-[inset_0_2px_0_rgb(10_40_95/0.2)]">
                 <div
                   className="h-full rounded-full transition-[width] duration-500"
                   style={{
@@ -41,6 +41,7 @@ export default function StatBars({ pokemon }: { pokemon: Pokemon }) {
                     backgroundColor: STAT_COLOURS[stat.name] ?? '#a8a29e',
                   }}
                 />
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-white/40" />
               </div>
               <span className="hidden text-right t-small text-pk-muted sm:block">
                 {min}–{max}

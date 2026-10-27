@@ -67,7 +67,7 @@ function NeighbourLink({
     <Link
       to={pokemonHref(neighbour.species.name, dex)}
       aria-label={`${direction === 'prev' ? 'Previous' : 'Next'}: ${getDisplayName(neighbour.species.name)}`}
-      className="flex h-12 max-w-44 min-w-0 items-center gap-1 rounded-full border-2 border-pk-line bg-white py-0.5 pr-3 pl-2 shadow-card transition hover:border-pk-navy sm:max-w-56"
+      className="flex h-12 max-w-44 min-w-0 items-center gap-1 rounded-full ds-gloss-silver py-0.5 pr-3 pl-2 ds-key transition hover:brightness-105 sm:max-w-56"
     >
       {direction === 'prev' && <ChevronLeftIcon className="size-5 shrink-0" />}
       <img

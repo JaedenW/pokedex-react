@@ -183,7 +183,7 @@ export default function TeamPage() {
                 <React.Suspense
                   key={member.name}
                   fallback={
-                    <li className="h-72 animate-pulse rounded-2xl bg-pk-line/50" />
+                    <li className="h-72 animate-pulse rounded-xl bg-pk-line/50" />
                   }
                 >
                   <MemberCard

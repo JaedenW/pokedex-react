@@ -195,7 +195,7 @@ export default function TypesPage() {
           <Link
             key={type}
             to={`/type/${type}`}
-            className="flex flex-col items-center gap-2 rounded-2xl border border-pk-line bg-pk-paper p-4 shadow-card transition hover:shadow-lift motion-safe:hover:-translate-y-0.5"
+            className="flex flex-col items-center gap-2 ds-frame ds-frame-hover p-4 transition motion-safe:hover:-translate-y-0.5"
           >
             <TypeIcon name={type} className="size-14" />
             <TypeBadge name={type} linked={false} size="sm" />

@@ -32,24 +32,21 @@ export function Panel({
   title,
   children,
   className,
+  bodyClassName,
   actions,
 }: {
   title?: ReactNode;
   children: ReactNode;
   className?: string;
+  bodyClassName?: string;
   actions?: ReactNode;
 }) {
   return (
-    <section
-      className={cn(
-        'rounded-2xl border border-pk-line bg-pk-paper p-4 shadow-card sm:p-6',
-        className
-      )}
-    >
+    <section className={cn('ds-frame', className)}>
       {(title || actions) && (
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-3 px-4 pt-4 sm:px-6 sm:pt-5">
           {title && (
-            <h2 className="flex items-center gap-2.5 t-h3 text-pk-ink">
+            <h2 className="inline-flex items-center gap-2 rounded-full border-[3px] border-pk-navy-deep ds-gloss px-4 pt-0.5 pb-0 t-h3 text-white shadow-[inset_0_0_0_2px_rgb(255_255_255/0.35)] ds-text-dark">
               <span
                 aria-hidden="true"
                 className="size-2.5 shrink-0 rotate-45 bg-pk-yellow"
@@ -60,7 +57,15 @@ export function Panel({
           {actions}
         </div>
       )}
-      {children}
+      <div
+        className={cn(
+          'p-4 sm:p-6',
+          Boolean(title || actions) && 'pt-3 sm:pt-4',
+          bodyClassName
+        )}
+      >
+        {children}
+      </div>
     </section>
   );
 }
@@ -81,7 +86,7 @@ export function EmptyState({
   children?: ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border-2 border-dashed border-pk-line px-4 py-12 text-center">
+    <div className="rounded-xl border-2 border-dashed border-pk-line px-4 py-12 text-center">
       <p className="t-h3 text-pk-ink">{title}</p>
       {children && <div className="mt-2 t-body text-pk-muted">{children}</div>}
     </div>
@@ -91,12 +96,11 @@ export function EmptyState({
 /* ---------- controls ---------- */
 
 const BUTTON_BASE =
-  'inline-flex shrink-0 items-center justify-center gap-2 rounded-full font-bold whitespace-nowrap transition motion-safe:active:scale-95 disabled:pointer-events-none disabled:opacity-40';
+  'inline-flex shrink-0 items-center justify-center gap-2 rounded-full font-bold whitespace-nowrap transition motion-safe:active:translate-y-0.5 disabled:pointer-events-none disabled:opacity-40';
 const BUTTON_VARIANT = {
-  primary: 'bg-pk-navy text-white hover:bg-pk-navy-deep',
-  accent: 'bg-pk-yellow text-pk-navy hover:brightness-95',
-  secondary:
-    'border-2 border-pk-line bg-white text-pk-ink hover:border-pk-navy',
+  primary: 'ds-gloss ds-key ds-text-dark text-white hover:brightness-110',
+  accent: 'ds-gloss-yellow ds-key text-pk-navy hover:brightness-105',
+  secondary: 'ds-gloss-silver ds-key text-pk-ink hover:brightness-105',
 };
 const BUTTON_SIZE = {
   sm: 'h-10 px-4 t-small',
@@ -133,14 +137,18 @@ export function Chip({
       onClick={onClick}
       style={
         active && colour
-          ? { backgroundColor: colour, borderColor: colour }
+          ? {
+              backgroundColor: colour,
+              backgroundImage:
+                'linear-gradient(to bottom, rgb(255 255 255 / 0.35) 50%, transparent 50%)',
+            }
           : undefined
       }
       className={cn(
-        'inline-flex h-10 shrink-0 items-center rounded-full border-2 px-4 t-small font-bold whitespace-nowrap transition',
+        'inline-flex h-10 shrink-0 items-center rounded-full px-4 t-small font-bold whitespace-nowrap ds-key transition',
         active
-          ? 'border-pk-navy bg-pk-navy text-white'
-          : 'border-pk-line bg-white text-pk-ink hover:border-pk-navy',
+          ? 'ds-gloss text-white ds-text-dark'
+          : 'ds-gloss-silver text-pk-ink hover:brightness-105',
         className
       )}
     >
@@ -154,7 +162,7 @@ export interface TabItem<T extends string> {
   label: ReactNode;
 }
 
-/** Underlined tabs; the active one carries the yellow accent. */
+/** Capsule tabs; the active one is the lit yellow key. */
 export function Tabs<T extends string>({
   tabs,
   value,
@@ -169,10 +177,7 @@ export function Tabs<T extends string>({
   return (
     <div
       role="tablist"
-      className={cn(
-        'flex gap-1 overflow-x-auto border-b-2 border-pk-line',
-        className
-      )}
+      className={cn('flex gap-2 overflow-x-auto px-1 pt-1 pb-2', className)}
     >
       {tabs.map((tab) => (
         <button
@@ -182,10 +187,10 @@ export function Tabs<T extends string>({
           aria-selected={tab.id === value}
           onClick={() => onChange(tab.id)}
           className={cn(
-            '-mb-0.5 shrink-0 border-b-4 px-4 py-2.5 t-body font-bold whitespace-nowrap transition',
+            'h-11 shrink-0 rounded-full px-5 t-body font-bold whitespace-nowrap ds-key transition',
             tab.id === value
-              ? 'border-pk-yellow text-pk-navy'
-              : 'border-transparent text-pk-muted hover:text-pk-ink'
+              ? 'ds-gloss-yellow text-pk-navy'
+              : 'ds-gloss-silver text-pk-muted hover:text-pk-ink'
           )}
         >
           {tab.label}
@@ -196,7 +201,7 @@ export function Tabs<T extends string>({
 }
 
 const FIELD =
-  'h-12 w-full rounded-xl border-2 border-pk-line bg-white font-sans text-pk-ink shadow-xs transition placeholder:text-pk-muted/70 hover:border-pk-navy/50 focus:border-pk-navy focus:outline-none';
+  'h-12 w-full rounded-full border-[3px] border-pk-navy-deep bg-white font-sans text-pk-ink shadow-[inset_0_3px_0_rgb(10_40_95/0.18)] transition placeholder:text-pk-muted/70 focus:border-pk-gold focus:ring-3 focus:ring-pk-yellow focus:outline-none';
 
 export function SearchInput({
   value,
@@ -267,7 +272,7 @@ export function Pill({
     <span
       style={{ backgroundColor: colour }}
       className={cn(
-        'inline-flex h-7 items-center rounded-md px-2.5 t-label font-bold text-white',
+        'inline-flex h-7 items-center rounded-md px-2.5 t-label font-bold text-white ring-1 ring-black/20 ring-inset',
         className
       )}
     >
@@ -285,7 +290,7 @@ export function StatTile({
   value: ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-pk-line bg-white p-3 text-center">
+    <div className="rounded-xl border-[3px] border-pk-navy-deep/70 bg-white p-3 text-center shadow-[inset_0_0_0_2px_#fff,0_2px_0_rgb(6_26_64/0.2)]">
       <dt className="t-label text-pk-muted">{label}</dt>
       <dd className="mt-1.5 t-h3 text-pk-ink">{value}</dd>
     </div>
@@ -336,12 +341,12 @@ export function Modal({
         tabIndex={-1}
         onMouseDown={(event) => event.stopPropagation()}
         className={cn(
-          'absolute inset-x-0 bottom-0 flex max-h-[88vh] flex-col overflow-hidden rounded-t-3xl bg-pk-cream shadow-2xl outline-none sm:inset-x-auto sm:top-[8vh] sm:bottom-auto sm:left-1/2 sm:w-[min(52rem,calc(100%-3rem))] sm:-translate-x-1/2 sm:rounded-3xl',
+          'absolute inset-x-0 bottom-0 flex max-h-[88vh] flex-col overflow-hidden rounded-t-3xl border-[3px] border-b-0 border-pk-navy-deep bg-pk-cream shadow-2xl outline-none sm:inset-x-auto sm:top-[8vh] sm:bottom-auto sm:left-1/2 sm:w-[min(52rem,calc(100%-3rem))] sm:-translate-x-1/2 sm:rounded-3xl sm:border-b-[3px]',
           className
         )}
       >
-        <div className="flex shrink-0 items-center justify-between gap-3 bg-pk-navy px-5 py-3 text-white">
-          <h2 className="t-h3">{label}</h2>
+        <div className="flex shrink-0 items-center justify-between gap-3 border-b-[3px] border-pk-navy-deep ds-gloss px-5 py-2 text-white shadow-[inset_0_-3px_0_var(--color-pk-yellow)]">
+          <h2 className="t-h3 ds-text-dark">{label}</h2>
           <button
             type="button"
             onClick={onClose}

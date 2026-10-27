@@ -12,7 +12,7 @@ export default function PokemonTile({ species, number }: GridEntry) {
   return (
     <Link
       to={href(species.name)}
-      className="group flex flex-col items-center rounded-xl border border-pk-line bg-pk-paper px-2 pt-2 pb-3 text-center shadow-card transition hover:shadow-lift motion-safe:hover:-translate-y-0.5"
+      className="group flex flex-col items-center ds-frame ds-frame-hover px-2 pt-2 pb-3 text-center transition motion-safe:hover:-translate-y-0.5"
     >
       <img
         src={pokemonSpriteUrl(idFromUrl(species.url))}

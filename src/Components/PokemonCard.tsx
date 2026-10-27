@@ -35,13 +35,13 @@ export default function PokemonCard({ species, number }: GridEntry) {
   return (
     <Link
       to={href(name)}
-      className="group block overflow-hidden rounded-2xl border border-pk-line bg-pk-paper shadow-card transition hover:shadow-lift motion-safe:hover:-translate-y-1"
+      className="group block overflow-hidden ds-frame ds-frame-hover transition motion-safe:hover:-translate-y-1"
     >
       <div
         className="relative grid h-36 place-items-center"
         style={{ background: typeGlow(pokemon.types[0]?.type.name) }}
       >
-        <span className="absolute top-3 left-3.5 t-label text-pk-ink/55">
+        <span className="absolute top-1.5 left-1.5 rounded-full border-2 border-pk-navy-deep ds-gloss px-2.5 pt-0.5 pb-0 t-label text-white ds-text-dark">
           {formatDexNumber(number)}
         </span>
         <img
@@ -52,8 +52,8 @@ export default function PokemonCard({ species, number }: GridEntry) {
           decoding="async"
         />
       </div>
-      <div className="px-3 pt-3 pb-3.5 text-center">
-        <h2 className="truncate t-h3 text-pk-ink">{displayName}</h2>
+      <div className="border-t-[3px] border-pk-navy-deep bg-linear-to-b from-white to-pk-silver px-3 pt-2.5 pb-3 text-center">
+        <h2 className="truncate t-h3 text-pk-ink ds-text">{displayName}</h2>
         <div className="mt-2 flex h-7 justify-center gap-1.5">
           {pokemon.types.map(({ type, slot }) => (
             <TypeBadge key={slot} name={type.name} linked={false} size="sm" />

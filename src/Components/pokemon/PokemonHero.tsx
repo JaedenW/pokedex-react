@@ -75,7 +75,7 @@ export default function PokemonHero({
   return (
     <article className="grid gap-4 lg:grid-cols-[minmax(0,27rem)_minmax(0,1fr)]">
       <div
-        className="relative overflow-hidden rounded-3xl border border-pk-line shadow-card"
+        className="relative overflow-hidden ds-frame"
         style={{
           background: `radial-gradient(circle at 50% 58%, #ffffffb3 0%, transparent 62%), linear-gradient(150deg, ${primary}88, ${secondary}44)`,
         }}
@@ -104,7 +104,7 @@ export default function PokemonHero({
         />
       </div>
 
-      <div className="flex flex-col justify-center rounded-3xl border border-pk-line bg-pk-paper p-5 shadow-card sm:p-8">
+      <div className="flex flex-col justify-center ds-frame p-5 sm:p-8">
         <p className="t-label text-pk-muted">
           {dexNumber !== undefined && (
             <>

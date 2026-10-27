@@ -216,7 +216,7 @@ export default function SearchPalette() {
         aria-label="Search"
         onMouseDown={(event) => event.stopPropagation()}
         onKeyDown={onKeyDown}
-        className="flex h-full flex-col bg-pk-cream sm:mx-auto sm:mt-[8vh] sm:h-auto sm:max-h-[78vh] sm:max-w-xl sm:overflow-hidden sm:rounded-3xl sm:shadow-2xl"
+        className="flex h-full flex-col bg-pk-cream sm:mx-auto sm:mt-[8vh] sm:h-auto sm:max-h-[78vh] sm:max-w-xl sm:overflow-hidden sm:rounded-xl sm:shadow-2xl"
       >
         <div className="flex items-center gap-2 border-b-4 border-pk-yellow bg-pk-navy p-3">
           <SearchIcon className="ml-1 size-6 shrink-0 text-white/70" />

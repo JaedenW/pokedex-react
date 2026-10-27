@@ -2,10 +2,7 @@
 // shifting the layout while their data loads
 function PokemonCardSkeleton() {
   return (
-    <div
-      aria-hidden="true"
-      className="animate-pulse overflow-hidden rounded-2xl border border-pk-line bg-pk-paper shadow-card"
-    >
+    <div aria-hidden="true" className="animate-pulse overflow-hidden ds-frame">
       <div className="h-36 bg-pk-line/30" />
       <div className="px-3 pt-3 pb-3.5 text-center">
         <div className="mx-auto w-28 rounded bg-pk-line t-h3 text-transparent">

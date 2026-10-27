@@ -12,7 +12,7 @@ export function BackButton({ fallback = '/' }: { fallback?: string }) {
     <button
       type="button"
       onClick={() => (canGoBack ? navigate(-1) : navigate(fallback))}
-      className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-pk-line bg-white shadow-card transition hover:border-pk-navy"
+      className="inline-flex size-11 shrink-0 items-center justify-center rounded-full ds-gloss-silver ds-key transition hover:brightness-105"
       aria-label="Go back"
     >
       <BackIcon />

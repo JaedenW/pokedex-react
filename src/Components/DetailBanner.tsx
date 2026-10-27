@@ -24,16 +24,16 @@ export default function DetailBanner({
 }) {
   return (
     <section
-      className="mb-6 rounded-3xl border border-pk-line bg-pk-paper p-5 shadow-card sm:p-8"
+      className="mb-6 ds-frame p-5 sm:p-8"
       style={{
-        backgroundImage: `linear-gradient(135deg, ${colour}66, ${colour}1a)`,
+        backgroundImage: `linear-gradient(to bottom, ${colour}80, ${colour}1f), repeating-linear-gradient(-45deg, transparent 0 10px, rgb(255 255 255 / 0.35) 10px 20px)`,
       }}
     >
       <div className="flex items-start gap-4">
         <BackButton fallback={back} />
         <div className="min-w-0 flex-1">
           {eyebrow && <p className="mb-1 t-label text-pk-ink/60">{eyebrow}</p>}
-          <h1 className="t-h1 break-words text-pk-ink">{title}</h1>
+          <h1 className="t-h1 break-words text-pk-ink ds-text">{title}</h1>
           {subtitle && <p className="mt-1 t-body text-pk-ink/70">{subtitle}</p>}
           {badges && (
             <div className="mt-4 flex flex-wrap items-center gap-2">

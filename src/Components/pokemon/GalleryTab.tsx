@@ -154,7 +154,7 @@ export default function GalleryTab({
                   aria-pressed={selected}
                   onClick={() => onSelectForm(variety.name)}
                   className={cn(
-                    'flex flex-col items-center rounded-2xl border-2 bg-white p-3 text-center transition hover:shadow-lift',
+                    'flex flex-col items-center rounded-xl border-2 bg-white p-3 text-center transition hover:shadow-lift',
                     selected ? 'border-pk-navy shadow-card' : 'border-pk-line'
                   )}
                 >

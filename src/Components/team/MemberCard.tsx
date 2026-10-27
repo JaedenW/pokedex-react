@@ -43,7 +43,7 @@ export default function MemberCard({
     'flex size-9 items-center justify-center rounded-full border border-pk-line bg-white transition hover:border-pk-navy disabled:opacity-30 disabled:hover:border-pk-line';
 
   return (
-    <li className="min-w-0 rounded-2xl border border-pk-line bg-pk-paper p-4 shadow-card">
+    <li className="min-w-0 ds-frame p-4">
       <div className="flex items-start gap-3">
         <img
           src={officialArtworkUrl(pokemon.id)}

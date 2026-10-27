@@ -14,14 +14,16 @@
   --color-pk-silver: #dfdfdf;
   --color-pk-ink: #1e2742; /* body text */
   --color-pk-muted: #5f667a; /* secondary text */
-  --color-pk-line: #d9d5c3; /* borders and dividers */
+  --color-pk-line: #cbc6ad; /* borders and dividers */
+  --color-pk-navy-light: #1d4a9a; /* top of the glossy navy gradients */
   --color-pk-paper: #fffef9; /* card surfaces */
 
-  /* a crisp edge plus a soft drop, like a card sitting on the page */
-  --shadow-card:
-    0 1px 0 rgb(10 40 95 / 0.08), 0 6px 14px -6px rgb(10 40 95 / 0.22);
-  --shadow-lift:
-    0 2px 0 rgb(10 40 95 / 0.1), 0 14px 26px -10px rgb(10 40 95 / 0.35);
+  /*
+    DS-era frames: a white inner keyline inside the border and a hard,
+    unblurred drop underneath, like a panel on the touch screen.
+  */
+  --shadow-card: inset 0 0 0 2px #fff, 0 3px 0 rgb(6 26 64 / 0.28);
+  --shadow-lift: inset 0 0 0 2px #fff, 0 5px 0 rgb(6 26 64 / 0.35);
 }
 
 /*
@@ -61,6 +63,69 @@
   text-transform: uppercase;
 }
 
+/*
+  Diamond / Pearl / Platinum menu pieces: thick dark outlines, glossy capsules
+  whose top half is lighter, and text with a hard drop shadow.
+*/
+@utility ds-gloss {
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-pk-navy-light) 0%,
+    var(--color-pk-navy) 49%,
+    var(--color-pk-navy-deep) 50%,
+    var(--color-pk-navy) 100%
+  );
+}
+@utility ds-gloss-yellow {
+  background-image: linear-gradient(
+    to bottom,
+    #ffe880 0%,
+    var(--color-pk-yellow) 49%,
+    #f0b400 50%,
+    #ffd633 100%
+  );
+}
+@utility ds-gloss-silver {
+  background-image: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #f1f1f1 49%,
+    #d4d4d4 50%,
+    #e6e6e6 100%
+  );
+}
+/* a rounded window: dark outline, white keyline inside, soft panel fill */
+@utility ds-frame {
+  border: 3px solid var(--color-pk-navy-deep);
+  border-radius: 1.125rem;
+  background-image: linear-gradient(to bottom, #ffffff, #f3f1e6);
+  box-shadow:
+    inset 0 0 0 2px #fff,
+    0 3px 0 rgb(6 26 64 / 0.28);
+}
+/* the glowing selection border the DS cursor draws round a highlighted row */
+@utility ds-frame-hover {
+  &:hover {
+    border-color: var(--color-pk-gold);
+    box-shadow:
+      inset 0 0 0 2px #fff,
+      0 0 0 3px var(--color-pk-yellow),
+      0 5px 0 3px rgb(6 26 64 / 0.28);
+  }
+}
+@utility ds-key {
+  border: 3px solid var(--color-pk-navy-deep);
+  box-shadow:
+    inset 0 0 0 2px rgb(255 255 255 / 0.55),
+    0 3px 0 rgb(6 26 64 / 0.35);
+}
+@utility ds-text {
+  text-shadow: 2px 2px 0 rgb(6 26 64 / 0.22);
+}
+@utility ds-text-dark {
+  text-shadow: 2px 2px 0 rgb(0 0 0 / 0.5);
+}
+
 /* layout measurements shared by the header, tab bar and scroll area */
 :root {
   --header-h: 4rem;
@@ -95,8 +160,20 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  /* a faint diamond lattice, like the menu backdrops in Diamond and Pearl */
   body {
     background-color: var(--color-pk-cream);
+    background-image:
+      repeating-linear-gradient(
+        45deg,
+        transparent 0 38px,
+        rgb(10 40 95 / 0.07) 38px 40px
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        transparent 0 38px,
+        rgb(10 40 95 / 0.07) 38px 40px
+      );
     color: var(--color-pk-ink);
     font-size: 1.5rem;
     line-height: 1.25;

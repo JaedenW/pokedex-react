@@ -7,7 +7,7 @@ export default function NotFoundPage() {
 
   return (
     <Page>
-      <div className="rounded-3xl border border-pk-line bg-pk-paper px-5 py-14 text-center shadow-card">
+      <div className="ds-frame px-5 py-14 text-center">
         <p className="t-display text-pk-navy">404</p>
         <p className="mt-2 t-body text-pk-muted">
           That page wandered off into the tall grass.

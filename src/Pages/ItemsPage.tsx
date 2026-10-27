@@ -112,7 +112,7 @@ export default function ItemsPage() {
                 <li key={item.name}>
                   <Link
                     to={`/item/${item.name}`}
-                    className="flex h-full flex-col items-center rounded-xl border border-pk-line bg-pk-paper px-2 pt-3 pb-2.5 text-center shadow-card transition hover:border-pk-navy hover:shadow-lift"
+                    className="flex h-full flex-col items-center ds-frame ds-frame-hover px-2 pt-3 pb-2.5 text-center transition"
                   >
                     <ItemImage name={item.name} className="size-14" />
                     <span className="mt-1.5 w-full t-small leading-tight font-bold break-words">

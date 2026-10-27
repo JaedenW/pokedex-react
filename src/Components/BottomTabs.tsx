@@ -11,7 +11,7 @@ export default function BottomTabs() {
   return (
     <nav
       aria-label="Sections"
-      className="fixed inset-x-0 bottom-0 z-40 flex h-(--tabbar-h) bg-pk-yellow pb-[env(safe-area-inset-bottom,0px)] shadow-[0_-3px_12px_rgba(6,26,64,0.25)] lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 flex h-(--tabbar-h) border-t-4 border-pk-yellow ds-gloss pb-[env(safe-area-inset-bottom,0px)] lg:hidden"
     >
       {SECTIONS.map((section) => {
         const active = section.isActive(pathname);
@@ -21,10 +21,10 @@ export default function BottomTabs() {
             to={section.to(pokedex)}
             aria-current={active ? 'page' : undefined}
             className={cn(
-              'flex flex-1 flex-col items-center justify-center gap-1 border-t-4 t-label font-bold transition',
+              'm-1 flex flex-1 flex-col items-center justify-center gap-0.5 rounded-2xl border-[3px] t-label font-bold transition',
               active
-                ? 'border-pk-navy bg-pk-paper/60 text-pk-navy'
-                : 'border-transparent text-pk-navy/70 active:bg-pk-paper/40'
+                ? 'ds-gloss-yellow text-pk-navy ds-key'
+                : 'border-transparent text-white/80 active:bg-white/15'
             )}
           >
             <section.icon className="size-6" />

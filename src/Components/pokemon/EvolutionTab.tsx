@@ -27,7 +27,7 @@ function EvolutionCard({
       to={href(species.name)}
       aria-current={current ? 'page' : undefined}
       className={cn(
-        'flex w-40 shrink-0 flex-col items-center rounded-2xl border-2 bg-white p-3 text-center transition hover:shadow-lift',
+        'flex w-40 shrink-0 flex-col items-center rounded-xl border-2 bg-white p-3 text-center transition hover:shadow-lift',
         current ? 'border-pk-navy shadow-card' : 'border-pk-line'
       )}
     >

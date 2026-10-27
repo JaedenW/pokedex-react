@@ -45,7 +45,7 @@ export default function ItemPage() {
         media={
           <ItemImage
             name={name}
-            className="size-20 rounded-2xl border border-pk-line bg-white p-2 sm:size-28"
+            className="size-20 rounded-xl border border-pk-line bg-white p-2 sm:size-28"
           />
         }
       />

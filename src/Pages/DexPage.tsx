@@ -111,7 +111,7 @@ export default function DexPage() {
 
   return (
     <Page wide>
-      <section className="relative mb-6 overflow-hidden rounded-3xl bg-pk-yellow px-5 py-6 text-pk-navy shadow-card sm:px-8 sm:py-8">
+      <section className="relative mb-6 overflow-hidden rounded-[1.125rem] border-[3px] border-pk-navy-deep ds-gloss-yellow px-5 py-6 text-pk-navy shadow-[inset_0_0_0_2px_rgb(255_255_255/0.6),0_3px_0_rgb(6_26_64/0.28)] sm:px-8 sm:py-8">
         <PokeballOutline
           aria-hidden="true"
           className="pointer-events-none absolute -right-8 -bottom-14 size-56 text-pk-navy/10 sm:size-72"
@@ -119,14 +119,14 @@ export default function DexPage() {
         <p className="t-label text-pk-navy/70">
           {regionName ? `${getDisplayName(regionName)} region` : 'All regions'}
         </p>
-        <h1 className="mt-1 t-h1">{title}</h1>
+        <h1 className="mt-1 t-h1 ds-text">{title}</h1>
         <p className="mt-1 t-body text-pk-navy/80">{all.length} Pokémon</p>
         <div className="relative mt-5">
           <DexPicker pokedex={pokedex} />
         </div>
       </section>
 
-      <Panel className="mb-5 space-y-3 sm:space-y-4">
+      <Panel className="mb-5" bodyClassName="space-y-3 sm:space-y-4">
         <div className="flex flex-wrap gap-3">
           <SearchInput
             label="Filter this Pokédex"

@@ -65,7 +65,7 @@ export default function MovesPage() {
       <PageHeader title="Moves" subtitle={`${index.count} moves`} />
       <SectionTabs tabs={MOVE_TABS} />
 
-      <Panel className="mb-5 space-y-3 sm:space-y-4">
+      <Panel className="mb-5" bodyClassName="space-y-3 sm:space-y-4">
         <div className="flex flex-wrap gap-3">
           <SearchInput
             label="Search moves"

@@ -22,10 +22,10 @@ function DexChip({
       to={to}
       aria-current={current ? 'page' : undefined}
       className={cn(
-        'inline-flex h-10 items-center rounded-full border-2 px-4 t-small font-bold transition',
+        'inline-flex h-10 items-center rounded-full px-4 t-small font-bold ds-key transition',
         current
-          ? 'border-pk-navy bg-pk-navy text-white'
-          : 'border-pk-line bg-white hover:border-pk-navy'
+          ? 'ds-gloss text-white ds-text-dark'
+          : 'ds-gloss-silver hover:brightness-105'
       )}
     >
       {children}
@@ -38,7 +38,7 @@ function RegionCard({ name, current }: { name: string; current: string }) {
   if (!region.pokedexes.length) return null; // e.g. Orre has no Pokédex yet
 
   return (
-    <section className="rounded-2xl border border-pk-line bg-pk-paper p-4 shadow-card">
+    <section className="ds-frame p-4">
       <h3 className="mb-3 flex items-center gap-2.5 t-h3">
         <span aria-hidden="true" className="size-2.5 rotate-45 bg-pk-yellow" />
         {getDisplayName(name)}
@@ -69,7 +69,7 @@ function PickerContent({ current }: { current: string }) {
         to={dexHref('national')}
         aria-current={current === 'national' ? 'page' : undefined}
         className={cn(
-          'flex items-center justify-between gap-3 rounded-2xl border-2 p-4 transition',
+          'flex items-center justify-between gap-3 rounded-xl border-2 p-4 transition',
           current === 'national'
             ? 'border-pk-navy bg-pk-navy text-white'
             : 'border-pk-yellow bg-pk-yellow/30 hover:bg-pk-yellow/60'

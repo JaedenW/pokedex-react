@@ -56,7 +56,7 @@ export default function AbilitiesPage() {
               <li key={ability.name}>
                 <Link
                   to={`/ability/${ability.name}`}
-                  className="block rounded-xl border border-pk-line bg-pk-paper px-4 py-2.5 t-body font-bold shadow-card transition hover:border-pk-navy hover:shadow-lift"
+                  className="block ds-frame ds-frame-hover px-4 py-2.5 t-body font-bold transition"
                 >
                   {getDisplayName(ability.name)}
                 </Link>
