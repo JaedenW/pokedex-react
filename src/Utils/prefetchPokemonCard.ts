@@ -1,7 +1,7 @@
 import type { QueryClient } from '@tanstack/react-query';
-import { speciesQueryOptions } from '../Hooks/useThisSpecies';
-import { pokemonQueryOptions } from '../Hooks/useThisPokemon';
-import { getDefaultVariety } from './Functions';
+import { apiQuery, pathFromUrl } from '../api/pokeapi';
+import { getDefaultVariety } from './species';
+import type { Pokemon, PokemonSpecies } from '../types/pokeapi';
 
 // Loads what a PokemonCard needs into the query cache ahead of time
 export async function prefetchPokemonCard(
@@ -10,10 +10,10 @@ export async function prefetchPokemonCard(
 ) {
   try {
     const species = await queryClient.ensureQueryData(
-      speciesQueryOptions(speciesUrl)
+      apiQuery<PokemonSpecies>(pathFromUrl(speciesUrl))
     );
     await queryClient.prefetchQuery(
-      pokemonQueryOptions(getDefaultVariety(species).pokemon.url)
+      apiQuery<Pokemon>(pathFromUrl(getDefaultVariety(species).pokemon.url))
     );
   } catch {
     // best effort: the card fetches for itself if this fails

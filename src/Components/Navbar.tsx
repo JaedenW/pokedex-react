@@ -1,64 +1,76 @@
-import React from 'react';
+import { Link, useLocation } from 'react-router';
 import Pokeball from '../Images/pokeball.png';
-import { Link, useNavigate } from 'react-router';
+import { SearchIcon } from './Icons';
+import { SECTIONS } from './sections';
+import { useSearch } from '../Utils/SearchContext';
+import { useDexName } from '../Utils/dex';
+import { cn } from '../Utils/cn';
 
-interface NavbarProps {
-  search: string;
-  setSearch: (search: string) => void;
-  scrollTop: () => void;
-}
+const isMac =
+  typeof navigator !== 'undefined' &&
+  /Mac|iPhone|iPad/.test(navigator.platform);
 
-function Navbar({ search, setSearch, scrollTop }: NavbarProps) {
-  const navigate = useNavigate();
-
-  function handleClick() {
-    setSearch('');
-    scrollTop();
-  }
-
-  function handleEnterKey(event: React.KeyboardEvent<HTMLInputElement>) {
-    if (event.code === 'Enter') {
-      event.currentTarget.blur();
-      navigate('/');
-    }
-  }
+export default function Navbar() {
+  const { pathname } = useLocation();
+  const { openSearch } = useSearch();
+  const pokedex = useDexName();
 
   return (
-    <div className="fixed top-0 z-30 h-16 w-full bg-[#0A285F] shadow-lg">
-      <nav className="flex h-full w-screen items-center text-gray-600 hover:text-gray-800">
-        <div className="inline-flex h-full w-full items-center px-3 shadow-xl">
-          <Link
-            className="z-50 flex h-full items-center"
-            to="/"
-            onClick={handleClick}
-          >
-            <div className="mr-1 flex items-center text-white">
-              <img
-                className="mx-2 inline-flex w-9"
-                src={Pokeball}
-                alt="Pokeball"
-              />
-              <h1 className="mt-0.5 mr-2 inline-flex text-xl font-bold">
-                Pokédex
-              </h1>
-            </div>
-          </Link>
-        </div>
-        <div className="inline-flex w-full lg:absolute">
-          <input
-            type="text"
-            id="search-navbar"
-            className="z-50 mr-2 w-full rounded-lg border border-black bg-[#DFDFDF] py-2 pl-4 font-sans placeholder-gray-500 shadow-xs hover:border-[#FB1B1B] lg:mx-auto lg:w-[40%] xl:w-[30%]"
-            placeholder="Search..."
-            enterKeyHint="search"
-            onChange={(event) => setSearch(event.target.value)}
-            onKeyUp={handleEnterKey}
-            value={search}
-          />
-        </div>
+    <header className="fixed inset-x-0 top-0 z-40 flex h-(--header-h) items-center gap-3 border-b-4 border-pk-yellow bg-pk-navy px-4 text-white shadow-lg lg:px-6">
+      <Link
+        to="/"
+        className="flex shrink-0 items-center gap-2.5"
+        aria-label="Pokédex home"
+      >
+        <img className="size-10 lg:size-12" src={Pokeball} alt="" />
+        <span className="mt-0.5 t-h3 lg:text-[2.25rem]">Pokédex</span>
+      </Link>
+
+      <nav
+        aria-label="Sections"
+        className="ml-3 hidden items-center gap-1 lg:flex"
+      >
+        {SECTIONS.map((section) => {
+          const active = section.isActive(pathname);
+          return (
+            <Link
+              key={section.id}
+              to={section.to(pokedex)}
+              aria-current={active ? 'page' : undefined}
+              className={cn(
+                'inline-flex h-11 items-center gap-2 rounded-full px-4 t-body font-bold transition',
+                active
+                  ? 'bg-pk-yellow text-pk-navy'
+                  : 'text-white/85 hover:bg-white/10 hover:text-white'
+              )}
+            >
+              <section.icon className="size-5" />
+              {section.label}
+            </Link>
+          );
+        })}
       </nav>
-    </div>
+
+      <button
+        type="button"
+        onClick={openSearch}
+        aria-label="Search"
+        className="ml-auto hidden h-11 w-44 items-center gap-2.5 rounded-full bg-white/10 px-4 text-left t-small text-white/75 ring-1 ring-white/25 transition hover:bg-white/20 sm:flex xl:w-72"
+      >
+        <SearchIcon className="size-5 shrink-0" />
+        <span className="flex-1 truncate">Search…</span>
+        <kbd className="hidden rounded-md border border-white/30 px-1.5 py-0.5 t-label text-white/70 xl:inline">
+          {isMac ? '⌘K' : 'Ctrl K'}
+        </kbd>
+      </button>
+      <button
+        type="button"
+        onClick={openSearch}
+        aria-label="Search"
+        className="ml-auto flex size-11 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/25 sm:hidden"
+      >
+        <SearchIcon />
+      </button>
+    </header>
   );
 }
-
-export default Navbar;

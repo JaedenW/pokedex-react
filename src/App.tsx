@@ -1,84 +1,75 @@
 import React from 'react';
-import { Routes, Route, useLocation } from 'react-router';
+import { Navigate, Route, Routes, useLocation } from 'react-router';
 import Navbar from './Components/Navbar';
+import BottomTabs from './Components/BottomTabs';
+import ErrorBoundary from './Components/ErrorBoundary';
 import ProgressIndicator from './Components/ProgressIndicator';
+import SearchPalette from './Components/SearchPalette';
+import { Loading } from './Components/ui';
+import { useScrollRestoration } from './Hooks/useScrollRestoration';
+import { DEFAULT_DEX, dexHref } from './Utils/dex';
 import './index.css';
 
-const RegionSelector = React.lazy(() => import('./Components/RegionSelector'));
-const Home = React.lazy(() => import('./Pages/Home'));
-const Pokemon = React.lazy(() => import('./Pages/Pokemon'));
+const DexPage = React.lazy(() => import('./Pages/DexPage'));
+const PokemonPage = React.lazy(() => import('./Pages/PokemonPage'));
 const TypePage = React.lazy(() => import('./Pages/TypePage'));
-const PokemonGrid = React.lazy(() => import('./Components/PokemonGrid'));
+const TypesPage = React.lazy(() => import('./Pages/TypesPage'));
+const MovesPage = React.lazy(() => import('./Pages/MovesPage'));
+const MovePage = React.lazy(() => import('./Pages/MovePage'));
+const AbilitiesPage = React.lazy(() => import('./Pages/AbilitiesPage'));
+const AbilityPage = React.lazy(() => import('./Pages/AbilityPage'));
+const ItemsPage = React.lazy(() => import('./Pages/ItemsPage'));
+const ItemPage = React.lazy(() => import('./Pages/ItemPage'));
+const TeamPage = React.lazy(() => import('./Pages/TeamPage'));
+const NotFoundPage = React.lazy(() => import('./Pages/NotFoundPage'));
 
 function App() {
-  const [search, setSearch] = React.useState('');
-  const [toggleSidebar, setToggleSidebar] = React.useState(false);
   const { pathname } = useLocation();
-  const scrollRef = React.useRef<HTMLDivElement>(null);
+  const scrollRef = React.useRef<HTMLElement>(null);
 
-  // On phones the page behind the open sidebar stays scrollable, so a tap
-  // outside closes the sidebar (without also activating what was tapped)
-  function closeSidebarOnOutsideTap(event: React.MouseEvent) {
-    if (toggleSidebar && !window.matchMedia('(min-width: 40rem)').matches) {
-      event.preventDefault();
-      event.stopPropagation();
-      setToggleSidebar(false);
-    }
-  }
-
-  function scrollTop() {
-    setTimeout(() => {
-      if (scrollRef.current) scrollRef.current.scrollTop = 0;
-    }, 200);
-  }
-
-  React.useEffect(() => {
-    setToggleSidebar(false);
-  }, [pathname]);
+  useScrollRestoration(scrollRef);
 
   return (
-    <div className="h-screen w-screen overflow-hidden py-20 sm:py-14">
-      <Navbar search={search} setSearch={setSearch} scrollTop={scrollTop} />
-      <React.Suspense
-        fallback={
-          <div className="fixed h-full w-0 bg-[#FFCC00] pt-6 shadow-2xl sm:relative sm:w-40 sm:shadow-none" />
-        }
+    <>
+      <Navbar />
+      <main
+        ref={scrollRef}
+        data-scroll-root
+        className="fixed inset-x-0 top-(--header-h) bottom-(--tabbar-h) overflow-y-scroll overscroll-contain lg:bottom-0"
       >
-        <RegionSelector
-          toggleSidebar={toggleSidebar}
-          setToggleSidebar={setToggleSidebar}
-        />
-      </React.Suspense>
-      <React.Suspense fallback={<ProgressIndicator />}>
-        <div className="flex h-screen flex-1 overscroll-none">
-          <div
-            ref={scrollRef}
-            data-scroll-root
-            onClickCapture={closeSidebarOnOutsideTap}
-            className="h-full flex-1 overflow-y-scroll sm:pl-40"
+        <ErrorBoundary resetKey={pathname}>
+          <React.Suspense
+            fallback={
+              <>
+                <ProgressIndicator />
+                <Loading className="h-[60vh]" />
+              </>
+            }
           >
             <Routes>
               <Route
                 path="/"
-                element={
-                  <Home scrollTop={scrollTop}>
-                    <PokemonGrid search={search} />
-                  </Home>
-                }
+                element={<Navigate to={dexHref(DEFAULT_DEX)} replace />}
               />
-              <Route
-                path="pokemon/:name"
-                element={<Pokemon scrollTop={scrollTop} />}
-              />
-              <Route
-                path="type/:typeName"
-                element={<TypePage scrollTop={scrollTop} />}
-              />
+              <Route path="/dex/:pokedex" element={<DexPage />} />
+              <Route path="/pokemon/:name" element={<PokemonPage />} />
+              <Route path="/types" element={<TypesPage />} />
+              <Route path="/type/:name" element={<TypePage />} />
+              <Route path="/moves" element={<MovesPage />} />
+              <Route path="/move/:name" element={<MovePage />} />
+              <Route path="/abilities" element={<AbilitiesPage />} />
+              <Route path="/ability/:name" element={<AbilityPage />} />
+              <Route path="/items" element={<ItemsPage />} />
+              <Route path="/item/:name" element={<ItemPage />} />
+              <Route path="/team" element={<TeamPage />} />
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
-          </div>
-        </div>
-      </React.Suspense>
-    </div>
+          </React.Suspense>
+        </ErrorBoundary>
+      </main>
+      <BottomTabs />
+      <SearchPalette />
+    </>
   );
 }
 

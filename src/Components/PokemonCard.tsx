@@ -1,53 +1,65 @@
 import { Link } from 'react-router';
-import { getDefaultVariety, getDisplayName } from '../Utils/Functions';
-import useThisPokemon from '../Hooks/useThisPokemon';
-import useThisSpecies from '../Hooks/useThisSpecies';
-import Type from './Type';
-import { usePokedex } from '../Utils/PokedexContext';
-import type { NamedAPIResource } from '../types/pokeapi';
-import type { PokemonData } from '../types/app';
+import { pathFromUrl, useApi } from '../api/pokeapi';
+import { getDefaultVariety } from '../Utils/species';
+import { usePokemonHref } from '../Utils/dex';
+import { formatDexNumber, getDisplayName } from '../Utils/text';
+import { typeColours } from '../Utils/typeColours';
+import TypeBadge from './TypeBadge';
+import type {
+  NamedAPIResource,
+  Pokemon,
+  PokemonSpecies,
+} from '../types/pokeapi';
 
-const PokemonCard = ({ species }: { species: NamedAPIResource }) => {
-  const { currentPokedex } = usePokedex();
+export interface GridEntry {
+  species: NamedAPIResource;
+  /** The number shown on the card, in the Pokédex being browsed */
+  number: number;
+}
+
+/** A soft glow of the Pokémon's type behind its sprite. */
+export const typeGlow = (type?: string) => {
+  const colour = (type && typeColours[type]) || '#a8a77a';
+  return `radial-gradient(circle at 50% 78%, ${colour}66 0%, ${colour}1f 55%, transparent 100%)`;
+};
+
+export default function PokemonCard({ species, number }: GridEntry) {
   const { name, url } = species;
+  const href = usePokemonHref();
   const displayName = getDisplayName(name);
-  const { data: speciesData } = useThisSpecies(url);
-  const id = speciesData.pokedex_numbers.find(
-    (pokedex) => pokedex.pokedex.name === currentPokedex.name
-  )?.entry_number;
-  const { data } = useThisPokemon(getDefaultVariety(speciesData).pokemon.url);
-  const pokemonData: PokemonData = { ...data, displayName };
-  const { sprites, types } = pokemonData;
+  const speciesData = useApi<PokemonSpecies>(pathFromUrl(url));
+  const pokemon = useApi<Pokemon>(
+    pathFromUrl(getDefaultVariety(speciesData).pokemon.url)
+  );
 
   return (
-    <Link to={`/pokemon/${name}`} state={{ pokemonData, speciesData }}>
-      <div className="m-2 w-42 overflow-hidden rounded-lg bg-gray-50 shadow-md transition sm:m-4 sm:w-56 sm:hover:scale-105 sm:hover:shadow-lg">
-        <div className="h-28 sm:h-32">
-          <img
-            className="mx-auto my-5 block h-[90%]"
-            src={sprites.front_default ?? undefined}
-            alt={displayName}
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-        <div className="text-center">
-          <h1 className="mb-1 text-xl font-bold text-black">{displayName}</h1>
-          {types.map((type) => (
-            <div
-              className="inline-flex px-0.5 pb-2 sm:px-1 sm:pt-1 sm:pb-3"
-              key={type.slot}
-            >
-              <Type type={type.type} />
-            </div>
+    <Link
+      to={href(name)}
+      className="group block overflow-hidden rounded-2xl border border-pk-line bg-pk-paper shadow-card transition hover:shadow-lift motion-safe:hover:-translate-y-1"
+    >
+      <div
+        className="relative grid h-36 place-items-center"
+        style={{ background: typeGlow(pokemon.types[0]?.type.name) }}
+      >
+        <span className="absolute top-3 left-3.5 t-label text-pk-ink/55">
+          {formatDexNumber(number)}
+        </span>
+        <img
+          className="size-28 object-contain transition motion-safe:group-hover:scale-110"
+          src={pokemon.sprites.front_default ?? undefined}
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <div className="px-3 pt-3 pb-3.5 text-center">
+        <h2 className="truncate t-h3 text-pk-ink">{displayName}</h2>
+        <div className="mt-2 flex h-7 justify-center gap-1.5">
+          {pokemon.types.map(({ type, slot }) => (
+            <TypeBadge key={slot} name={type.name} linked={false} size="sm" />
           ))}
         </div>
-        <footer className="bg-[#FFCC00] p-2 text-center font-bold text-[#D5A100] shadow-inner">
-          #{('000' + id).slice(-3)} {/* Zerofilled ID */}
-        </footer>
       </div>
     </Link>
   );
-};
-
-export default PokemonCard;
+}

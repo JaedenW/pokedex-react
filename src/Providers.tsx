@@ -1,38 +1,29 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { PokedexContext } from './Utils/PokedexContext';
-import type { NamedAPIResource } from './types/pokeapi';
+import { SearchProvider } from './Utils/SearchContext';
+import { HttpError } from './Utils/fetchJson';
 
 // PokeAPI data is static, so cached responses never go stale
 const queryClient = new QueryClient({
-  defaultOptions: { queries: { staleTime: Infinity } },
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+      // a missing resource won't appear on retry
+      retry: (failureCount, error) =>
+        !(error instanceof HttpError && error.status === 404) &&
+        failureCount < 2,
+    },
+  },
 });
 
 function Providers({ children }: { children: React.ReactNode }) {
-  const [currentRegion, setCurrentRegion] = React.useState<NamedAPIResource>({
-    name: 'kanto',
-    url: 'https://pokeapi.co/api/v2/region/1/',
-  });
-
-  const [currentPokedex, setCurrentPokedex] = React.useState<NamedAPIResource>({
-    name: 'kanto',
-    url: 'https://pokeapi.co/api/v2/pokedex/2/',
-  });
-
   return (
-    <PokedexContext.Provider
-      value={{
-        currentRegion,
-        setCurrentRegion,
-        currentPokedex,
-        setCurrentPokedex,
-      }}
-    >
-      <QueryClientProvider client={queryClient}>
-        <Router>{children}</Router>
-      </QueryClientProvider>
-    </PokedexContext.Provider>
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <SearchProvider>{children}</SearchProvider>
+      </Router>
+    </QueryClientProvider>
   );
 }
 
