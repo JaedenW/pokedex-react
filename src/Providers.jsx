@@ -1,7 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { BrowserRouter as Router } from 'react-router';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PokedexContext } from './Utils/PokedexContext';
+
+// Queries use useSuspenseQuery, so no suspense default is needed here
+const queryClient = new QueryClient();
 
 function Providers({ children }) {
   const [currentRegion, setCurrentRegion] = React.useState({
@@ -12,14 +15,6 @@ function Providers({ children }) {
   const [currentPokedex, setCurrentPokedex] = React.useState({
     name: 'kanto',
     url: 'https://pokeapi.co/api/v2/pokedex/2/',
-  });
-
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        suspense: true,
-      },
-    },
   });
 
   return (

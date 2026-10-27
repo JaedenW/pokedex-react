@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 async function fetchSpecies(url) {
   const res = await fetch(url);
@@ -6,5 +6,8 @@ async function fetchSpecies(url) {
 }
 
 export default function useThisSpecies(url) {
-  return useQuery(['thisPokemon', url], () => fetchSpecies(url));
+  return useSuspenseQuery({
+    queryKey: ['thisPokemon', url],
+    queryFn: () => fetchSpecies(url),
+  });
 }

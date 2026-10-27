@@ -1,3 +1,3 @@
 # About This Project
 
-Created with create-react-app, TailwindCSS and PokeApi v2.
+Built with React, Vite, Tailwind CSS and PokeAPI v2.

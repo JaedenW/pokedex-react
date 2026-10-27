@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 
 async function fetchPokemon() {
   const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1');
@@ -9,22 +9,26 @@ async function fetchAllPokemon(count) {
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${count}`);
   return res.json();
 }
-
 export default function usePokemonData() {
-  const { data: countData } = useQuery('pokemon', fetchPokemon, {});
+  const { data: countData } = useQuery({
+    queryKey: ['pokemon'],
+    queryFn: fetchPokemon,
+  });
 
   const count = countData?.count;
 
-  const { isIdle, data: allData } = useQuery(
-    ['allPokemon', count],
-    () => fetchAllPokemon(count),
-    {
-      enabled: count > 0,
-    }
-  );
+  const {
+    fetchStatus,
+    isPending,
+    data: allData,
+  } = useQuery({
+    queryKey: ['allPokemon', count],
+    queryFn: () => fetchAllPokemon(count),
+    enabled: count > 0,
+  });
 
   return {
-    isIdle,
+    isIdle: isPending && fetchStatus === 'idle',
     allData,
   };
 }

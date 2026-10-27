@@ -47,7 +47,7 @@ function Moves({ pokemonData }) {
           </div>
           <React.Suspense
             fallback={
-              <div className="my-auto flex h-[20rem]">
+              <div className="my-auto flex h-80">
                 <Spinner />
               </div>
             }

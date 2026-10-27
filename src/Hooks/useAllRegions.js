@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 async function fetchAllRegions() {
   const res = await fetch('https://pokeapi.co/api/v2/region?limit=100');
@@ -6,5 +6,8 @@ async function fetchAllRegions() {
 }
 
 export default function useAllRegions() {
-  return useQuery('allRegions', fetchAllRegions);
+  return useSuspenseQuery({
+    queryKey: ['allRegions'],
+    queryFn: fetchAllRegions,
+  });
 }

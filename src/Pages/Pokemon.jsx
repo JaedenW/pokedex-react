@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, Outlet, useNavigate } from 'react-router-dom';
+import { useLocation, Outlet, useNavigate } from 'react-router';
 import { PokedexContext } from '../Utils/PokedexContext';
 
 const Stats = React.lazy(() => import('../Components/Stats'));
@@ -25,14 +25,14 @@ function Pokemon({ scrollTop }) {
 
   return (
     !isPending && (
-      <div className="w-screen pt-14 text-stone-700 sm:-ml-[5rem] lg:-ml-[10rem]">
+      <div className="w-screen pt-14 text-stone-700 sm:-ml-20 lg:-ml-40">
         <div className="mx-auto flex w-[90%] flex-col rounded-2xl bg-white text-center shadow-md sm:w-[60%] 2xl:w-[50%]">
           <h2 className="rounded-t-2xl bg-[#FFCC00] p-2 text-center text-2xl font-bold text-[#D5A100] shadow-inner">
             #{('000' + id).slice(-3)} {/* Zerofilled ID */}
           </h2>
           <div className="block h-fit w-full justify-center">
             <img
-              className="my-5 mx-auto min-h-[10rem] w-[60%] min-w-[10rem] max-w-[20rem] md:pt-5 lg:pt-10"
+              className="my-5 mx-auto min-h-40 w-[60%] min-w-40 max-w-[20rem] md:pt-5 lg:pt-10"
               src={sprites?.other['official-artwork']?.front_default}
               alt={displayName}
             />

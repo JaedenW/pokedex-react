@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { getDisplayName } from '../Utils/Functions';
 import useThisPokemon from '../Hooks/useThisPokemon';
 import useThisSpecies from '../Hooks/useThisSpecies';
@@ -24,8 +24,8 @@ const PokemonCard = ({ pokemon }) => {
 
   return (
     <Link to={`/pokemon/${name}`} state={{ pokemonData, speciesData }}>
-      <div className="m-2 w-[10.5rem] overflow-hidden rounded-lg bg-gray-50 shadow-md transition sm:m-4 sm:w-[14rem] sm:hover:scale-105 sm:hover:shadow-lg">
-        <div className="container h-[7rem] sm:h-[8rem]">
+      <div className="m-2 w-42 overflow-hidden rounded-lg bg-gray-50 shadow-md transition sm:m-4 sm:w-56 sm:hover:scale-105 sm:hover:shadow-lg">
+        <div className="container h-28 sm:h-32">
           <img
             className="mx-auto my-5 block h-[90%]"
             src={sprites.front_default}

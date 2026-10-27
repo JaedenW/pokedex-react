@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery } from 'react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { getDisplayName } from '../Utils/Functions';
 
 function Ability({ ability: { ability, is_hidden } }) {
@@ -10,9 +10,10 @@ function Ability({ ability: { ability, is_hidden } }) {
     return res.json();
   }
 
-  const { data, isSuccess } = useQuery(['abilities', url], () =>
-    fetchAbility(url)
-  );
+  const { data, isSuccess } = useSuspenseQuery({
+    queryKey: ['abilities', url],
+    queryFn: () => fetchAbility(url),
+  });
 
   return (
     <div className="text-md mt-3 flex-col justify-between rounded-md bg-gray-100 p-3 font-semibold shadow-inner">

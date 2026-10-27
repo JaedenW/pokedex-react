@@ -1,6 +1,6 @@
 import React from 'react';
-import { useLocation, Outlet } from 'react-router-dom';
-import { useQuery } from 'react-query';
+import { useLocation, Outlet } from 'react-router';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { PokedexContext } from '../Utils/PokedexContext';
 import { typeColours } from '../Utils/typeColours';
 import { getDisplayName } from '../Utils/Functions';
@@ -14,7 +14,10 @@ function TypePage({ reachedBottom, setReachedBottom, scrollTop }) {
   const typePokemonRef = React.useRef();
   const location = useLocation();
   const { name, url } = location.state.type;
-  const { data } = useQuery(['type', url], () => fetchType(url));
+  const { data } = useSuspenseQuery({
+    queryKey: ['type', url],
+    queryFn: () => fetchType(url),
+  });
 
   const typePokemonFilter = [
     ...data.pokemon.map((pokemon) => pokemon.pokemon.name),
@@ -38,12 +41,12 @@ function TypePage({ reachedBottom, setReachedBottom, scrollTop }) {
   }
 
   return (
-    <div className="mt-14 lg:-ml-[10rem]">
+    <div className="mt-14 lg:-ml-40">
       <div
         className="container z-20 mx-auto w-[90%] rounded-t-2xl bg-white text-center shadow-md lg:w-[60%] 2xl:w-[50%]"
         style={{ backgroundColor: typeColours[name] }}
       >
-        <div className="h-[3.5rem] rounded-t-2xl shadow-inner" />
+        <div className="h-14 rounded-t-2xl shadow-inner" />
         <h1 className="bg-white py-6 text-center text-6xl font-bold text-stone-700 sm:py-10">
           {getDisplayName(name)}
         </h1>
@@ -58,9 +61,9 @@ function TypePage({ reachedBottom, setReachedBottom, scrollTop }) {
                   const [relationName, relationData] = relation;
                   return (
                     relationData.length > 0 && (
-                      <div className="mb-1 flex h-[5rem] w-full rounded-xl bg-[#DFDFDF] font-bold shadow-inner md:h-[6rem] ">
+                      <div className="mb-1 flex h-20 w-full rounded-xl bg-[#DFDFDF] font-bold shadow-inner md:h-24 ">
                         <div
-                          className="my-auto flex h-full min-w-[25%] max-w-[25%] flex-grow flex-col justify-center rounded-l-xl border-2 p-2 text-sm sm:max-w-[20%] md:p-3 md:text-base lg:border-4 xl:text-xl"
+                          className="my-auto flex h-full min-w-[25%] max-w-[25%] grow flex-col justify-center rounded-l-xl border-2 p-2 text-sm sm:max-w-[20%] md:p-3 md:text-base lg:border-4 xl:text-xl"
                           style={{ borderColor: typeColours[name] }}
                         >
                           <h2 className="text-right text-stone-700">
@@ -69,7 +72,7 @@ function TypePage({ reachedBottom, setReachedBottom, scrollTop }) {
                         </div>
                         <div
                           ref={typePokemonRef}
-                          className="my-auto flex h-fit max-h-full flex-shrink flex-wrap justify-start overflow-auto p-1"
+                          className="my-auto flex h-fit max-h-full shrink flex-wrap justify-start overflow-auto p-1"
                         >
                           {relationData.map((entry) => {
                             return (
@@ -92,7 +95,7 @@ function TypePage({ reachedBottom, setReachedBottom, scrollTop }) {
         className="container z-20 mx-auto w-full content-center rounded-b-2xl pb-10 sm:w-[90%] lg:w-[60%] 2xl:w-[50%]"
         style={{ backgroundColor: typeColours[name] }}
       >
-        <div className="mx-auto mb-6 w-full border bg-white px-8 py-8 text-center text-stone-700 shadow-sm">
+        <div className="mx-auto mb-6 w-full border bg-white px-8 py-8 text-center text-stone-700 shadow-xs">
           <h2 className="text-3xl font-bold">
             {getDisplayName(name)} Type Pokemon
           </h2>

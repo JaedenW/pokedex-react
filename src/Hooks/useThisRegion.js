@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 async function fetchRegion(url) {
   const res = await fetch(url);
@@ -6,5 +6,8 @@ async function fetchRegion(url) {
 }
 
 export default function useThisRegion(url) {
-  return useQuery(['thisRegion', url], () => fetchRegion(url));
+  return useSuspenseQuery({
+    queryKey: ['thisRegion', url],
+    queryFn: () => fetchRegion(url),
+  });
 }

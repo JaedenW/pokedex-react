@@ -5,7 +5,7 @@ function Spinner() {
     <>
       <svg
         role="status"
-        className="m-auto flex h-[5rem] w-[4rem] animate-spin fill-[#FFCC00] text-transparent"
+        className="m-auto flex h-20 w-16 animate-spin fill-[#FFCC00] text-transparent"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

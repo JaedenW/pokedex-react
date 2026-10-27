@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import useThisPokemon from '../Hooks/useThisPokemon';
 import useThisSpecies from '../Hooks/useThisSpecies';
 import { getDisplayName } from '../Utils/Functions';
@@ -17,11 +17,11 @@ const EvoCard = ({ species, evoDetails, evoStage }) => {
   return (
     <div>
       <div
-        className={`m-2 flex h-fit max-w-[13rem] rounded-lg bg-gray-100 p-3 shadow-inner transition-[max-height] duration-200 ease-linear ${
-          wasClicked ? 'max-h-[50rem]' : 'max-h-[13rem]'
+        className={`m-2 flex h-fit max-w-52 rounded-lg bg-gray-100 p-3 shadow-inner transition-[max-height] duration-200 ease-linear ${
+          wasClicked ? 'max-h-200' : 'max-h-52'
         }`}
       >
-        <div className="w-[12rem] md:w-[10rem]">
+        <div className="w-48 md:w-40">
           <Link to={`/pokemon/${name}`} state={{ pokemonData, speciesData }}>
             <div className="text-center">
               <img

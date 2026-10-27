@@ -9,20 +9,20 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
   const { data: allRegions } = useAllRegions();
 
   return (
-    <div className="first-line container pointer-events-none fixed top-0 z-30 flex h-screen flex-row pt-[4rem] text-stone-800 sm:w-[10rem]">
+    <div className="first-line container pointer-events-none fixed top-0 z-30 flex h-screen flex-row pt-16 text-stone-800 sm:w-40">
       <div
         className={`flex h-full flex-col ${
-          toggleSidebar ? 'w-[10rem]' : 'w-[0rem]'
-        }  pointer-events-auto z-40 bg-[#FFCC00] text-lg transition-[width] sm:w-[10rem]`}
+          toggleSidebar ? 'w-40' : 'w-0'
+        }  pointer-events-auto z-40 bg-[#FFCC00] text-lg transition-[width] sm:w-40`}
       >
-        <div className="justify-end overflow-y-scroll pb-[10rem]">
+        <div className="justify-end overflow-y-scroll pb-40">
           {allRegions.results.map((region) => (
             <Region region={region} setToggleSidebar={setToggleSidebar} />
           ))}
         </div>
       </div>
-      <div className="inline-flex flex-grow flex-col">
-        <div className="pointer-events-auto inline-flex h-[3rem] bg-[#FFCC00] text-center shadow-md transition-[padding] sm:hidden">
+      <div className="inline-flex grow flex-col">
+        <div className="pointer-events-auto inline-flex h-12 bg-[#FFCC00] text-center shadow-md transition-[padding] sm:hidden">
           <button
             type="button"
             className="z-50 inline-flex h-full"
@@ -47,7 +47,7 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
               </svg>
             </span>
           </button>
-          <div className="fixed flex h-[3rem] w-full pt-0.5">
+          <div className="fixed flex h-12 w-full pt-0.5">
             <h3
               className={`${
                 toggleSidebar ? 'ml-10' : 'mx-auto'
@@ -60,7 +60,7 @@ function RegionSelector({ toggleSidebar, setToggleSidebar }) {
         </div>
         <div
           className={`flex ${
-            toggleSidebar ? 'flex-grow' : 'h-0 w-0'
+            toggleSidebar ? 'grow' : 'h-0 w-0'
           } pointer-events-auto z-10`}
           onClick={(event) => setToggleSidebar(false)}
         />

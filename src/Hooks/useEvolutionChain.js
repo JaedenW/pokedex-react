@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 async function fetchEvolutionChain(url) {
   const res = await fetch(url);
@@ -6,5 +6,8 @@ async function fetchEvolutionChain(url) {
 }
 
 export default function useEvolutionChain(url) {
-  return useQuery(['thisPokemon', url], () => fetchEvolutionChain(url));
+  return useSuspenseQuery({
+    queryKey: ['thisPokemon', url],
+    queryFn: () => fetchEvolutionChain(url),
+  });
 }

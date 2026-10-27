@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 async function fetchMove(url) {
   const res = await fetch(url);
@@ -6,5 +6,8 @@ async function fetchMove(url) {
 }
 
 export default function useThisMove(url) {
-  return useQuery(['move', url], () => fetchMove(url));
+  return useSuspenseQuery({
+    queryKey: ['move', url],
+    queryFn: () => fetchMove(url),
+  });
 }

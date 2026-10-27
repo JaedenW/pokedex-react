@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router';
 import Navbar from './Components/Navbar';
 import ProgressIndicator from './Components/ProgressIndicator';
 import './index.css';
@@ -41,7 +41,7 @@ function App() {
       <React.Suspense
         fallback={
           <div
-            className={`fixed h-full w-0 bg-[#FFCC00] pt-6 shadow-2xl sm:relative sm:w-[10rem] sm:shadow-none`}
+            className={`fixed h-full w-0 bg-[#FFCC00] pt-6 shadow-2xl sm:relative sm:w-40 sm:shadow-none`}
           />
         }
       >
@@ -55,7 +55,7 @@ function App() {
           <div
             ref={scrollRef}
             onScroll={onScroll}
-            className="h-full flex-1 overflow-y-scroll scroll-auto sm:pl-[10rem]"
+            className="h-full flex-1 overflow-y-scroll scroll-auto sm:pl-40"
           >
             <Routes>
               <Route

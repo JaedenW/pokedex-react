@@ -1,6 +1,6 @@
 import React from 'react';
 import Pokeball from '../Images/pokeball.png';
-import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { Outlet, Link, useNavigate } from 'react-router';
 
 function Navbar({ search, setSearch, scrollTop }) {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ function Navbar({ search, setSearch, scrollTop }) {
   }
 
   return (
-    <div className="fixed top-0 z-30 h-[4rem] w-full bg-[#0A285F] shadow-lg">
+    <div className="fixed top-0 z-30 h-16 w-full bg-[#0A285F] shadow-lg">
       <nav className="flex h-full w-screen items-center text-gray-600 hover:text-gray-800 focus:text-gray-800">
         <div className="container-fluid inline-flex h-full w-full items-center px-3 shadow-xl">
           <Link
@@ -42,7 +42,7 @@ function Navbar({ search, setSearch, scrollTop }) {
           <input
             type="text"
             id="search-navbar"
-            className="z-50 mr-2 w-full rounded-lg border border-black bg-[#DFDFDF] py-2 pl-4 font-sans placeholder-gray-500 shadow-sm hover:border-[#FB1B1B] lg:mx-auto lg:w-[40%] xl:w-[30%]"
+            className="z-50 mr-2 w-full rounded-lg border border-black bg-[#DFDFDF] py-2 pl-4 font-sans placeholder-gray-500 shadow-xs hover:border-[#FB1B1B] lg:mx-auto lg:w-[40%] xl:w-[30%]"
             placeholder="Search..."
             enterKeyHint="search"
             onChange={(event) => setSearch(event.target?.value)}
