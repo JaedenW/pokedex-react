@@ -24,6 +24,16 @@ function App() {
     }
   }
 
+  // On phones the page behind the open sidebar stays scrollable, so a tap
+  // outside closes the sidebar (without also activating what was tapped)
+  function closeSidebarOnOutsideTap(event: React.MouseEvent) {
+    if (toggleSidebar && !window.matchMedia('(min-width: 40rem)').matches) {
+      event.preventDefault();
+      event.stopPropagation();
+      setToggleSidebar(false);
+    }
+  }
+
   function scrollTop() {
     setTimeout(() => {
       if (scrollRef.current) scrollRef.current.scrollTop = 0;
@@ -52,6 +62,7 @@ function App() {
           <div
             ref={scrollRef}
             onScroll={onScroll}
+            onClickCapture={closeSidebarOnOutsideTap}
             className="h-full flex-1 overflow-y-scroll sm:pl-40"
           >
             <Routes>
