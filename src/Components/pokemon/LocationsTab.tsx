@@ -1,5 +1,6 @@
 import React from 'react';
 import { useApi, useEncounters } from '../../api/pokeapi';
+import { useGame } from '../../Hooks/useGame';
 import {
   formatLocationName,
   getDisplayName,
@@ -91,6 +92,7 @@ export default function LocationsTab({ pokemon }: { pokemon: Pokemon }) {
   const encounters = useEncounters(pokemon.id);
   const versions = useApi<NamedAPIResourceList>('version?limit=100');
   const [chosen, setChosen] = React.useState<string>();
+  const { versions: selected } = useGame();
 
   // games with encounters, oldest first
   const games = React.useMemo(() => {
@@ -111,7 +113,10 @@ export default function LocationsTab({ pokemon }: { pokemon: Pokemon }) {
     );
   }
 
-  const version = chosen && games.includes(chosen) ? chosen : games.at(-1)!;
+  const version =
+    chosen && games.includes(chosen)
+      ? chosen
+      : (games.findLast((name) => selected.includes(name)) ?? games.at(-1)!);
   const areas = encounters.filter((e) =>
     e.version_details.some((d) => d.version.name === version)
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useParams, useSearchParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 import { idFromUrl, usePokedexData, useApi, useTypeData } from '../api/pokeapi';
 import { typeIconUrl } from '../api/sprites';
 import { useDocumentTitle } from '../Hooks/useDocumentTitle';
@@ -8,7 +8,7 @@ import PokemonGrid from '../Components/PokemonGrid';
 import type { GridEntry } from '../Components/PokemonCard';
 import TypeBadge from '../Components/TypeBadge';
 import { Page, Panel, SelectBox, buttonClass } from '../Components/ui';
-import { DEFAULT_DEX, useDexName } from '../Utils/dex';
+import { useDexName, useSelection } from '../Utils/selection';
 import { typeColours } from '../Utils/typeColours';
 import { getDisplayName } from '../Utils/text';
 import type { NamedAPIResourceList } from '../types/pokeapi';
@@ -35,7 +35,7 @@ const SIDES: { title: string; rows: { label: string; key: string }[] }[] = [
 export default function TypePage() {
   const { name = '' } = useParams();
   const type = useTypeData(name);
-  const [, setParams] = useSearchParams();
+  const { chooseDex } = useSelection();
   const pokedexName = useDexName();
   const dex = usePokedexData(pokedexName);
   const dexes = useApi<NamedAPIResourceList>('pokedex?limit=100');
@@ -115,11 +115,7 @@ export default function TypePage() {
         <SelectBox
           label="Pokédex"
           value={pokedexName}
-          onChange={(value) =>
-            setParams(value === DEFAULT_DEX ? {} : { dex: value }, {
-              replace: true,
-            })
-          }
+          onChange={chooseDex}
           className="w-64"
         >
           {dexes.results.map((d) => (

@@ -6,6 +6,7 @@ import {
   groupByMultiplier,
 } from '../../Utils/typeChart';
 import { cn } from '../../Utils/cn';
+import { relationsInGeneration, typesInGeneration } from '../../Utils/teamPlan';
 import TypeBadge from '../TypeBadge';
 import type { Type } from '../../types/pokeapi';
 
@@ -18,14 +19,38 @@ const GROUP_STYLE: Record<number, { label: string; tone: string }> = {
 };
 
 /** How each attacking type fares against a Pokémon of the given type(s). */
-export default function TypeDefenses({ types }: { types: string[] }) {
+export default function TypeDefenses({
+  types,
+  generation,
+}: {
+  types: string[];
+  /** Use the damage chart and the types that existed in this generation */
+  generation?: number | null;
+}) {
   const results = useSuspenseQueries({
     queries: types.map((type) => apiQuery<Type>(`type/${type}`)),
   });
   const multipliers = defensiveMultipliers(
-    results.map((result) => result.data.damage_relations)
+    results.map((result) =>
+      generation
+        ? relationsInGeneration(result.data, generation)
+        : result.data.damage_relations
+    )
   );
-  const groups = groupByMultiplier(multipliers);
+  const existing: string[] | null = generation
+    ? typesInGeneration(generation)
+    : null;
+  const groups = groupByMultiplier(multipliers)
+    .map(
+      ([multiplier, attackers]) =>
+        [
+          multiplier,
+          existing
+            ? attackers.filter((type) => existing.includes(type))
+            : attackers,
+        ] as const
+    )
+    .filter(([, attackers]) => attackers.length);
 
   if (!groups.length) {
     return (

@@ -27,9 +27,8 @@ describe('generationNumber', () => {
 });
 
 describe('pokemonHref', () => {
-  it('only carries the Pokédex when it is not the default', () => {
-    expect(pokemonHref('gengar', 'national')).toBe('/pokemon/gengar');
-    expect(pokemonHref('gengar', 'kanto')).toBe('/pokemon/gengar?dex=kanto');
+  it('points at the Pokémon page', () => {
+    expect(pokemonHref('gengar')).toBe('/pokemon/gengar');
   });
 });
 

@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router';
 import { SECTIONS } from './sections';
-import { useDexName } from '../Utils/dex';
+import { useDexName } from '../Utils/selection';
 import { cn } from '../Utils/cn';
 
 // Thumb-reach navigation for phones and tablets

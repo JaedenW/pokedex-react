@@ -1,5 +1,5 @@
 import { useApiQuery } from '../api/pokeapi';
-import { useDexName } from '../Utils/dex';
+import { useDexName } from '../Utils/selection';
 import type { NamedAPIResource, Pokedex } from '../types/pokeapi';
 
 export interface Neighbour {

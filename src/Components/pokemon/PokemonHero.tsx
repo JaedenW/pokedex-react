@@ -12,6 +12,7 @@ import { cn } from '../../Utils/cn';
 import TypeBadge from '../TypeBadge';
 import { SoundIcon, SparkleIcon, TeamIcon } from '../Icons';
 import { buttonClass } from '../ui';
+import { memberTypesInGeneration } from '../../Utils/teamPlan';
 import type { Pokemon, PokemonSpecies } from '../../types/pokeapi';
 
 const canPlayOgg =
@@ -52,6 +53,8 @@ interface PokemonHeroProps {
   dexLabel: string;
   /** Where "Plan a team" goes, with this Pokémon already on it */
   teamHref: string;
+  /** The selected game's generation, for the types Pokémon had back then */
+  generation: number | null;
 }
 
 export default function PokemonHero({
@@ -60,10 +63,14 @@ export default function PokemonHero({
   dexNumber,
   dexLabel,
   teamHref,
+  generation,
 }: PokemonHeroProps) {
   const [shiny, setShiny] = React.useState(false);
-  const primary = typeColours[pokemon.types[0]?.type.name] ?? '#a8a77a';
-  const secondary = typeColours[pokemon.types[1]?.type.name] ?? primary;
+  const types = generation
+    ? memberTypesInGeneration(pokemon, generation)
+    : pokemon.types.map((t) => t.type.name);
+  const primary = typeColours[types[0]] ?? '#a8a77a';
+  const secondary = typeColours[types[1]] ?? primary;
   const artwork = pokemon.sprites.other?.['official-artwork'];
   const art =
     (shiny ? artwork?.front_shiny : artwork?.front_default) ??
@@ -122,8 +129,8 @@ export default function PokemonHero({
         </p>
 
         <div className="mt-5 flex flex-wrap items-center gap-2">
-          {pokemon.types.map(({ type }) => (
-            <TypeBadge key={type.name} name={type.name} size="lg" icon />
+          {types.map((type) => (
+            <TypeBadge key={type} name={type} size="lg" icon />
           ))}
           {species.is_legendary && (
             <span className="inline-flex h-11 items-center rounded-lg bg-[#ffd500] px-4 t-label font-bold text-pk-ink">

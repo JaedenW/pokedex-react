@@ -7,7 +7,9 @@ import ProgressIndicator from './Components/ProgressIndicator';
 import SearchPalette from './Components/SearchPalette';
 import { Loading } from './Components/ui';
 import { useScrollRestoration } from './Hooks/useScrollRestoration';
-import { DEFAULT_DEX, dexHref } from './Utils/dex';
+import { GameSelectorModal } from './Components/GameSelector';
+import { dexHref } from './Utils/dex';
+import { useSelection } from './Utils/selection';
 import './index.css';
 
 const DexPage = React.lazy(() => import('./Pages/DexPage'));
@@ -25,6 +27,7 @@ const NotFoundPage = React.lazy(() => import('./Pages/NotFoundPage'));
 
 function App() {
   const { pathname } = useLocation();
+  const { dex } = useSelection();
   const scrollRef = React.useRef<HTMLElement>(null);
 
   useScrollRestoration(scrollRef);
@@ -49,7 +52,7 @@ function App() {
             <Routes>
               <Route
                 path="/"
-                element={<Navigate to={dexHref(DEFAULT_DEX)} replace />}
+                element={<Navigate to={dexHref(dex)} replace />}
               />
               <Route path="/dex/:pokedex" element={<DexPage />} />
               <Route path="/pokemon/:name" element={<PokemonPage />} />
@@ -69,6 +72,7 @@ function App() {
       </main>
       <BottomTabs />
       <SearchPalette />
+      <GameSelectorModal />
     </>
   );
 }

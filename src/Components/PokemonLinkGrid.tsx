@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { idFromUrl } from '../api/pokeapi';
 import { pokemonSpriteUrl } from '../api/sprites';
-import { usePokemonHref } from '../Utils/dex';
+import { pokemonHref } from '../Utils/dex';
 import { getDisplayName } from '../Utils/text';
 import { EmptyState, buttonClass } from './ui';
 import type { NamedAPIResource } from '../types/pokeapi';
@@ -23,7 +23,6 @@ export default function PokemonLinkGrid({
   emptyTitle?: string;
 }) {
   const [count, setCount] = React.useState(BATCH);
-  const href = usePokemonHref();
 
   if (!items.length) return <EmptyState title={emptyTitle} />;
 
@@ -33,7 +32,7 @@ export default function PokemonLinkGrid({
         {items.slice(0, count).map(({ pokemon, badge }) => (
           <li key={pokemon.name}>
             <Link
-              to={href(pokemon.name)}
+              to={pokemonHref(pokemon.name)}
               className="flex h-full flex-col items-center rounded-xl border border-pk-line bg-white px-1 pt-1.5 pb-2 text-center transition hover:border-pk-navy hover:shadow-card"
             >
               <img

@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import { pathFromUrl, useApi } from '../api/pokeapi';
 import { getDefaultVariety } from '../Utils/species';
-import { usePokemonHref } from '../Utils/dex';
+import { pokemonHref } from '../Utils/dex';
 import { formatDexNumber, getDisplayName } from '../Utils/text';
 import { typeColours } from '../Utils/typeColours';
 import TypeBadge from './TypeBadge';
@@ -25,7 +25,6 @@ export const typeGlow = (type?: string) => {
 
 export default function PokemonCard({ species, number }: GridEntry) {
   const { name, url } = species;
-  const href = usePokemonHref();
   const displayName = getDisplayName(name);
   const speciesData = useApi<PokemonSpecies>(pathFromUrl(url));
   const pokemon = useApi<Pokemon>(
@@ -34,7 +33,7 @@ export default function PokemonCard({ species, number }: GridEntry) {
 
   return (
     <Link
-      to={href(name)}
+      to={pokemonHref(name)}
       className="group block overflow-hidden ds-frame ds-frame-hover transition motion-safe:hover:-translate-y-1"
     >
       <div

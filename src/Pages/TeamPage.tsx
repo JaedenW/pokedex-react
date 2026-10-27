@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSearchParams } from 'react-router';
-import { useSuspenseQueries } from '@tanstack/react-query';
-import { apiQuery, useVersionGroup, useVersionGroups } from '../api/pokeapi';
+import { useVersionGroup, useVersionGroups } from '../api/pokeapi';
+import { useGameRoster } from '../Hooks/useGame';
+import { useSelection } from '../Utils/selection';
 import { useDocumentTitle } from '../Hooks/useDocumentTitle';
 import PageHeader from '../Components/PageHeader';
 import { CheckIcon, LinkIcon, PlusIcon } from '../Components/Icons';
@@ -25,24 +26,6 @@ import {
   type TeamMember,
 } from '../Utils/teamPlan';
 import { compareVersionGroups, versionGroupLabel } from '../Utils/text';
-import type { Pokedex } from '../types/pokeapi';
-
-/** The Pokémon a game offers, from its Pokédexes; null when it has none. */
-function useGameRoster(pokedexNames: string[]) {
-  const dexes = useSuspenseQueries({
-    queries: pokedexNames.map((name) => apiQuery<Pokedex>(`pokedex/${name}`)),
-  });
-  const key = dexes.map((d) => d.dataUpdatedAt).join(',');
-  return React.useMemo(() => {
-    if (!dexes.length) return null;
-    return new Set(
-      dexes.flatMap((d) =>
-        d.data.pokemon_entries.map((e) => e.pokemon_species.name)
-      )
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key]);
-}
 
 export default function TeamPage() {
   useDocumentTitle('Team planner');
@@ -51,7 +34,17 @@ export default function TeamPage() {
   const [picking, setPicking] = React.useState(false);
   const [copied, setCopied] = React.useState(false);
 
-  const game = params.get('game') ?? DEFAULT_GAME;
+  const selection = useSelection();
+  const urlGame = params.get('game');
+  // the link's game wins, then the selected one
+  const game = urlGame ?? selection.game ?? DEFAULT_GAME;
+
+  // a shared link's game becomes the selected game
+  const { chooseGame } = selection;
+  React.useEffect(() => {
+    if (urlGame) void chooseGame(urlGame);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const teamParam = params.get('team');
   const team = React.useMemo(() => parseTeam(teamParam), [teamParam]);
 
@@ -64,12 +57,11 @@ export default function TeamPage() {
     [groups]
   );
 
-  function update(next: { game?: string; team?: TeamMember[] }) {
+  function update(next: { team?: TeamMember[] }) {
     startTransition(() => {
       setParams(
         (current) => {
           const updated = new URLSearchParams(current);
-          if (next.game) updated.set('game', next.game);
           if (next.team) {
             const value = serializeTeam(next.team);
             if (value) updated.set('team', value);
@@ -115,7 +107,7 @@ export default function TeamPage() {
             <SelectBox
               label="Game"
               value={game}
-              onChange={(value) => update({ game: value })}
+              onChange={(value) => void chooseGame(value)}
             >
               {games.map((name) => (
                 <option key={name} value={name}>

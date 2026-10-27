@@ -53,7 +53,7 @@ export default function MemberCard({
         />
         <div className="min-w-0 flex-1">
           <Link
-            to={pokemonHref(member.name, 'national')}
+            to={pokemonHref(member.name)}
             className="block t-h3 leading-tight break-words underline-offset-2 hover:underline"
           >
             {name}

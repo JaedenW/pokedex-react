@@ -1,17 +1,15 @@
 import { Link } from 'react-router';
 import { idFromUrl } from '../api/pokeapi';
 import { pokemonSpriteUrl } from '../api/sprites';
-import { usePokemonHref } from '../Utils/dex';
+import { pokemonHref } from '../Utils/dex';
 import { formatDexNumber, getDisplayName } from '../Utils/text';
 import type { GridEntry } from './PokemonCard';
 
 // A compact entry that needs no data requests: the sprite URL comes from the id
 export default function PokemonTile({ species, number }: GridEntry) {
-  const href = usePokemonHref();
-
   return (
     <Link
-      to={href(species.name)}
+      to={pokemonHref(species.name)}
       className="group flex flex-col items-center ds-frame ds-frame-hover px-2 pt-2 pb-3 text-center transition motion-safe:hover:-translate-y-0.5"
     >
       <img

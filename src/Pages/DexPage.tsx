@@ -122,7 +122,7 @@ export default function DexPage() {
         <h1 className="mt-1 t-h1 ds-text">{title}</h1>
         <p className="mt-1 t-body text-pk-navy/80">{all.length} Pokémon</p>
         <div className="relative mt-5">
-          <DexPicker pokedex={pokedex} />
+          <DexPicker />
         </div>
       </section>
 

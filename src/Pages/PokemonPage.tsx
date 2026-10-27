@@ -13,7 +13,7 @@ import { usePrevNext, type Neighbour } from '../Hooks/usePrevNext';
 import { useDocumentTitle } from '../Hooks/useDocumentTitle';
 import { BackButton } from '../Components/PageHeader';
 import { ChevronLeftIcon, ChevronRightIcon } from '../Components/Icons';
-import { Loading, Page, Tabs } from '../Components/ui';
+import { Loading, Page, Tabs, buttonClass } from '../Components/ui';
 import PokemonHero from '../Components/pokemon/PokemonHero';
 import OverviewTab from '../Components/pokemon/OverviewTab';
 import GalleryTab from '../Components/pokemon/GalleryTab';
@@ -22,9 +22,15 @@ import MovesTab from '../Components/pokemon/MovesTab';
 import LocationsTab from '../Components/pokemon/LocationsTab';
 import { fetchJson, HttpError } from '../Utils/fetchJson';
 import { DEFAULT_GAME } from '../Utils/games';
-import { pokemonHref, useDexName } from '../Utils/dex';
+import { pokemonHref } from '../Utils/dex';
+import { useSelection } from '../Utils/selection';
+import { useGame, useGameRoster } from '../Hooks/useGame';
 import { getDefaultVariety } from '../Utils/species';
-import { formatDexNumber, getDisplayName } from '../Utils/text';
+import {
+  formatDexNumber,
+  getDisplayName,
+  versionGroupLabel,
+} from '../Utils/text';
 import type { Pokemon, PokemonSpecies } from '../types/pokeapi';
 
 const TABS = [
@@ -57,15 +63,13 @@ async function resolveSpecies(name: string): Promise<Resolved> {
 function NeighbourLink({
   neighbour,
   direction,
-  dex,
 }: {
   neighbour: Neighbour;
   direction: 'prev' | 'next';
-  dex: string;
 }) {
   return (
     <Link
-      to={pokemonHref(neighbour.species.name, dex)}
+      to={pokemonHref(neighbour.species.name)}
       aria-label={`${direction === 'prev' ? 'Previous' : 'Next'}: ${getDisplayName(neighbour.species.name)}`}
       className="flex h-12 max-w-44 min-w-0 items-center gap-1 rounded-full ds-gloss-silver py-0.5 pr-3 pl-2 ds-key transition hover:brightness-105 sm:max-w-56"
     >
@@ -91,12 +95,13 @@ function NeighbourLink({
 function PokemonView({ species }: { species: PokemonSpecies }) {
   const [params, setParams] = useSearchParams();
   const navigate = useNavigate();
-  const dex = useDexName();
+  const { game, chooseGame } = useSelection();
+  const { group, generation } = useGame();
+  const roster = useGameRoster(group?.pokedexes.map((p) => p.name) ?? []);
   const defaultForm = getDefaultVariety(species).pokemon.name;
   const formName = params.get('form') ?? defaultForm;
   const tab = (TABS.find((t) => t.id === params.get('tab'))?.id ??
     'overview') as TabId;
-  const game = params.get('game');
   const pokemon = usePokemon(formName);
   const { prev, next, number, pokedex } = usePrevNext(species.name);
 
@@ -131,11 +136,11 @@ function PokemonView({ species }: { species: PokemonSpecies }) {
           : event.key === 'ArrowRight'
             ? next
             : undefined;
-      if (neighbour) navigate(pokemonHref(neighbour.species.name, dex));
+      if (neighbour) navigate(pokemonHref(neighbour.species.name));
     }
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [prev, next, navigate, dex]);
+  }, [prev, next, navigate]);
 
   // swipe the artwork sideways for the previous or next Pokémon
   const swipeStart = React.useRef<{ x: number; y: number } | null>(null);
@@ -152,7 +157,7 @@ function PokemonView({ species }: { species: PokemonSpecies }) {
     const dy = touch.clientY - start.y;
     if (Math.abs(dx) < 90 || Math.abs(dy) > 60) return;
     const neighbour = dx > 0 ? prev : next;
-    if (neighbour) navigate(pokemonHref(neighbour.species.name, dex));
+    if (neighbour) navigate(pokemonHref(neighbour.species.name));
   }
 
   const dexLabel =
@@ -166,12 +171,8 @@ function PokemonView({ species }: { species: PokemonSpecies }) {
       <div className="mb-4 flex items-center gap-2">
         <BackButton fallback={`/dex/${pokedex}`} />
         <div className="ml-auto flex min-w-0 gap-2">
-          {prev && (
-            <NeighbourLink neighbour={prev} direction="prev" dex={dex} />
-          )}
-          {next && (
-            <NeighbourLink neighbour={next} direction="next" dex={dex} />
-          )}
+          {prev && <NeighbourLink neighbour={prev} direction="prev" />}
+          {next && <NeighbourLink neighbour={next} direction="next" />}
         </div>
       </div>
 
@@ -182,8 +183,25 @@ function PokemonView({ species }: { species: PokemonSpecies }) {
           dexNumber={number}
           dexLabel={dexLabel}
           teamHref={teamHref}
+          generation={generation}
         />
       </div>
+
+      {game && roster && !roster.has(species.name) && (
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 ds-frame px-5 py-3">
+          <p className="t-body">
+            <strong>Not in {versionGroupLabel(game)}.</strong> Showing what the
+            games say about it in general.
+          </p>
+          <button
+            type="button"
+            onClick={() => void chooseGame(null)}
+            className={buttonClass('secondary', 'sm')}
+          >
+            Show all games
+          </button>
+        </div>
+      )}
 
       <div className="sticky top-0 z-30 -mx-4 mt-6 bg-pk-cream/95 px-4 pt-1 backdrop-blur sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
         <Tabs
@@ -213,10 +231,10 @@ function PokemonView({ species }: { species: PokemonSpecies }) {
             <MovesTab
               pokemon={pokemon}
               game={game}
-              onGameChange={(name) => setParam('game', name)}
+              onGameChange={(name) => void chooseGame(name)}
             />
           )}
-          {tab === 'locations' && <LocationsTab pokemon={pokemon} />}
+          {tab === 'locations' && <LocationsTab key={game} pokemon={pokemon} />}
         </React.Suspense>
       </div>
     </Page>
@@ -225,23 +243,18 @@ function PokemonView({ species }: { species: PokemonSpecies }) {
 
 export default function PokemonPage() {
   const { name = '' } = useParams();
-  const dex = useDexName();
   const { data } = useSuspenseQuery({
     queryKey: ['resolve-species', name],
     queryFn: () => resolveSpecies(name),
   });
 
   if ('redirect' in data) {
-    const keep = dex === 'national' ? '' : `&dex=${dex}`;
     return (
-      <Navigate
-        to={`/pokemon/${data.redirect}?form=${data.form}${keep}`}
-        replace
-      />
+      <Navigate to={`/pokemon/${data.redirect}?form=${data.form}`} replace />
     );
   }
   if (data.species.name !== name) {
-    return <Navigate to={pokemonHref(data.species.name, dex)} replace />;
+    return <Navigate to={pokemonHref(data.species.name)} replace />;
   }
   return <PokemonView key={data.species.name} species={data.species} />;
 }

@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 import { idFromUrl, pathFromUrl, useEvolutionChain } from '../../api/pokeapi';
 import { officialArtworkUrl } from '../../api/sprites';
-import { usePokemonHref } from '../../Utils/dex';
+import { pokemonHref } from '../../Utils/dex';
 import { describeEvolution } from '../../Utils/evolution';
 import { formatDexNumber, getDisplayName } from '../../Utils/text';
 import { cn } from '../../Utils/cn';
@@ -20,11 +20,10 @@ function EvolutionCard({
   species: NamedAPIResource;
   current: boolean;
 }) {
-  const href = usePokemonHref();
   const id = idFromUrl(species.url);
   return (
     <Link
-      to={href(species.name)}
+      to={pokemonHref(species.name)}
       aria-current={current ? 'page' : undefined}
       className={cn(
         'flex w-40 shrink-0 flex-col items-center rounded-xl border-2 bg-white p-3 text-center transition hover:shadow-lift',

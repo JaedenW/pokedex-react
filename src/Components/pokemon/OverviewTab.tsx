@@ -11,6 +11,8 @@ import {
   versionLabel,
 } from '../../Utils/text';
 import { catchChance, genderRatio, hatchSteps } from '../../Utils/stats';
+import { useGame } from '../../Hooks/useGame';
+import { memberTypesInGeneration } from '../../Utils/teamPlan';
 import StatBars from './StatBars';
 import TypeDefenses from './TypeDefenses';
 import type { Pokemon, PokemonSpecies } from '../../types/pokeapi';
@@ -20,13 +22,23 @@ interface TabProps {
   pokemon: Pokemon;
 }
 
-function PokedexEntry({ species }: { species: PokemonSpecies }) {
+function PokedexEntry({
+  species,
+  versions,
+}: {
+  species: PokemonSpecies;
+  /** The selected game's versions; its entry is shown first */
+  versions: string[];
+}) {
   const entries = React.useMemo(
     () => englishFlavorText(species.flavor_text_entries),
     [species]
   );
   const [version, setVersion] = React.useState(
-    entries.at(-1)?.version?.name ?? ''
+    entries.findLast((entry) => versions.includes(entry.version?.name ?? ''))
+      ?.version?.name ??
+      entries.at(-1)?.version?.name ??
+      ''
   );
   const selected = entries.find((entry) => entry.version?.name === version);
 
@@ -160,17 +172,21 @@ function AbilityRow({ name, hidden }: { name: string; hidden: boolean }) {
 
 export default function OverviewTab({ species, pokemon }: TabProps) {
   const heldItems = pokemon.held_items;
+  const { game, generation, versions } = useGame();
+  const types = generation
+    ? memberTypesInGeneration(pokemon, generation)
+    : pokemon.types.map((t) => t.type.name);
 
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       <div className="space-y-4">
-        <PokedexEntry species={species} />
+        <PokedexEntry key={game} species={species} versions={versions} />
         <Panel title="Base stats">
           <StatBars pokemon={pokemon} />
         </Panel>
         <Panel title="Type matchups">
           <React.Suspense fallback={<Loading className="h-24" />}>
-            <TypeDefenses types={pokemon.types.map((t) => t.type.name)} />
+            <TypeDefenses types={types} generation={generation} />
           </React.Suspense>
         </Panel>
       </div>

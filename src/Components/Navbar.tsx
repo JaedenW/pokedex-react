@@ -1,9 +1,10 @@
 import { Link, useLocation } from 'react-router';
 import Pokeball from '../Images/pokeball.png';
 import { SearchIcon } from './Icons';
+import { GameSelectorButton } from './GameSelector';
 import { SECTIONS } from './sections';
 import { useSearch } from '../Utils/SearchContext';
-import { useDexName } from '../Utils/dex';
+import { useDexName } from '../Utils/selection';
 import { cn } from '../Utils/cn';
 
 const isMac =
@@ -53,11 +54,12 @@ export default function Navbar() {
         })}
       </nav>
 
+      <GameSelectorButton className="ml-auto max-w-[13rem] sm:max-w-64" />
       <button
         type="button"
         onClick={openSearch}
         aria-label="Search"
-        className="ml-auto hidden h-11 w-44 items-center gap-2.5 rounded-full bg-pk-navy-deep/60 px-4 text-left t-small text-white/75 shadow-[inset_0_2px_3px_rgb(0_0_0/0.35)] ring-1 ring-white/30 transition hover:bg-white/20 sm:flex xl:w-72"
+        className="hidden h-11 w-44 items-center gap-2.5 rounded-full bg-pk-navy-deep/60 px-4 text-left t-small text-white/75 shadow-[inset_0_2px_3px_rgb(0_0_0/0.35)] ring-1 ring-white/30 transition hover:bg-white/20 xl:flex xl:w-72"
       >
         <SearchIcon className="size-5 shrink-0" />
         <span className="flex-1 truncate">Search…</span>
@@ -69,7 +71,7 @@ export default function Navbar() {
         type="button"
         onClick={openSearch}
         aria-label="Search"
-        className="ml-auto flex size-11 items-center justify-center rounded-full bg-pk-navy-deep/60 ring-1 ring-white/30 sm:hidden"
+        className="flex size-11 shrink-0 items-center justify-center rounded-full bg-pk-navy-deep/60 ring-1 ring-white/30 xl:hidden"
       >
         <SearchIcon />
       </button>
