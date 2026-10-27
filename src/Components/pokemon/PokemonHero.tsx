@@ -89,7 +89,7 @@ export default function PokemonHero({
           onClick={() => setShiny((value) => !value)}
           className={cn(
             buttonClass(shiny ? 'accent' : 'secondary', 'sm'),
-            'absolute top-4 right-4'
+            'absolute top-4 right-4 z-10'
           )}
         >
           <SparkleIcon className="size-5" />
