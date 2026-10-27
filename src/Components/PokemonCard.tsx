@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import { getDisplayName } from '../Utils/Functions';
+import { getDefaultVariety, getDisplayName } from '../Utils/Functions';
 import useThisPokemon from '../Hooks/useThisPokemon';
 import useThisSpecies from '../Hooks/useThisSpecies';
 import Type from './Type';
@@ -15,10 +15,7 @@ const PokemonCard = ({ species }: { species: NamedAPIResource }) => {
   const id = speciesData.pokedex_numbers.find(
     (pokedex) => pokedex.pokedex.name === currentPokedex.name
   )?.entry_number;
-  const variety =
-    speciesData.varieties.find((variety) => variety.is_default) ??
-    speciesData.varieties[0];
-  const { data } = useThisPokemon(variety.pokemon.url);
+  const { data } = useThisPokemon(getDefaultVariety(speciesData).pokemon.url);
   const pokemonData: PokemonData = { ...data, displayName };
   const { sprites, types } = pokemonData;
 
@@ -30,6 +27,8 @@ const PokemonCard = ({ species }: { species: NamedAPIResource }) => {
             className="mx-auto my-5 block h-[90%]"
             src={sprites.front_default ?? undefined}
             alt={displayName}
+            loading="lazy"
+            decoding="async"
           />
         </div>
         <div className="text-center">

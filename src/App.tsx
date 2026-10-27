@@ -15,14 +15,6 @@ function App() {
   const [toggleSidebar, setToggleSidebar] = React.useState(false);
   const { pathname } = useLocation();
   const scrollRef = React.useRef<HTMLDivElement>(null);
-  const [reachedBottom, setReachedBottom] = React.useState(false);
-
-  function onScroll() {
-    if (scrollRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
-      scrollTop + clientHeight === scrollHeight && setReachedBottom(true);
-    }
-  }
 
   // On phones the page behind the open sidebar stays scrollable, so a tap
   // outside closes the sidebar (without also activating what was tapped)
@@ -61,7 +53,7 @@ function App() {
         <div className="flex h-screen flex-1 overscroll-none">
           <div
             ref={scrollRef}
-            onScroll={onScroll}
+            data-scroll-root
             onClickCapture={closeSidebarOnOutsideTap}
             className="h-full flex-1 overflow-y-scroll sm:pl-40"
           >
@@ -70,11 +62,7 @@ function App() {
                 path="/"
                 element={
                   <Home scrollTop={scrollTop}>
-                    <PokemonGrid
-                      search={search}
-                      reachedBottom={reachedBottom}
-                      setReachedBottom={setReachedBottom}
-                    />
+                    <PokemonGrid search={search} />
                   </Home>
                 }
               />
@@ -84,13 +72,7 @@ function App() {
               />
               <Route
                 path="type/:typeName"
-                element={
-                  <TypePage
-                    scrollTop={scrollTop}
-                    reachedBottom={reachedBottom}
-                    setReachedBottom={setReachedBottom}
-                  />
-                }
+                element={<TypePage scrollTop={scrollTop} />}
               />
             </Routes>
           </div>

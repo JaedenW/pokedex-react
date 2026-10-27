@@ -4,7 +4,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PokedexContext } from './Utils/PokedexContext';
 import type { NamedAPIResource } from './types/pokeapi';
 
-const queryClient = new QueryClient();
+// PokeAPI data is static, so cached responses never go stale
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { staleTime: Infinity } },
+});
 
 function Providers({ children }: { children: React.ReactNode }) {
   const [currentRegion, setCurrentRegion] = React.useState<NamedAPIResource>({

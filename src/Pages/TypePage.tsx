@@ -10,17 +10,7 @@ import Type from '../Components/Type';
 import type { Type as TypeData } from '../types/pokeapi';
 import type { TypeLocationState } from '../types/app';
 
-interface TypePageProps {
-  reachedBottom: boolean;
-  setReachedBottom: (reachedBottom: boolean) => void;
-  scrollTop: () => void;
-}
-
-function TypePage({
-  reachedBottom,
-  setReachedBottom,
-  scrollTop,
-}: TypePageProps) {
+function TypePage({ scrollTop }: { scrollTop: () => void }) {
   const { currentPokedex, currentRegion } = usePokedex();
   const mountRef = React.useRef(false);
   const typePokemonRef = React.useRef<HTMLDivElement>(null);
@@ -31,7 +21,10 @@ function TypePage({
     queryFn: () => fetchJson<TypeData>(url),
   });
 
-  const typePokemonFilter = data.pokemon.map((pokemon) => pokemon.pokemon.name);
+  const typePokemonFilter = React.useMemo(
+    () => data.pokemon.map((pokemon) => pokemon.pokemon.name),
+    [data]
+  );
 
   React.useEffect(() => {
     mountRef.current
@@ -108,11 +101,7 @@ function TypePage({
             )} Pokedex`}
           </h3>
         </div>
-        <PokemonGrid
-          filterArray={typePokemonFilter}
-          reachedBottom={reachedBottom}
-          setReachedBottom={setReachedBottom}
-        />
+        <PokemonGrid filterArray={typePokemonFilter} />
       </div>
     </div>
   );
