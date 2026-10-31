@@ -14,6 +14,22 @@ export function getPokedexLabel(pokedexName: string, regionName?: string) {
   return words.length ? words.join(' ').toUpperCase() : 'ORIGINAL';
 }
 
+/** The English name of a resource, falling back to its slug. */
+export const englishName = (
+  names: { name: string; language: { name: string } }[] | undefined,
+  slug: string
+) =>
+  names?.find((entry) => entry.language.name === 'en')?.name ??
+  getDisplayName(slug);
+
+/** "sinnoh-route-201" -> "Route 201" when listing the Sinnoh region. */
+export const locationLabel = (name: string, region?: string | null) =>
+  getDisplayName(
+    region && name.startsWith(`${region}-`)
+      ? name.slice(region.length + 1)
+      : name
+  );
+
 /** "generation-viii" -> "Generation VIII". */
 export function formatGeneration(name: string) {
   const [, numeral = ''] = name.split('-');
@@ -57,7 +73,7 @@ export function formLabel(formName: string, speciesName: string) {
 /** "kanto-route-2-south-towns-area" -> "Kanto Route 2 South Towns Area". */
 export const formatLocationName = (name: string) => getDisplayName(name);
 
-const VERSION_GROUP_LABELS: Record<string, string> = {
+export const VERSION_GROUP_LABELS: Record<string, string> = {
   'red-green-japan': 'Red / Green (JP)',
   'blue-japan': 'Blue (JP)',
   'red-blue': 'Red / Blue',
@@ -67,12 +83,12 @@ const VERSION_GROUP_LABELS: Record<string, string> = {
   'ruby-sapphire': 'Ruby / Sapphire',
   emerald: 'Emerald',
   'firered-leafgreen': 'FireRed / LeafGreen',
+  colosseum: 'Colosseum',
+  xd: 'XD',
   'diamond-pearl': 'Diamond / Pearl',
   platinum: 'Platinum',
   'heartgold-soulsilver': 'HeartGold / SoulSilver',
   'black-white': 'Black / White',
-  colosseum: 'Colosseum',
-  xd: 'XD',
   'black-2-white-2': 'Black 2 / White 2',
   'x-y': 'X / Y',
   'omega-ruby-alpha-sapphire': 'Omega Ruby / Alpha Sapphire',

@@ -96,6 +96,7 @@ export default function TeamPage() {
   return (
     <Page wide>
       <PageHeader
+        back="/guide"
         title="Team planner"
         subtitle="Theorycraft a team for one game. The team lives in the link, so you can share or bookmark it."
       />

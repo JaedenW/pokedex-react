@@ -8,6 +8,7 @@ import {
   teamNotes,
   type TeamMember,
 } from '../../Utils/teamPlan';
+import { statsInGeneration } from '../../Utils/history';
 import { STAT_LABELS, baseStatTotal } from '../../Utils/stats';
 import { TYPES, formatMultiplier } from '../../Utils/typeChart';
 import { getDisplayName } from '../../Utils/text';
@@ -83,14 +84,17 @@ export default function TeamAnalysis({
   const hits = coverage(attackTypes, relations, generation);
   const notes = teamNotes(defence, hits, team.length);
 
-  const statRows = members.map((m, i) => ({
-    name: team[i].name,
-    stats: STAT_ORDER.map(
-      (key) =>
-        m.data.pokemon.stats.find((s) => s.stat.name === key)?.base_stat ?? 0
-    ),
-    total: baseStatTotal(m.data.pokemon.stats),
-  }));
+  const statRows = members.map((m, i) => {
+    const stats = statsInGeneration(m.data.pokemon, generation);
+    const value = (key: string) =>
+      stats.find((s) => s.stat.name === key)?.base_stat;
+    return {
+      name: team[i].name,
+      // Generation 1's single Special fills both special columns
+      stats: STAT_ORDER.map((key) => value(key) ?? value('special') ?? 0),
+      total: baseStatTotal(stats),
+    };
+  });
   const best = STAT_ORDER.map((_, col) =>
     Math.max(...statRows.map((row) => row.stats[col]))
   );

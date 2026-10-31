@@ -8,7 +8,9 @@ import SectionTabs, { MOVE_TABS } from '../Components/SectionTabs';
 import { Chip, Page, Panel, SearchInput, SelectBox } from '../Components/ui';
 import { rankMatch } from '../Utils/search';
 import { TYPES } from '../Utils/typeChart';
-import { getDisplayName } from '../Utils/text';
+import { useIntroducedByGame } from '../Hooks/useGame';
+import { useSelection } from '../Utils/selection';
+import { getDisplayName, versionGroupLabel } from '../Utils/text';
 import { cn } from '../Utils/cn';
 import type { DamageClass, NamedAPIResourceList, Type } from '../types/pokeapi';
 
@@ -45,6 +47,10 @@ export default function MovesPage() {
     damageClass && `move-damage-class/${damageClass}`
   )?.moves;
 
+  const { game } = useSelection();
+  const showAll = params.has('all');
+  const introduced = useIntroducedByGame('moves', showAll);
+
   const items = React.useMemo(() => {
     const inType = typeMoves && new Set(typeMoves.map((m) => m.name));
     const inClass = classMoves && new Set(classMoves.map((m) => m.name));
@@ -52,13 +58,14 @@ export default function MovesPage() {
       (move) =>
         (!inType || inType.has(move.name)) &&
         (!inClass || inClass.has(move.name)) &&
+        (!introduced || introduced.has(move.name)) &&
         (!deferredQuery || rankMatch(deferredQuery, move.name) !== Infinity)
     );
     if (sort === 'name') {
       list = [...list].sort((a, b) => a.name.localeCompare(b.name));
     }
     return list.map((move) => ({ name: move.name }));
-  }, [index, typeMoves, classMoves, deferredQuery, sort]);
+  }, [index, typeMoves, classMoves, deferredQuery, sort, introduced]);
 
   return (
     <Page>
@@ -112,6 +119,14 @@ export default function MovesPage() {
               {getDisplayName(c)}
             </Chip>
           ))}
+          {game && (
+            <Chip
+              active={!showAll}
+              onClick={() => setParam('all', showAll ? null : '1')}
+            >
+              Up to {versionGroupLabel(game)}
+            </Chip>
+          )}
           <span className="ml-auto t-small text-pk-muted">
             {items.length} shown
           </span>
@@ -121,7 +136,7 @@ export default function MovesPage() {
       <div className={cn('transition-opacity', isPending && 'opacity-60')}>
         <MoveRowList
           items={items}
-          resetKey={`${deferredQuery}|${type}|${damageClass}|${sort}`}
+          resetKey={`${deferredQuery}|${type}|${damageClass}|${sort}|${game}|${showAll}`}
           emptyTitle="No moves match these filters"
         />
       </div>

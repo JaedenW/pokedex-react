@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { useApi, useEncounters } from '../../api/pokeapi';
 import { useGame } from '../../Hooks/useGame';
 import {
@@ -14,7 +15,7 @@ import type {
   Pokemon,
 } from '../../types/pokeapi';
 
-interface MethodSummary {
+export interface MethodSummary {
   method: string;
   conditions: string[];
   minLevel: number;
@@ -23,7 +24,7 @@ interface MethodSummary {
 }
 
 // Combines duplicate method/condition rows into one line with summed chance
-function summarise(details: EncounterDetail[]) {
+export function summarise(details: EncounterDetail[]) {
   const summary = new Map<string, MethodSummary>();
   for (const detail of details) {
     const conditions = detail.condition_values.map((c) => c.name);
@@ -54,7 +55,12 @@ function AreaCard({
     <li className="rounded-xl border border-pk-line bg-white p-4">
       <div className="flex items-baseline justify-between gap-3">
         <h3 className="t-body leading-tight font-bold">
-          {formatLocationName(area.location_area.name)}
+          <Link
+            to={`/area/${area.location_area.name}`}
+            className="text-pk-navy underline-offset-2 hover:underline"
+          >
+            {formatLocationName(area.location_area.name)}
+          </Link>
         </h3>
         <span className="shrink-0 t-small text-pk-muted">
           up to {details.max_chance}%

@@ -24,7 +24,7 @@ export default function Navbar() {
         aria-label="Pokédex home"
       >
         <img className="size-10 lg:size-12" src={Pokeball} alt="" />
-        <span className="mt-0.5 t-h3 ds-text-dark lg:text-[2.25rem]">
+        <span className="mt-0.5 hidden t-h3 ds-text-dark min-[26rem]:inline lg:text-[2.25rem]">
           Pokédex
         </span>
       </Link>

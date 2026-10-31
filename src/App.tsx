@@ -23,6 +23,20 @@ const AbilityPage = React.lazy(() => import('./Pages/AbilityPage'));
 const ItemsPage = React.lazy(() => import('./Pages/ItemsPage'));
 const ItemPage = React.lazy(() => import('./Pages/ItemPage'));
 const TeamPage = React.lazy(() => import('./Pages/TeamPage'));
+const GamesPage = React.lazy(() => import('./Pages/GamesPage'));
+const GamePage = React.lazy(() => import('./Pages/GamePage'));
+const RegionsPage = React.lazy(() => import('./Pages/RegionsPage'));
+const RegionPage = React.lazy(() => import('./Pages/RegionPage'));
+const LocationPage = React.lazy(() => import('./Pages/LocationPage'));
+const AreaPage = React.lazy(() => import('./Pages/AreaPage'));
+const GenerationsPage = React.lazy(() => import('./Pages/GenerationsPage'));
+const GenerationPage = React.lazy(() => import('./Pages/GenerationPage'));
+const MachinesPage = React.lazy(() => import('./Pages/MachinesPage'));
+const BerriesPage = React.lazy(() => import('./Pages/BerriesPage'));
+const BerryPage = React.lazy(() => import('./Pages/BerryPage'));
+const GuidePage = React.lazy(() => import('./Pages/GuidePage'));
+const GuideListPage = React.lazy(() => import('./Pages/GuideListPage'));
+const GuideEntryPage = React.lazy(() => import('./Pages/GuideEntryPage'));
 const NotFoundPage = React.lazy(() => import('./Pages/NotFoundPage'));
 
 function App() {
@@ -65,6 +79,23 @@ function App() {
               <Route path="/items" element={<ItemsPage />} />
               <Route path="/item/:name" element={<ItemPage />} />
               <Route path="/team" element={<TeamPage />} />
+              <Route path="/machines" element={<MachinesPage />} />
+              <Route path="/berries" element={<BerriesPage />} />
+              <Route path="/berry/:name" element={<BerryPage />} />
+              <Route path="/games" element={<GamesPage />} />
+              <Route path="/game/:name" element={<GamePage />} />
+              <Route path="/regions" element={<RegionsPage />} />
+              <Route path="/region/:name" element={<RegionPage />} />
+              <Route path="/location/:name" element={<LocationPage />} />
+              <Route path="/area/:name" element={<AreaPage />} />
+              <Route path="/generations" element={<GenerationsPage />} />
+              <Route path="/generation/:name" element={<GenerationPage />} />
+              <Route path="/guide" element={<GuidePage />} />
+              <Route path="/guide/:resource" element={<GuideListPage />} />
+              <Route
+                path="/guide/:resource/:name"
+                element={<GuideEntryPage />}
+              />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </React.Suspense>

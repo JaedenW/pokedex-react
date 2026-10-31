@@ -5,6 +5,7 @@ import { useDocumentTitle } from '../Hooks/useDocumentTitle';
 import PageHeader from '../Components/PageHeader';
 import SectionTabs, { MOVE_TABS } from '../Components/SectionTabs';
 import {
+  Chip,
   EmptyState,
   Page,
   Panel,
@@ -12,7 +13,9 @@ import {
   buttonClass,
 } from '../Components/ui';
 import { rankMatch } from '../Utils/search';
-import { getDisplayName } from '../Utils/text';
+import { useIntroducedByGame } from '../Hooks/useGame';
+import { useSelection } from '../Utils/selection';
+import { getDisplayName, versionGroupLabel } from '../Utils/text';
 import type { NamedAPIResourceList } from '../types/pokeapi';
 
 const BATCH = 90;
@@ -24,14 +27,34 @@ export default function AbilitiesPage() {
   const query = params.get('q') ?? '';
   const deferred = React.useDeferredValue(query);
   const [count, setCount] = React.useState(BATCH);
+  const { game } = useSelection();
+  const showAll = params.has('all');
+  const introduced = useIntroducedByGame('abilities', showAll);
 
   const abilities = React.useMemo(
     () =>
       index.results
-        .filter((a) => !deferred || rankMatch(deferred, a.name) !== Infinity)
+        .filter(
+          (a) =>
+            (!introduced || introduced.has(a.name)) &&
+            (!deferred || rankMatch(deferred, a.name) !== Infinity)
+        )
         .sort((a, b) => a.name.localeCompare(b.name)),
-    [index, deferred]
+    [index, deferred, introduced]
   );
+
+  function setParam(key: string, value: string | null) {
+    setCount(BATCH);
+    setParams(
+      (current) => {
+        const next = new URLSearchParams(current);
+        if (value) next.set(key, value);
+        else next.delete(key);
+        return next;
+      },
+      { replace: true }
+    );
+  }
 
   return (
     <Page>
@@ -42,11 +65,21 @@ export default function AbilitiesPage() {
           label="Search abilities"
           placeholder="Search abilities…"
           value={query}
-          onChange={(value) => {
-            setCount(BATCH);
-            setParams(value ? { q: value } : {}, { replace: true });
-          }}
+          onChange={(value) => setParam('q', value || null)}
         />
+        {game && (
+          <div className="mt-3 flex items-center gap-2">
+            <Chip
+              active={!showAll}
+              onClick={() => setParam('all', showAll ? null : '1')}
+            >
+              Up to {versionGroupLabel(game)}
+            </Chip>
+            <span className="ml-auto t-small text-pk-muted">
+              {abilities.length} shown
+            </span>
+          </div>
+        )}
       </Panel>
 
       {abilities.length ? (

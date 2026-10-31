@@ -1,11 +1,10 @@
 import React from 'react';
-import { useQueryClient, useSuspenseQueries } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
+import { useGamesByGeneration } from '../Hooks/useGame';
 import { apiQuery, useApi, useRegionData } from '../api/pokeapi';
 import { DEFAULT_DEX } from '../Utils/dex';
-import { generationNumber } from '../Utils/games';
 import { useSelection } from '../Utils/selection';
 import {
-  compareVersionGroups,
   formatGeneration,
   getDisplayName,
   getPokedexLabel,
@@ -84,28 +83,10 @@ function RegionCard({ name }: { name: string }) {
 
 function SelectorContent() {
   const { game, dex, chooseGame, chooseDex, closeSelector } = useSelection();
-  const list = useApi<NamedAPIResourceList>('version-group?limit=50');
   const regions = useApi<NamedAPIResourceList>('region?limit=100');
-  const groups = useSuspenseQueries({
-    queries: list.results.map((g) =>
-      apiQuery<VersionGroup>(`version-group/${g.name}`)
-    ),
-  }).map((result) => result.data);
+  const { games, generations: byGeneration } = useGamesByGeneration();
 
-  // oldest first, grouped under their generation
-  const byGeneration = React.useMemo(() => {
-    const sorted = [...groups].sort((a, b) =>
-      compareVersionGroups(a.name, b.name)
-    );
-    const map = new Map<number, VersionGroup[]>();
-    for (const group of sorted) {
-      const number = generationNumber(group.generation.name);
-      map.set(number, [...(map.get(number) ?? []), group]);
-    }
-    return [...map.entries()].sort(([a], [b]) => a - b);
-  }, [groups]);
-
-  const current = groups.find((g) => g.name === game);
+  const current = games.find((g) => g.name === game);
   const gameDexes = current?.pokedexes ?? [];
 
   return (

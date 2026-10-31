@@ -1,5 +1,5 @@
 import type { ComponentType, SVGProps } from 'react';
-import { BagIcon, BoltIcon, GridIcon, PokeballIcon, TeamIcon } from './Icons';
+import { BagIcon, BoltIcon, BookIcon, GlobeIcon, PokeballIcon } from './Icons';
 import { dexHref } from '../Utils/dex';
 
 export interface Section {
@@ -24,27 +24,31 @@ export const SECTIONS: Section[] = [
     label: 'Moves',
     icon: BoltIcon,
     to: () => '/moves',
-    isActive: (path) => /^\/(moves|move|abilities|ability)(\/|$)/.test(path),
+    isActive: (path) =>
+      /^\/(moves|move|abilities|ability|machines)(\/|$)/.test(path),
   },
   {
     id: 'items',
     label: 'Items',
     icon: BagIcon,
     to: () => '/items',
-    isActive: (path) => /^\/(items|item)(\/|$)/.test(path),
+    isActive: (path) => /^\/(items|item|berries|berry)(\/|$)/.test(path),
   },
   {
-    id: 'types',
-    label: 'Types',
-    icon: GridIcon,
-    to: () => '/types',
-    isActive: (path) => /^\/types?(\/|$)/.test(path),
+    id: 'world',
+    label: 'World',
+    icon: GlobeIcon,
+    to: () => '/games',
+    isActive: (path) =>
+      /^\/(games|game|regions|region|location|area|generations|generation)(\/|$)/.test(
+        path
+      ),
   },
   {
-    id: 'team',
-    label: 'Team',
-    icon: TeamIcon,
-    to: () => '/team',
-    isActive: (path) => path.startsWith('/team'),
+    id: 'guide',
+    label: 'Guide',
+    icon: BookIcon,
+    to: () => '/guide',
+    isActive: (path) => /^\/(guide|team|types|type)(\/|$)/.test(path),
   },
 ];

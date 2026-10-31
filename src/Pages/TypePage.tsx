@@ -10,7 +10,10 @@ import TypeBadge from '../Components/TypeBadge';
 import { Page, Panel, SelectBox, buttonClass } from '../Components/ui';
 import { useDexName, useSelection } from '../Utils/selection';
 import { typeColours } from '../Utils/typeColours';
-import { getDisplayName } from '../Utils/text';
+import { useGame } from '../Hooks/useGame';
+import { relationsInGeneration, typesInGeneration } from '../Utils/teamPlan';
+import { TYPES } from '../Utils/typeChart';
+import { formatGeneration, getDisplayName } from '../Utils/text';
 import type { NamedAPIResourceList } from '../types/pokeapi';
 
 const SIDES: { title: string; rows: { label: string; key: string }[] }[] = [
@@ -35,6 +38,13 @@ const SIDES: { title: string; rows: { label: string; key: string }[] }[] = [
 export default function TypePage() {
   const { name = '' } = useParams();
   const type = useTypeData(name);
+  const { generation } = useGame();
+  const relations = generation
+    ? relationsInGeneration(type, generation)
+    : type.damage_relations;
+  const existing: readonly string[] = generation
+    ? typesInGeneration(generation)
+    : TYPES;
   const { chooseDex } = useSelection();
   const pokedexName = useDexName();
   const dex = usePokedexData(pokedexName);
@@ -58,7 +68,17 @@ export default function TypePage() {
       <DetailBanner
         back="/types"
         colour={colour}
-        eyebrow="Type"
+        eyebrow={
+          <>
+            Type ·{' '}
+            <Link
+              to={`/generation/${type.generation.name}`}
+              className="underline underline-offset-2"
+            >
+              {formatGeneration(type.generation.name)}
+            </Link>
+          </>
+        }
         title={getDisplayName(name)}
         subtitle={`${type.pokemon.length} Pokémon and ${type.moves.length} moves`}
         badges={
@@ -86,7 +106,9 @@ export default function TypePage() {
           <Panel key={title} title={title}>
             <dl className="space-y-4">
               {rows.map(({ label, key }) => {
-                const types = type.damage_relations[key] ?? [];
+                const types = (relations[key] ?? []).filter((t) =>
+                  existing.includes(t.name)
+                );
                 return (
                   <div key={key}>
                     <dt className="mb-2 t-label text-pk-muted">{label}</dt>

@@ -4,6 +4,7 @@ export const STAT_LABELS: Record<string, string> = {
   defense: 'Defense',
   'special-attack': 'Sp. Atk',
   'special-defense': 'Sp. Def',
+  special: 'Special',
   speed: 'Speed',
 };
 
@@ -13,6 +14,7 @@ export const STAT_COLOURS: Record<string, string> = {
   defense: '#F7D02C',
   'special-attack': '#6390F0',
   'special-defense': '#7AC74C',
+  special: '#6390F0',
   speed: '#F95587',
 };
 

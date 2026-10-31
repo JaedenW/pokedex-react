@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { useMove } from '../api/pokeapi';
+import { moveValuesIn } from '../Utils/history';
+import { useSelection } from '../Utils/selection';
 import { firstEnglish, getDisplayName } from '../Utils/text';
 import { cn } from '../Utils/cn';
 import TypeBadge from './TypeBadge';
@@ -38,22 +40,33 @@ export function MoveRowSkeleton() {
 export default function MoveRow({
   name,
   level,
+  label,
 }: {
   name: string;
   /** Shown first when the move is learned by level */
   level?: number | null;
+  /** Shown first instead, e.g. the TM number */
+  label?: string;
 }) {
   const move = useMove(name);
+  const { game } = useSelection();
+  const values = moveValuesIn(move, game);
   const [open, setOpen] = React.useState(false);
   const effect = firstEnglish(move.effect_entries);
 
   return (
     <li className="rounded-xl border border-pk-line bg-white">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 px-3 py-2.5 sm:px-4">
-        {level !== undefined && (
-          <span className="w-10 shrink-0 t-body font-bold text-pk-gold">
-            {level || 'Evo'}
+        {label ? (
+          <span className="w-14 shrink-0 t-body font-bold text-pk-gold uppercase">
+            {label}
           </span>
+        ) : (
+          level !== undefined && (
+            <span className="w-10 shrink-0 t-body font-bold text-pk-gold">
+              {level || 'Evo'}
+            </span>
+          )
         )}
         <Link
           to={`/move/${name}`}
@@ -61,7 +74,7 @@ export default function MoveRow({
         >
           {getDisplayName(name)}
         </Link>
-        <TypeBadge name={move.type.name} size="sm" />
+        <TypeBadge name={values.type.name} size="sm" />
         <button
           type="button"
           aria-expanded={open}
@@ -76,14 +89,14 @@ export default function MoveRow({
         {/* phones: name and type on the first line, numbers on the second */}
         <span className="basis-full sm:hidden" />
         <DamageClassPill name={move.damage_class.name} />
-        <Stat label="Pow" value={move.power} />
-        <Stat label="Acc" value={move.accuracy} />
-        <Stat label="PP" value={move.pp} />
+        <Stat label="Pow" value={values.power} />
+        <Stat label="Acc" value={values.accuracy} />
+        <Stat label="PP" value={values.pp} />
       </div>
       {open && (
         <p className="border-t border-pk-line px-4 py-3 t-small text-pk-muted">
           {effect
-            ? effectText(effect.short_effect, move.effect_chance)
+            ? effectText(effect.short_effect, values.effect_chance)
             : 'No description available.'}
         </p>
       )}

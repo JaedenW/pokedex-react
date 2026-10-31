@@ -20,6 +20,20 @@ function Icon({ children, ...props }: IconProps & { children: ReactNode }) {
   );
 }
 
+export const GlobeIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18" />
+  </Icon>
+);
+
+export const BookIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M4 5.5A2.5 2.5 0 016.5 3H20v15H6.5A2.5 2.5 0 004 20.5z" />
+    <path d="M4 20.5A2.5 2.5 0 006.5 23H20v-5" />
+  </Icon>
+);
+
 export const SearchIcon = (p: IconProps) => (
   <Icon {...p}>
     <circle cx="11" cy="11" r="7" />

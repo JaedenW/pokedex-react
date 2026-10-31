@@ -10,6 +10,7 @@ import { useDocumentTitle } from '../Hooks/useDocumentTitle';
 import { useLoadMoreOnVisible } from '../Hooks/useLoadMoreOnVisible';
 import ItemImage from '../Components/ItemImage';
 import PageHeader from '../Components/PageHeader';
+import SectionTabs, { ITEM_TABS } from '../Components/SectionTabs';
 import {
   EmptyState,
   Page,
@@ -78,6 +79,7 @@ export default function ItemsPage() {
   return (
     <Page>
       <PageHeader title="Items" subtitle={`${index.count} items`} />
+      <SectionTabs tabs={ITEM_TABS} />
 
       <Panel className="mb-5">
         <div className="flex flex-wrap gap-3">

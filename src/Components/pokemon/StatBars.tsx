@@ -4,14 +4,14 @@ import {
   baseStatTotal,
   calcStat,
 } from '../../Utils/stats';
-import type { Pokemon } from '../../types/pokeapi';
+import type { PokemonStat } from '../../types/pokeapi';
 
 // the highest base stat in the games is 255
 const MAX_BASE = 255;
 
-export default function StatBars({ pokemon }: { pokemon: Pokemon }) {
-  const total = baseStatTotal(pokemon.stats);
-  const evYield = pokemon.stats.filter((stat) => stat.effort > 0);
+export default function StatBars({ stats }: { stats: PokemonStat[] }) {
+  const total = baseStatTotal(stats);
+  const evYield = stats.filter((stat) => stat.effort > 0);
 
   return (
     <div>
@@ -23,7 +23,7 @@ export default function StatBars({ pokemon }: { pokemon: Pokemon }) {
         <span className="hidden text-right t-label text-pk-muted sm:block">
           Lv.100 range
         </span>
-        {pokemon.stats.map(({ base_stat, stat }) => {
+        {stats.map(({ base_stat, stat }) => {
           const isHp = stat.name === 'hp';
           const min = calcStat(base_stat, 100, { isHp, nature: 0.9 });
           const max = calcStat(base_stat, 100, { isHp, evs: 252, nature: 1.1 });

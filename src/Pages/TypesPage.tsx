@@ -10,7 +10,10 @@ import TypeDefenses from '../Components/pokemon/TypeDefenses';
 import { Chip, Loading, Page, Panel } from '../Components/ui';
 import { TYPES, attackMultiplier } from '../Utils/typeChart';
 import { typeColours } from '../Utils/typeColours';
-import { getDisplayName } from '../Utils/text';
+import { useGame } from '../Hooks/useGame';
+import { useSelection } from '../Utils/selection';
+import { relationsInGeneration, typesInGeneration } from '../Utils/teamPlan';
+import { getDisplayName, versionGroupLabel } from '../Utils/text';
 import { cn } from '../Utils/cn';
 import type { Type } from '../types/pokeapi';
 
@@ -44,8 +47,15 @@ function Chart() {
   const results = useSuspenseQueries({
     queries: TYPES.map((type) => apiQuery<Type>(`type/${type}`)),
   });
+  const { generation } = useGame();
+  const shown = generation ? typesInGeneration(generation) : TYPES;
   const relations = Object.fromEntries(
-    TYPES.map((type, index) => [type, results[index].data.damage_relations])
+    TYPES.map((type, index) => [
+      type,
+      generation
+        ? relationsInGeneration(results[index].data, generation)
+        : results[index].data.damage_relations,
+    ])
   );
   const [focus, setFocus] = React.useState<{
     attacker?: string;
@@ -64,7 +74,7 @@ function Chart() {
               <th className="sticky top-0 left-0 z-20 bg-white p-1.5 t-label leading-tight text-pk-muted">
                 ATK ↓ DEF →
               </th>
-              {TYPES.map((defender) => (
+              {shown.map((defender) => (
                 <th
                   key={defender}
                   className={cn(
@@ -83,7 +93,7 @@ function Chart() {
             </tr>
           </thead>
           <tbody>
-            {TYPES.map((attacker) => (
+            {shown.map((attacker) => (
               <tr key={attacker}>
                 <th
                   scope="row"
@@ -99,7 +109,7 @@ function Chart() {
                     <TypeIcon name={attacker} className="size-8" />
                   </Link>
                 </th>
-                {TYPES.map((defender) => {
+                {shown.map((defender) => {
                   const multiplier = attackMultiplier(
                     relations[attacker],
                     defender
@@ -145,6 +155,8 @@ function Chart() {
 }
 
 function Calculator() {
+  const { generation } = useGame();
+  const shown = generation ? typesInGeneration(generation) : TYPES;
   const [selected, setSelected] = React.useState<string[]>(['water', 'flying']);
 
   function toggle(type: string) {
@@ -161,7 +173,7 @@ function Calculator() {
         Pick one or two types to see what hits a Pokémon with them hardest.
       </p>
       <div className="mb-4 flex flex-wrap gap-2">
-        {TYPES.map((type) => (
+        {shown.map((type) => (
           <Chip
             key={type}
             active={selected.includes(type)}
@@ -174,7 +186,7 @@ function Calculator() {
       </div>
       {selected.length ? (
         <React.Suspense fallback={<Loading className="h-24" />}>
-          <TypeDefenses types={selected} />
+          <TypeDefenses types={selected} generation={generation} />
         </React.Suspense>
       ) : (
         <p className="t-body text-pk-muted">Select a type to begin.</p>
@@ -185,10 +197,19 @@ function Calculator() {
 
 export default function TypesPage() {
   useDocumentTitle('Types');
+  const { game } = useSelection();
 
   return (
     <Page>
-      <PageHeader title="Types" subtitle="Who beats what" />
+      <PageHeader
+        back="/guide"
+        title="Types"
+        subtitle={
+          game
+            ? `Who beats what in ${versionGroupLabel(game)}`
+            : 'Who beats what'
+        }
+      />
 
       <div className="mb-6 grid grid-cols-2 gap-2.5 sm:grid-cols-3 md:grid-cols-6">
         {TYPES.map((type) => (

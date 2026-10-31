@@ -12,12 +12,29 @@ import { itemSpriteUrl, pokemonSpriteUrl, typeIconUrl } from '../api/sprites';
 import { useSearch } from '../Utils/SearchContext';
 import { rankMatch, searchNames } from '../Utils/search';
 import { TYPES } from '../Utils/typeChart';
-import { formatDexNumber, getDisplayName } from '../Utils/text';
+import { GUIDE_RESOURCES, guideResource } from '../Utils/guide';
+import {
+  VERSION_GROUP_LABELS,
+  formatDexNumber,
+  getDisplayName,
+  versionGroupLabel,
+} from '../Utils/text';
 import { cn } from '../Utils/cn';
 import { BoltIcon, CloseIcon, SearchIcon } from './Icons';
 import type { NamedAPIResourceList } from '../types/pokeapi';
 
-type Kind = 'pokemon' | 'move' | 'ability' | 'item' | 'type' | 'link';
+type Kind =
+  | 'pokemon'
+  | 'move'
+  | 'ability'
+  | 'item'
+  | 'berry'
+  | 'type'
+  | 'location'
+  | 'nature'
+  | 'game'
+  | 'guide'
+  | 'link';
 
 interface Result {
   kind: Kind;
@@ -33,7 +50,12 @@ const KIND_LABEL: Record<Kind, string> = {
   move: 'Moves',
   ability: 'Abilities',
   item: 'Items',
+  berry: 'Berries',
   type: 'Types',
+  location: 'Locations',
+  nature: 'Natures',
+  game: 'Games',
+  guide: 'Guide',
   link: 'Go to',
 };
 
@@ -42,9 +64,22 @@ const QUICK_LINKS: Result[] = [
   { kind: 'link', name: 'moves', label: 'Moves', to: '/moves' },
   { kind: 'link', name: 'abilities', label: 'Abilities', to: '/abilities' },
   { kind: 'link', name: 'items', label: 'Items', to: '/items' },
+  { kind: 'link', name: 'machines', label: 'TMs & HMs', to: '/machines' },
+  { kind: 'link', name: 'berries', label: 'Berries', to: '/berries' },
+  { kind: 'link', name: 'games', label: 'Games', to: '/games' },
+  { kind: 'link', name: 'regions', label: 'Regions', to: '/regions' },
   { kind: 'link', name: 'types', label: 'Type chart', to: '/types' },
   { kind: 'link', name: 'team', label: 'Team planner', to: '/team' },
+  { kind: 'link', name: 'guide', label: 'Guide', to: '/guide' },
 ];
+
+const GAME_NAMES = Object.keys(VERSION_GROUP_LABELS);
+
+// where a result of each kind lives, when it isn't /kind/name
+const RESULT_PATH: Partial<Record<Kind, string>> = {
+  nature: '/guide/nature',
+  guide: '/guide',
+};
 
 function ResultIcon({ result }: { result: Result }) {
   if (result.image) {
@@ -82,6 +117,12 @@ export default function SearchPalette() {
   const moves = useApiQuery<NamedAPIResourceList>(moveIndexPath, isOpen);
   const abilities = useApiQuery<NamedAPIResourceList>(abilityIndexPath, isOpen);
   const items = useApiQuery<NamedAPIResourceList>(itemIndexPath, isOpen);
+  const berries = useApiQuery<NamedAPIResourceList>('berry?limit=100', isOpen);
+  const natures = useApiQuery<NamedAPIResourceList>('nature?limit=30', isOpen);
+  const locations = useApiQuery<NamedAPIResourceList>(
+    'location?limit=2000',
+    isOpen
+  );
   const loading = species.isLoading || moves.isLoading;
 
   // Ctrl/⌘ + K toggles; "/" opens when you're not typing somewhere
@@ -121,16 +162,23 @@ export default function SearchPalette() {
     (kind: Exclude<Kind, 'link'>, name: string): Result => ({
       kind,
       name,
-      label: getDisplayName(name),
-      to: `/${kind}/${name}`,
+      label:
+        kind === 'game'
+          ? versionGroupLabel(name)
+          : kind === 'guide'
+            ? (guideResource(name)?.title ?? getDisplayName(name))
+            : getDisplayName(name),
+      to: `${RESULT_PATH[kind] ?? `/${kind}`}/${name}`,
       image:
         kind === 'pokemon' && speciesIds.has(name)
           ? pokemonSpriteUrl(speciesIds.get(name)!)
           : kind === 'item'
             ? itemSpriteUrl(name)
-            : kind === 'type'
-              ? typeIconUrl(name)
-              : undefined,
+            : kind === 'berry'
+              ? itemSpriteUrl(`${name}-berry`)
+              : kind === 'type'
+                ? typeIconUrl(name)
+                : undefined,
       hint:
         kind === 'pokemon' && speciesIds.has(name)
           ? formatDexNumber(speciesIds.get(name)!)
@@ -170,8 +218,35 @@ export default function SearchPalette() {
     add('move', moves.data?.results ?? [], 5);
     add('ability', abilities.data?.results ?? [], 4);
     add('item', items.data?.results ?? [], 5);
+    add('berry', berries.data?.results ?? [], 3);
+    add('location', locations.data?.results ?? [], 5);
+    add('nature', natures.data?.results ?? [], 3);
+    add(
+      'game',
+      GAME_NAMES.filter(
+        (name) => rankMatch(q, VERSION_GROUP_LABELS[name]) !== Infinity
+      ).map((name) => ({ name })),
+      3
+    );
+    add(
+      'guide',
+      GUIDE_RESOURCES.filter((r) => rankMatch(q, r.title) !== Infinity).map(
+        (r) => ({ name: r.id })
+      ),
+      3
+    );
     return found;
-  }, [query, species.data, moves.data, abilities.data, items.data, toResult]);
+  }, [
+    query,
+    species.data,
+    moves.data,
+    abilities.data,
+    items.data,
+    berries.data,
+    locations.data,
+    natures.data,
+    toResult,
+  ]);
 
   React.useEffect(() => setActive(0), [query]);
 
@@ -224,7 +299,7 @@ export default function SearchPalette() {
             ref={inputRef}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search Pokémon, moves, items, types…"
+            placeholder="Search Pokémon, moves, items, places…"
             aria-label="Search"
             aria-controls="search-results"
             aria-activedescendant={

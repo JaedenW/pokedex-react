@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { idFromUrl } from '../../api/pokeapi';
+import { useSuspenseQueries } from '@tanstack/react-query';
+import { apiQuery, idFromUrl, pathFromUrl } from '../../api/pokeapi';
 import { officialArtworkUrl } from '../../api/sprites';
 import { Panel } from '../ui';
 import {
@@ -9,13 +10,45 @@ import {
   versionGroupLabel,
 } from '../../Utils/text';
 import { cn } from '../../Utils/cn';
-import type { Pokemon, PokemonSpecies, SpriteTree } from '../../types/pokeapi';
+import type {
+  Pokemon,
+  PokemonForm,
+  PokemonSpecies,
+  SpriteTree,
+} from '../../types/pokeapi';
 
 interface GalleryProps {
   species: PokemonSpecies;
   pokemon: Pokemon;
   formName: string;
   onSelectForm: (name: string) => void;
+}
+
+/** Looks that don't change the Pokémon's stats, like Unown's letters. */
+function CosmeticForms({ pokemon }: { pokemon: Pokemon }) {
+  const forms = useSuspenseQueries({
+    queries: pokemon.forms.map((form) =>
+      apiQuery<PokemonForm>(pathFromUrl(form.url))
+    ),
+  }).map((result) => result.data);
+
+  return (
+    <Panel title={`${forms.length} appearances`}>
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] gap-2.5">
+        {forms.map((form) => (
+          <SpriteTile
+            key={form.name}
+            pixel
+            src={form.sprites.front_default}
+            label={
+              form.form_names.find((n) => n.language.name === 'en')?.name ||
+              getDisplayName(form.form_name || pokemon.name)
+            }
+          />
+        ))}
+      </div>
+    </Panel>
+  );
 }
 
 function SpriteTile({
@@ -211,6 +244,8 @@ export default function GalleryTab({
           </p>
         )}
       </Panel>
+
+      {pokemon.forms.length > 1 && <CosmeticForms pokemon={pokemon} />}
 
       <Panel title="Game sprites">
         <div className={GRID}>

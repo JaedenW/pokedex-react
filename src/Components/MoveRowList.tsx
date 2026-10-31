@@ -7,6 +7,8 @@ export interface MoveListItem {
   name: string;
   /** When set, the level (or 0 for "evolve") is shown first */
   level?: number;
+  /** Shown first instead, e.g. the TM number */
+  label?: string;
 }
 
 const BATCH = 30;
@@ -41,10 +43,10 @@ export default function MoveRowList({
       <ul className="space-y-2">
         {items.slice(0, count).map((item) => (
           <React.Suspense
-            key={`${item.name}-${item.level ?? ''}`}
+            key={`${item.name}-${item.level ?? ''}-${item.label ?? ''}`}
             fallback={<MoveRowSkeleton />}
           >
-            <MoveRow name={item.name} level={item.level} />
+            <MoveRow name={item.name} level={item.level} label={item.label} />
           </React.Suspense>
         ))}
       </ul>
