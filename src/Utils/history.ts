@@ -60,6 +60,15 @@ export function moveHistory(move: Move) {
   );
 }
 
+/**
+ * Whether a Pokémon has a learnset in a game. Regional Pokédexes leave out
+ * Pokémon the game still has, such as Charizard in Platinum.
+ */
+export const learnsMovesIn = (pokemon: Pokemon, game: string) =>
+  pokemon.moves.some((move) =>
+    move.version_group_details.some((d) => d.version_group.name === game)
+  );
+
 /** Abilities in a generation; they only arrived in generation 3. */
 export function abilitiesInGeneration(
   pokemon: Pokemon,

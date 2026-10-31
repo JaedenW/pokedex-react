@@ -20,7 +20,7 @@ import type { Berry, NamedAPIResourceList } from '../types/pokeapi';
 const FLAVOURS = ['spicy', 'dry', 'sweet', 'bitter', 'sour'];
 
 /** A berry's strongest flavours, strongest first. */
-export const berryFlavours = (berry: Berry) =>
+const berryFlavours = (berry: Berry) =>
   berry.flavors
     .filter((f) => f.potency > 0)
     .sort((a, b) => b.potency - a.potency);

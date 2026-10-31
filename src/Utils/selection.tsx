@@ -3,7 +3,9 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from 'react';
@@ -45,8 +47,8 @@ interface SelectionContextValue extends Selection {
   /** Pick a game, moving to its main Pokédex (or National when it has none) */
   chooseGame: (game: string | null, dex?: string) => Promise<void>;
   chooseDex: (dex: string) => void;
-  /** Adopt a selection that arrived in a link, without moving anywhere */
-  adopt: (selection: Partial<Selection>) => void;
+  /** Make a Pokédex that has loaded from a link the selected one */
+  adoptDex: (dex: string) => void;
   selectorOpen: boolean;
   openSelector: () => void;
   closeSelector: () => void;
@@ -57,7 +59,7 @@ const SelectionContext = createContext<SelectionContextValue | null>(null);
 export function SelectionProvider({ children }: { children: ReactNode }) {
   const [selection, setSelection] = useState<Selection>(load);
   const [selectorOpen, setSelectorOpen] = useState(false);
-  const { pathname, search } = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -69,30 +71,42 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
     }
   }, [selection]);
 
-  // opening /dex/:name (a link, back button, tab) makes that the selected dex
-  const urlDex = DEX_PATH.exec(pathname)?.[1];
-  useEffect(() => {
-    if (urlDex) setSelection((current) => ({ ...current, dex: urlDex }));
-  }, [urlDex]);
+  // read at the moment of use: choosing a game waits for its details
+  const latestLocation = useRef(location);
+  useLayoutEffect(() => {
+    latestLocation.current = location;
+  }, [location]);
+  const latestChoice = useRef(0);
+
+  const adoptDex = useCallback(
+    (dex: string) =>
+      setSelection((current) =>
+        current.dex === dex ? current : { ...current, dex }
+      ),
+    []
+  );
 
   // pages that put the choice in their address follow it when it changes
   const followInUrl = useCallback(
     (next: Selection) => {
+      const { pathname, search } = latestLocation.current;
       if (DEX_PATH.test(pathname)) {
         navigate(dexHref(next.dex));
-      } else if (pathname === '/team' && next.game) {
+      } else if (pathname === '/team') {
         const params = new URLSearchParams(search);
-        params.set('game', next.game);
+        if (next.game) params.set('game', next.game);
+        else params.delete('game');
         navigate({ search: params.toString() }, { replace: true });
       }
     },
-    [pathname, search, navigate]
+    [navigate]
   );
 
   const value = useMemo<SelectionContextValue>(
     () => ({
       ...selection,
       chooseGame: async (game, dex) => {
+        const choice = ++latestChoice.current;
         let nextDex = dex ?? DEFAULT_DEX;
         if (game && !dex) {
           try {
@@ -101,9 +115,10 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
             );
             nextDex = group.pokedexes[0]?.name ?? DEFAULT_DEX;
           } catch {
-            // keep National when the game's Pokédexes can't be loaded
+            return; // a game that can't be loaded must not become the selection
           }
         }
+        if (choice !== latestChoice.current) return; // a newer choice won
         const next = { game, dex: nextDex };
         setSelection(next);
         followInUrl(next);
@@ -113,13 +128,12 @@ export function SelectionProvider({ children }: { children: ReactNode }) {
         setSelection(next);
         followInUrl(next);
       },
-      adopt: (partial) =>
-        setSelection((current) => ({ ...current, ...partial })),
+      adoptDex,
       selectorOpen,
       openSelector: () => setSelectorOpen(true),
       closeSelector: () => setSelectorOpen(false),
     }),
-    [selection, selectorOpen, followInUrl, queryClient]
+    [selection, selectorOpen, followInUrl, adoptDex, queryClient]
   );
 
   return (

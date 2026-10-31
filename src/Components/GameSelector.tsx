@@ -2,7 +2,7 @@ import React from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useGamesByGeneration } from '../Hooks/useGame';
 import { apiQuery, useApi, useRegionData } from '../api/pokeapi';
-import { DEFAULT_DEX } from '../Utils/dex';
+import { DEFAULT_DEX, dexLabel } from '../Utils/dex';
 import { useSelection } from '../Utils/selection';
 import {
   formatGeneration,
@@ -14,9 +14,6 @@ import { cn } from '../Utils/cn';
 import { ChevronDownIcon, PokeballIcon } from './Icons';
 import { Loading, Modal, buttonClass } from './ui';
 import type { NamedAPIResourceList, VersionGroup } from '../types/pokeapi';
-
-export const dexLabel = (dex: string) =>
-  dex === DEFAULT_DEX ? 'National' : getDisplayName(dex);
 
 function Choice({
   current,

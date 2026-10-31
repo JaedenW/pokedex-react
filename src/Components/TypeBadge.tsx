@@ -29,7 +29,9 @@ export default function TypeBadge({
   const classes = cn(
     'inline-flex items-center gap-1.5 rounded-lg font-bold text-white ring-1 ring-black/10 ring-inset',
     SIZES[size],
-    linked && 'transition hover:brightness-110',
+    linked &&
+      // small badges keep their look but get a thumb-sized tap area
+      'relative transition after:absolute after:inset-x-0 after:-inset-y-2 hover:brightness-110',
     className
   );
   const style = { backgroundColor: typeColours[name] ?? '#68A090' };

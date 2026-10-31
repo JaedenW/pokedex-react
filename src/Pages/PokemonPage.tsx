@@ -21,8 +21,8 @@ import EvolutionTab from '../Components/pokemon/EvolutionTab';
 import MovesTab from '../Components/pokemon/MovesTab';
 import LocationsTab from '../Components/pokemon/LocationsTab';
 import { fetchJson, HttpError } from '../Utils/fetchJson';
-import { DEFAULT_GAME } from '../Utils/games';
 import { pokemonHref } from '../Utils/dex';
+import { learnsMovesIn } from '../Utils/history';
 import { useSelection } from '../Utils/selection';
 import { useGame, useGameRoster } from '../Hooks/useGame';
 import { getDefaultVariety } from '../Utils/species';
@@ -164,7 +164,7 @@ function PokemonView({ species }: { species: PokemonSpecies }) {
     pokedex === 'national'
       ? 'National Pokédex'
       : `${getDisplayName(pokedex)} Pokédex`;
-  const teamHref = `/team?game=${game ?? DEFAULT_GAME}&team=${species.name}`;
+  const teamHref = `/team?${game ? `game=${game}&` : ''}team=${species.name}`;
 
   return (
     <Page>
@@ -187,21 +187,24 @@ function PokemonView({ species }: { species: PokemonSpecies }) {
         />
       </div>
 
-      {game && roster && !roster.has(species.name) && (
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 ds-frame px-5 py-3">
-          <p className="t-body">
-            <strong>Not in {versionGroupLabel(game)}.</strong> Showing what the
-            games say about it in general.
-          </p>
-          <button
-            type="button"
-            onClick={() => void chooseGame(null)}
-            className={buttonClass('secondary', 'sm')}
-          >
-            Show all games
-          </button>
-        </div>
-      )}
+      {game &&
+        roster &&
+        !roster.has(species.name) &&
+        !learnsMovesIn(pokemon, game) && (
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 ds-frame px-5 py-3">
+            <p className="t-body">
+              <strong>Not in {versionGroupLabel(game)}.</strong> Showing what
+              the games say about it in general.
+            </p>
+            <button
+              type="button"
+              onClick={() => void chooseGame(null)}
+              className={buttonClass('secondary', 'sm')}
+            >
+              Show all games
+            </button>
+          </div>
+        )}
 
       <div className="sticky top-0 z-30 -mx-4 mt-6 bg-pk-cream/95 px-4 pt-1 backdrop-blur sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
         <Tabs

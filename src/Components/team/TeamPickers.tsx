@@ -12,26 +12,48 @@ import { cn } from '../../Utils/cn';
 import { DamageClassPill } from '../MoveRow';
 import TypeBadge from '../TypeBadge';
 import { CloseIcon } from '../Icons';
-import { EmptyState, Loading, Modal, SearchInput, buttonClass } from '../ui';
+import { useIntroducedBy } from '../../Hooks/useGame';
+import {
+  Chip,
+  EmptyState,
+  Loading,
+  Modal,
+  SearchInput,
+  buttonClass,
+} from '../ui';
 import type { NamedAPIResourceList, Pokemon } from '../../types/pokeapi';
 
 /* ---------- choosing a Pokémon ---------- */
 
 function PokemonResults({
   roster,
+  generation,
   taken,
   onPick,
 }: {
   roster: Set<string> | null;
+  generation: number;
   taken: string[];
   onPick: (name: string) => void;
 }) {
   const index = useApi<NamedAPIResourceList>(speciesIndexPath);
   const [query, setQuery] = React.useState('');
+  // regional Pokédexes leave out Pokémon a game has, so offer the rest too
+  const [regional, setRegional] = React.useState(true);
+  const limitToRoster = roster && regional;
+  const introduced = useIntroducedBy(
+    limitToRoster ? 0 : generation,
+    'pokemon_species'
+  );
 
   const available = React.useMemo(
-    () => index.results.filter((s) => !roster || roster.has(s.name)),
-    [index, roster]
+    () =>
+      index.results.filter((s) =>
+        limitToRoster
+          ? roster.has(s.name)
+          : !introduced || introduced.has(s.name)
+      ),
+    [index, roster, limitToRoster, introduced]
   );
   const results = query.trim()
     ? searchNames(query, available, 24)
@@ -41,15 +63,18 @@ function PokemonResults({
     <>
       <SearchInput
         label="Find a Pokémon"
-        placeholder={
-          roster
-            ? `Search ${available.length} Pokémon in this game…`
-            : 'Search Pokémon…'
-        }
+        placeholder={`Search ${available.length} Pokémon…`}
         value={query}
         onChange={setQuery}
-        className="mb-4"
+        className="mb-3"
       />
+      {roster && (
+        <div className="mb-4">
+          <Chip active={regional} onClick={() => setRegional((on) => !on)}>
+            Regional Pokédex only
+          </Chip>
+        </div>
+      )}
       {results.length ? (
         <ul className="grid gap-1.5 sm:grid-cols-2">
           {results.map((species) => {
@@ -91,19 +116,26 @@ export function PokemonPicker({
   open,
   onClose,
   roster,
+  generation,
   taken,
   onPick,
 }: {
   open: boolean;
   onClose: () => void;
   roster: Set<string> | null;
+  generation: number;
   taken: string[];
   onPick: (name: string) => void;
 }) {
   return (
     <Modal open={open} onClose={onClose} label="Add a Pokémon">
       <React.Suspense fallback={<Loading />}>
-        <PokemonResults roster={roster} taken={taken} onPick={onPick} />
+        <PokemonResults
+          roster={roster}
+          generation={generation}
+          taken={taken}
+          onPick={onPick}
+        />
       </React.Suspense>
     </Modal>
   );

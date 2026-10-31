@@ -47,25 +47,23 @@ export function useGameRoster(pokedexNames: string[]) {
 const GAMECUBE_ONLY_ID = 10000;
 
 /**
- * What had been introduced by the selected game's generation, so long lists
- * can hide later additions; null while no game is selected or `all` is set.
+ * Everything of a kind introduced up to a generation, so long lists can hide
+ * later additions; null when `generation` is 0.
  */
-export function useIntroducedByGame(
-  field: 'moves' | 'abilities',
-  all: boolean
+export function useIntroducedBy(
+  generation: number,
+  field: 'moves' | 'abilities' | 'pokemon_species',
+  gameCube = false
 ) {
-  const { game, generation } = useGame();
-  const count = generation && !all ? generation : 0;
-  const gameCube = game === 'colosseum' || game === 'xd';
   const results = useSuspenseQueries({
-    queries: Array.from({ length: count }, (_, index) =>
+    queries: Array.from({ length: generation }, (_, index) =>
       apiQuery<Generation>(`generation/${index + 1}`)
     ),
   });
   const key = results.map((r) => r.dataUpdatedAt).join(',');
   return React.useMemo(
     () =>
-      count
+      generation
         ? new Set(
             results.flatMap((r) =>
               r.data[field]
@@ -75,7 +73,20 @@ export function useIntroducedByGame(
           )
         : null,
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [key, count, field, gameCube]
+    [key, generation, field, gameCube]
+  );
+}
+
+/** What existed in the selected game; null with no game, or when `all` is set. */
+export function useIntroducedByGame(
+  field: 'moves' | 'abilities',
+  all: boolean
+) {
+  const { game, generation } = useGame();
+  return useIntroducedBy(
+    generation && !all ? generation : 0,
+    field,
+    game === 'colosseum' || game === 'xd'
   );
 }
 

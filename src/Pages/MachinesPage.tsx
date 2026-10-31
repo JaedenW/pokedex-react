@@ -18,6 +18,7 @@ import {
   Panel,
   SearchInput,
   SelectBox,
+  buttonClass,
 } from '../Components/ui';
 import { DEFAULT_GAME } from '../Utils/games';
 import { useSelection } from '../Utils/selection';
@@ -58,12 +59,20 @@ function useGameMachines(game: string) {
     machines.filter((r) => !r.isPending).length;
   const total = items.length + references.length;
   const loaded = machines.flatMap((r) => (r.data ? [r.data] : []));
+  const failed = [...items, ...machines].filter((r) => r.isError);
 
-  return { done, total, ready: done === total, machines: loaded };
+  return {
+    done,
+    total,
+    ready: done === total,
+    machines: loaded,
+    failed: failed.length,
+    retry: () => failed.forEach((r) => void r.refetch()),
+  };
 }
 
 function MachineList({ game, query }: { game: string; query: string }) {
-  const { done, total, ready, machines } = useGameMachines(game);
+  const { done, total, ready, machines, failed, retry } = useGameMachines(game);
 
   const rows = React.useMemo(
     () =>
@@ -97,7 +106,23 @@ function MachineList({ game, query }: { game: string; query: string }) {
     );
   }
 
+  const warning = failed > 0 && (
+    <div className="mb-4 flex flex-wrap items-center justify-between gap-3 ds-frame px-4 py-3">
+      <p className="t-body">
+        This list is incomplete: {failed} lookups failed.
+      </p>
+      <button
+        type="button"
+        onClick={retry}
+        className={buttonClass('secondary', 'sm')}
+      >
+        Try again
+      </button>
+    </div>
+  );
+
   if (!machines.length) {
+    if (warning) return warning;
     return (
       <EmptyState title="No machines are recorded for this game">
         <Link to="/games" className="underline underline-offset-2">
@@ -108,11 +133,14 @@ function MachineList({ game, query }: { game: string; query: string }) {
   }
 
   return (
-    <MoveRowList
-      items={rows}
-      resetKey={`${game}|${query}`}
-      emptyTitle="No machines match"
-    />
+    <>
+      {warning}
+      <MoveRowList
+        items={rows}
+        resetKey={`${game}|${query}`}
+        emptyTitle="No machines match"
+      />
+    </>
   );
 }
 

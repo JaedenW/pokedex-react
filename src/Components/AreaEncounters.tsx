@@ -5,7 +5,7 @@ import { pokemonSpriteUrl } from '../api/sprites';
 import { useGame } from '../Hooks/useGame';
 import { pokemonHref } from '../Utils/dex';
 import { getDisplayName, versionLabel } from '../Utils/text';
-import { summarise, type MethodSummary } from './pokemon/LocationsTab';
+import { summarise, type MethodSummary } from '../Utils/encounters';
 import { EmptyState, SelectBox } from './ui';
 import type {
   LocationArea,

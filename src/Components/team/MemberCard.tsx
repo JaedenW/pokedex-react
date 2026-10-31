@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { officialArtworkUrl } from '../../api/sprites';
 import { pokemonHref } from '../../Utils/dex';
+import { learnsMovesIn } from '../../Utils/history';
 import { memberTypesInGeneration, MAX_MOVES } from '../../Utils/teamPlan';
 import type { TeamMember } from '../../Utils/teamPlan';
 import { getDisplayName } from '../../Utils/text';
@@ -37,7 +38,8 @@ export default function MemberCard({
   const { pokemon } = useMember(member.name);
   const [picking, setPicking] = React.useState(false);
   const types = memberTypesInGeneration(pokemon, generation);
-  const available = !roster || roster.has(member.name);
+  const available =
+    !roster || roster.has(member.name) || learnsMovesIn(pokemon, game);
   const name = getDisplayName(member.name);
   const control =
     'flex size-9 items-center justify-center rounded-full border border-pk-line bg-white transition hover:border-pk-navy disabled:opacity-30 disabled:hover:border-pk-line';

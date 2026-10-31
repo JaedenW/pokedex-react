@@ -70,7 +70,7 @@ export default function MoveRow({
         )}
         <Link
           to={`/move/${name}`}
-          className="min-w-0 flex-1 t-body leading-tight font-bold text-pk-navy underline-offset-2 hover:underline"
+          className="flex min-h-10 min-w-0 flex-1 items-center t-body leading-tight font-bold text-pk-navy underline-offset-2 hover:underline"
         >
           {getDisplayName(name)}
         </Link>

@@ -121,8 +121,10 @@ export default function TeamPage() {
             Uses the rules of{' '}
             <strong className="text-pk-ink">Generation {generation}</strong>:{' '}
             {typesInGeneration(generation).length} types,{' '}
-            {roster ? `${roster.size} Pokémon to choose from` : 'any Pokémon'},
-            and the moves each can learn in this game.
+            {roster
+              ? `${roster.size} Pokémon in its regional Pokédex`
+              : 'any Pokémon'}
+            , and the moves each can learn in this game.
           </p>
           <div className="flex gap-2">
             <button
@@ -218,6 +220,7 @@ export default function TeamPage() {
         open={picking}
         onClose={() => setPicking(false)}
         roster={roster}
+        generation={generation}
         taken={team.map((m) => m.name)}
         onPick={(name) => {
           update({ team: [...team, { name, moves: [] }] });

@@ -2,10 +2,9 @@ import React from 'react';
 import { Link } from 'react-router';
 import { useSuspenseQueries } from '@tanstack/react-query';
 import { apiQuery } from '../api/pokeapi';
-import { typeIconUrl } from '../api/sprites';
 import { useDocumentTitle } from '../Hooks/useDocumentTitle';
 import PageHeader from '../Components/PageHeader';
-import TypeBadge from '../Components/TypeBadge';
+import TypeBadge, { TypeIcon } from '../Components/TypeBadge';
 import TypeDefenses from '../Components/pokemon/TypeDefenses';
 import { Chip, Loading, Page, Panel } from '../Components/ui';
 import { TYPES, attackMultiplier } from '../Utils/typeChart';
@@ -22,26 +21,6 @@ const CELL: Record<number, { text: string; tone: string }> = {
   0.5: { text: '½', tone: 'bg-red-400 text-white' },
   0: { text: '0', tone: 'bg-pk-ink text-white' },
 };
-
-function TypeIcon({ name, className }: { name: string; className?: string }) {
-  return (
-    <span
-      title={getDisplayName(name)}
-      className={cn(
-        'inline-flex items-center justify-center rounded-full',
-        className
-      )}
-      style={{ backgroundColor: typeColours[name] }}
-    >
-      <img
-        src={typeIconUrl(name)}
-        alt={getDisplayName(name)}
-        className="size-full"
-        loading="lazy"
-      />
-    </span>
-  );
-}
 
 function Chart() {
   const results = useSuspenseQueries({

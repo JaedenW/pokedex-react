@@ -4,6 +4,7 @@ import { useSuspenseQueries } from '@tanstack/react-query';
 import { apiQuery, idFromUrl, usePokedexData } from '../api/pokeapi';
 import { useDocumentTitle } from '../Hooks/useDocumentTitle';
 import DexPicker from '../Components/DexPicker';
+import { useSelection } from '../Utils/selection';
 import PokemonGrid from '../Components/PokemonGrid';
 import type { GridEntry } from '../Components/PokemonCard';
 import { GridIcon, ListIcon, PokeballOutline } from '../Components/Icons';
@@ -23,6 +24,9 @@ export default function DexPage() {
   const [isPending, startTransition] = React.useTransition();
 
   const dex = usePokedexData(pokedex);
+  // only a Pokédex that loaded can become the selection
+  const { adoptDex } = useSelection();
+  React.useEffect(() => adoptDex(pokedex), [adoptDex, pokedex]);
   const query = params.get('q') ?? '';
   const selectedTypes = (params.get('types') ?? '').split(',').filter(Boolean);
   const sort = (params.get('sort') ?? 'number') as Sort;

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   abilitiesInGeneration,
+  learnsMovesIn,
   moveHistory,
   moveValuesIn,
   statsInGeneration,
@@ -178,6 +179,22 @@ describe('statsInGeneration', () => {
       ['special', 85],
       ['speed', 60],
     ]);
+  });
+});
+
+describe('learnsMovesIn', () => {
+  const charizard = {
+    moves: [
+      {
+        move: r('flamethrower'),
+        version_group_details: [{ version_group: r('platinum') }],
+      },
+    ],
+  } as unknown as Pokemon;
+
+  it('finds a Pokémon outside the regional Pokédex', () => {
+    expect(learnsMovesIn(charizard, 'platinum')).toBe(true);
+    expect(learnsMovesIn(charizard, 'sword-shield')).toBe(false);
   });
 });
 

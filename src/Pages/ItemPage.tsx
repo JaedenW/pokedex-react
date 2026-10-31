@@ -4,21 +4,14 @@ import { useSuspenseQueries } from '@tanstack/react-query';
 import { apiQuery, pathFromUrl, useApi, useItem } from '../api/pokeapi';
 import { useDocumentTitle } from '../Hooks/useDocumentTitle';
 import DetailBanner from '../Components/DetailBanner';
+import GameTextPanel from '../Components/GameTextPanel';
 import ItemImage from '../Components/ItemImage';
 import PokemonLinkGrid from '../Components/PokemonLinkGrid';
-import {
-  Loading,
-  Page,
-  Panel,
-  Pill,
-  SelectBox,
-  buttonClass,
-} from '../Components/ui';
+import { Loading, Page, Panel, Pill, buttonClass } from '../Components/ui';
 import { useSelection } from '../Utils/selection';
 import { cn } from '../Utils/cn';
 import {
   compareVersionGroups,
-  englishFlavorText,
   firstEnglish,
   getDisplayName,
   versionGroupLabel,
@@ -125,18 +118,8 @@ export default function ItemPage() {
   useDocumentTitle(getDisplayName(name));
 
   const effect = firstEnglish(item.effect_entries);
-  const flavour = React.useMemo(
-    () => englishFlavorText(item.flavor_text_entries),
-    [item]
-  );
   const { game } = useSelection();
   const category = useApi<ItemCategory>(`item-category/${item.category.name}`);
-  const [group, setGroup] = React.useState(
-    flavour.find((f) => f.version_group?.name === game)?.version_group?.name ??
-      flavour.at(-1)?.version_group?.name ??
-      ''
-  );
-  const flavourText = flavour.find((f) => f.version_group?.name === group);
 
   return (
     <Page>
@@ -194,30 +177,7 @@ export default function ItemPage() {
               ))}
           </div>
         </Panel>
-        {flavour.length > 0 && (
-          <Panel
-            title="In-game text"
-            actions={
-              <SelectBox
-                label="Game"
-                value={group}
-                onChange={setGroup}
-                className="w-56"
-              >
-                {flavour.map((f) => (
-                  <option
-                    key={f.version_group?.name}
-                    value={f.version_group?.name}
-                  >
-                    {versionGroupLabel(f.version_group?.name ?? '')}
-                  </option>
-                ))}
-              </SelectBox>
-            }
-          >
-            <p className="t-body">{flavourText?.flavor_text}</p>
-          </Panel>
-        )}
+        <GameTextPanel entries={item.flavor_text_entries} />
       </div>
 
       {(item.prices?.length ?? 0) > 0 && <Prices item={item} game={game} />}

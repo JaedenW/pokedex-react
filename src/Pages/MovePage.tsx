@@ -4,18 +4,18 @@ import { useSuspenseQueries } from '@tanstack/react-query';
 import { apiQuery, pathFromUrl, useMove, useOptionalApi } from '../api/pokeapi';
 import { useDocumentTitle } from '../Hooks/useDocumentTitle';
 import DetailBanner from '../Components/DetailBanner';
+import GameTextPanel from '../Components/GameTextPanel';
 import { DamageClassPill, effectText } from '../Components/MoveRow';
 import LinkChips from '../Components/LinkChips';
 import PokemonLinkGrid from '../Components/PokemonLinkGrid';
 import TypeBadge from '../Components/TypeBadge';
-import { Loading, Page, Panel, SelectBox, StatTile } from '../Components/ui';
+import { Loading, Page, Panel, StatTile } from '../Components/ui';
 import { moveHistory, moveValuesIn } from '../Utils/history';
 import { useSelection } from '../Utils/selection';
 import { STAT_LABELS } from '../Utils/stats';
 import { typeColours } from '../Utils/typeColours';
 import {
   compareVersionGroups,
-  englishFlavorText,
   firstEnglish,
   formatGeneration,
   getDisplayName,
@@ -180,16 +180,6 @@ export default function MovePage() {
   const { game } = useSelection();
   const values = moveValuesIn(move, game);
   const effect = firstEnglish(move.effect_entries);
-  const flavour = React.useMemo(
-    () => englishFlavorText(move.flavor_text_entries),
-    [move]
-  );
-  const [group, setGroup] = React.useState(
-    flavour.find((f) => f.version_group?.name === game)?.version_group?.name ??
-      flavour.at(-1)?.version_group?.name ??
-      ''
-  );
-  const flavourText = flavour.find((f) => f.version_group?.name === group);
   const meta = move.meta;
   const ailment =
     meta?.ailment.name !== 'none' ? meta?.ailment.name : undefined;
@@ -300,30 +290,7 @@ export default function MovePage() {
           )}
         </Panel>
 
-        {flavour.length > 0 && (
-          <Panel
-            title="In-game text"
-            actions={
-              <SelectBox
-                label="Game"
-                value={group}
-                onChange={setGroup}
-                className="w-56"
-              >
-                {flavour.map((f) => (
-                  <option
-                    key={f.version_group?.name}
-                    value={f.version_group?.name}
-                  >
-                    {versionGroupLabel(f.version_group?.name ?? '')}
-                  </option>
-                ))}
-              </SelectBox>
-            }
-          >
-            <p className="t-body">{flavourText?.flavor_text}</p>
-          </Panel>
-        )}
+        <GameTextPanel entries={move.flavor_text_entries} />
       </div>
 
       <div className="mb-4 grid gap-4 lg:grid-cols-2">

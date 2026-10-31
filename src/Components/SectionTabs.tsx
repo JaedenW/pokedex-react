@@ -10,7 +10,7 @@ export default function SectionTabs({
   return (
     <nav
       aria-label="Section"
-      className="mb-5 flex gap-2 overflow-x-auto px-1 pt-1 pb-2"
+      className="mb-5 flex gap-1.5 overflow-x-auto px-1 pt-1 pb-2 sm:gap-2"
     >
       {tabs.map((tab) => (
         <NavLink
@@ -19,7 +19,7 @@ export default function SectionTabs({
           end
           className={({ isActive }) =>
             cn(
-              'inline-flex h-12 shrink-0 items-center rounded-full px-6 t-body font-bold ds-key transition',
+              'inline-flex h-11 flex-1 items-center justify-center rounded-full px-2 t-small font-bold whitespace-nowrap ds-key transition sm:h-12 sm:flex-none sm:px-6 sm:t-body',
               isActive
                 ? 'ds-gloss text-white ds-text-dark'
                 : 'ds-gloss-silver hover:brightness-105'
